@@ -32,8 +32,7 @@ import {
 import { cn } from "@/lib/utils";
 import CustomDatePicker from "@/app/ui/CustomDatePicker";
 import { useState } from "react";
-
-const genderSchema = z.enum(["Male", "Female"]);
+import { genderSchema } from "../schemas";
 
 const signUpSchema: z.ZodSchema = z.object({
   name: z.string(),

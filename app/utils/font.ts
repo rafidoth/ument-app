@@ -6,5 +6,5 @@ export const jakarta = Plus_Jakarta_Sans({
 });
 export const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "900"],
 });
