@@ -4,17 +4,26 @@ import Image from "next/image";
 import { StudentProfileSchema } from "../(student)/schemas";
 import { z } from "zod";
 import { StudentProfileData } from "../(student)/fake";
-import { jakarta } from "../utils/font";
 import { Button } from "@/components/ui/button";
-
+import { InterestType } from "@/app/types";
+import { cn } from "@/lib/utils";
+import AddInterestBtn from "./AddInterestBtn";
+import { theme_border, theme_style } from "./CustomStyles";
+import { AddInterestToStudent } from "../(student)/actions/actions";
 type Props = {
   student: boolean;
+  data: StudentData;
+};
+
+type StudentData = {
+  interests: InterestType[];
 };
 
 const Profile = (props: Props) => {
   const [student, setStudent] = React.useState<z.infer<
     typeof StudentProfileSchema
   > | null>(null);
+  const [studentData, setStudentData] = React.useState<StudentData>(props.data);
 
   React.useEffect(() => {
     if (props.student) {
@@ -24,10 +33,19 @@ const Profile = (props: Props) => {
       // mentor validated data
     }
   }, []);
+  //  React.useEffect
+
+  React.useEffect(() => {
+    const i_array = studentData.interests.map((i) => i.interest_id);
+    const payload = {
+      interestIds: i_array,
+    };
+    AddInterestToStudent(payload);
+  }, [studentData.interests]);
 
   return (
-    <div>
-      <div className="flex height-[400px] justify-center gap-x-64 m-4">
+    <div className="flex flex-col gap-y-4 p-5">
+      <div className="flex flex-col  items-center  m-4">
         <div>
           <Image
             src={`https://robohash.org/${
@@ -61,6 +79,45 @@ const Profile = (props: Props) => {
               Message
             </Button>
           </div>
+        </div>
+      </div>
+      <div className="flex flex-col  font-semibold">
+        <div className="flex gap-x-3 my-4 text-2xl">
+          <span
+            className={cn(
+              theme_style,
+              " flex justify-center w-48 rounded-xl px-2"
+            )}
+          >
+            Interested At
+          </span>
+          <AddInterestBtn
+            student={true}
+            AlreadySelected={studentData.interests}
+            setStudentInterests={(newInterests: InterestType[]) => {
+              setStudentData({ ...studentData, interests: newInterests });
+            }}
+            SelectCount={5}
+          />
+        </div>
+        <div className="flex gap-x-4 flex-wrap gap-y-2">
+          {studentData.interests?.length > 0 ? (
+            studentData.interests.map((interest) => (
+              <span
+                key={interest.interest_id}
+                className={cn(
+                  theme_border,
+                  "flex justify-center rounded-full px-4 "
+                )}
+              >
+                {interest.interest_name}
+              </span>
+            ))
+          ) : (
+            <span className=" text-lg font-normal text-muted-foreground">
+              Click the Add Button to add interests
+            </span>
+          )}
         </div>
       </div>
     </div>

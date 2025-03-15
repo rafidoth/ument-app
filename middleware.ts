@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { jwtVerify } from "jose";
+import { cookies } from "next/headers";
 
-const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-const publicRoutes = ["/sign-in", "/s/sign-up"];
+const publicRoutes = ["/sign-in", "/sign-up"];
 
 export async function middleware(req: NextRequest) {
   const isPublicRoute = publicRoutes.some(
@@ -17,19 +16,16 @@ export async function middleware(req: NextRequest) {
   }
 
   // For protected routes, check for authentication
-  const token = req.cookies.get("token")?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get("auth_token")?.value;
+  console.log("token middlware", token);
 
   if (!token) {
+    console.error("token not found middleware");
     return NextResponse.redirect(new URL("/sign-in", req.url));
   }
 
-  try {
-    await jwtVerify(token, secret);
-    return NextResponse.next();
-  } catch (error) {
-    console.error(error);
-    return NextResponse.redirect(new URL("/sign-in", req.url));
-  }
+  return NextResponse.next();
 }
 
 export const config = {

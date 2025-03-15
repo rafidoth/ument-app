@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import signInAction from "../sign-in/signInAction";
-import { useActionState, useState } from "react";
+import signInAction from "@/app/(auth)/authActions";
+import { startTransition, useActionState, useState } from "react";
 import { z } from "zod";
 
 type Props = {
@@ -35,7 +35,9 @@ export default function LoginForm({ student }: Props) {
 
   const handleSignIn = () => {
     const signInData = SignInSchema.parse({ email, password, student });
-    action(signInData);
+    startTransition(() => {
+      action(signInData);
+    });
     if (state) {
       setErrorText(state.error);
     }
