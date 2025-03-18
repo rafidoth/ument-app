@@ -4,10 +4,7 @@ import { SignInSchemaType } from "@/app/ui/LoginForm";
 import { redirect } from "next/navigation";
 //import type { SignUpFormValues } from "@/app/(student)/ui/SignUpForm";
 
-export default async function signInAction(
-  prevState: { error: string },
-  signInData: SignInSchemaType
-) {
+export default async function signInAction(signInData: SignInSchemaType) {
   const student = signInData.student;
   console.log("student", signInData.student);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -27,11 +24,10 @@ export default async function signInAction(
 
   if (!response.ok) {
     console.error(response.body);
-    return { error: "Sign in failed. Please try again." };
+    return { success: false };
   }
 
   const data = await response.json();
-  console.log(data);
   const authToken = data.user?.jwtToken;
   if (!authToken) {
     throw new Error("Failed to retrieve auth token from response");
@@ -44,7 +40,11 @@ export default async function signInAction(
     path: "/",
     sameSite: "lax",
   });
-  console.log("retrieved data", data);
+
+  return {
+    succsess: true,
+    data: data,
+  };
   redirect(student ? "/s/explore" : "/m/explore");
 }
 

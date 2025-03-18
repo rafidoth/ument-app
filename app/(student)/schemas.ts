@@ -13,13 +13,11 @@ export const genderSchema = z.enum(["Male", "Female"]);
 //   "graduation_year": 2079
 // }
 
-export const StudentProfileSchema = z.object({
-  user_id: z.string(),
+export const StudentInfoSchema = z.object({
   name: z.string(),
   email: z.string(),
   username: z.string(),
   gender: genderSchema,
-  student_id: z.string(),
   dob: z.date(),
   graduation_year: z.number(),
 });

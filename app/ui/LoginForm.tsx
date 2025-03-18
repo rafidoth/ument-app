@@ -11,8 +11,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import signInAction from "@/app/(auth)/authActions";
-import { startTransition, useActionState, useState } from "react";
+import { startTransition, useState } from "react";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
+// import { useStudentData } from "../contexts/StudentDataContext";
+// import { apiRequest, ApiRequestType } from "../lib/apiClient";
+// import { StudentInfoSchema } from "@/app/(student)/schemas";
 
 type Props = {
   student: boolean;
@@ -29,18 +33,25 @@ export default function LoginForm({ student }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState("");
-  const [state, action, isPending] = useActionState(signInAction, {
-    error: "",
-  });
+  const [isPending, setIsPending] = useState(false);
+
+  const router = useRouter();
 
   const handleSignIn = () => {
     const signInData = SignInSchema.parse({ email, password, student });
-    startTransition(() => {
-      action(signInData);
+    startTransition(async () => {
+      setIsPending(true);
+      const res = await signInAction(signInData);
+      const { success, data } = res;
+      if (success === false) {
+        setErrorText("Invalid email or password");
+      } else {
+        const student_id = data.user.student_id;
+        localStorage.setItem("student_id", student_id);
+        router.replace("/s/explore");
+      }
+      setIsPending(false);
     });
-    if (state) {
-      setErrorText(state.error);
-    }
   };
 
   return (

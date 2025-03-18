@@ -1,47 +1,82 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { StudentProfileSchema } from "../(student)/schemas";
-import { z } from "zod";
-import { StudentProfileData } from "../(student)/fake";
 import { Button } from "@/components/ui/button";
-import { InterestType } from "@/app/types";
+import { InterestType, StudentPersonalInfoType } from "@/app/types";
 import { cn } from "@/lib/utils";
 import AddInterestBtn from "./AddInterestBtn";
 import { theme_border, theme_style } from "./CustomStyles";
-import { AddInterestToStudent } from "../(student)/actions/actions";
+import { useStudentData } from "../contexts/StudentDataContext";
+import { apiRequest, ApiRequestType } from "../lib/apiClient";
+import { useRouter } from "next/navigation";
+import { getStudentPersonalInfo } from "@/lib/fetchers/student";
+
 type Props = {
   student: boolean;
-  data: StudentData;
-};
-
-type StudentData = {
   interests: InterestType[];
 };
 
 const Profile = (props: Props) => {
-  const [student, setStudent] = React.useState<z.infer<
-    typeof StudentProfileSchema
-  > | null>(null);
-  const [studentData, setStudentData] = React.useState<StudentData>(props.data);
+  const [sID, setSID] = React.useState<string | null>(null);
+  const { studentData, updateStudentInterests, updateStudentInfo } =
+    useStudentData();
+  const router = useRouter();
+  const personalInfo: StudentPersonalInfoType | undefined =
+    studentData?.personalInfo;
 
   React.useEffect(() => {
     if (props.student) {
-      const s = StudentProfileSchema.parse(StudentProfileData);
-      setStudent(s);
+      const getStudentIdLocal = (): string | null => {
+        if (typeof window !== "undefined") {
+          const storedData = localStorage.getItem("student_id");
+          if (storedData) {
+            return storedData;
+          } else {
+            router.replace("/sign-in");
+          }
+        }
+        return null;
+      };
+      const student_id = getStudentIdLocal();
+      console.log("student id ", student_id);
+      setSID(student_id);
+      updateStudentInterests(props.interests);
     } else {
       // mentor validated data
     }
   }, []);
-  //  React.useEffect
 
   React.useEffect(() => {
-    const i_array = studentData.interests.map((i) => i.interest_id);
+    const fn = async () => {
+      if (sID) {
+        const sInfo = await getStudentPersonalInfo(sID);
+        updateStudentInfo(sInfo);
+      }
+    };
+    fn();
+  }, [sID]);
+
+  React.useEffect(() => {
+    const i_array: string[] = studentData
+      ? (studentData.interests ?? []).map((i) => i.interest_id)
+      : [];
     const payload = {
       interestIds: i_array,
     };
-    AddInterestToStudent(payload);
-  }, [studentData.interests]);
+    if (payload) {
+      const fn = async () => {
+        const req: ApiRequestType = {
+          endpoint: "api/student/interests/update",
+          method: "PUT",
+          body: payload,
+          auth: true,
+        };
+        const res = await apiRequest(req);
+        console.log(res);
+      };
+      fn();
+    }
+  }, [studentData?.interests]);
 
   return (
     <div className="flex flex-col gap-y-4 p-5">
@@ -49,7 +84,7 @@ const Profile = (props: Props) => {
         <div>
           <Image
             src={`https://robohash.org/${
-              student ? student.student_id : "mentorpart"
+              props.student ? personalInfo?.name : "mentorpart"
             }.png?size=200x200`}
             alt="avatar"
             width={200}
@@ -64,11 +99,15 @@ const Profile = (props: Props) => {
             </span>
           </div>
           <div className={` text-6xl font-black`}>
-            {student ? student.name : "Mentor Name"}
+            {props.student ? personalInfo?.name : "Mentor Name"}
           </div>
           <div className="flex gap-x-4 text-xl text-muted-foreground justify-end">
-            <div>@{student ? student.username : "mentor username"}</div>
-            <div>{student ? student.email : "mentor mail"}</div>
+            <div>
+              @{props.student ? personalInfo?.username : "mentor username"}
+            </div>
+            <div>
+              {props.student ? studentData?.personalInfo?.email : "mentor mail"}
+            </div>
           </div>
           <div className="flex justify-end my-3">
             <Button
@@ -93,16 +132,15 @@ const Profile = (props: Props) => {
           </span>
           <AddInterestBtn
             student={true}
-            AlreadySelected={studentData.interests}
             setStudentInterests={(newInterests: InterestType[]) => {
-              setStudentData({ ...studentData, interests: newInterests });
+              updateStudentInterests(newInterests);
             }}
             SelectCount={5}
           />
         </div>
-        <div className="flex gap-x-4 flex-wrap gap-y-2">
-          {studentData.interests?.length > 0 ? (
-            studentData.interests.map((interest) => (
+        <div className="flex gap-x-4 font-normal flex-wrap gap-y-4 w-1/2">
+          {studentData && (studentData.interests ?? []).length > 0 ? (
+            (studentData.interests ?? []).map((interest) => (
               <span
                 key={interest.interest_id}
                 className={cn(

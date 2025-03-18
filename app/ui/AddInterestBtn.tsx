@@ -9,28 +9,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { InterestType } from "../types";
-import { All_Interests } from "../(student)/fake";
+import { All_Interests } from "../data/fake";
+import { useStudentData } from "../contexts/StudentDataContext";
 
 type Props = {
-  AlreadySelected: InterestType[];
   SelectCount: number;
   student: boolean;
   setStudentInterests: (newInterests: InterestType[]) => void;
 };
 
 const AddInterestBtn = (props: Props) => {
-  const [selectedInterests, setSelectedInterests] = React.useState<
-    InterestType[]
-  >(props.AlreadySelected);
+  const { studentData, updateStudentInterests } = useStudentData();
   const [err, setErr] = React.useState<string | null>(null);
-  const handleAddInterest = () => {
-    if (props.student) {
-      //add interests to student
-      props.setStudentInterests(selectedInterests);
-    } else {
-      //add interests to mentor
-    }
-  };
   return (
     <Dialog>
       <DialogTrigger>
@@ -49,7 +39,7 @@ const AddInterestBtn = (props: Props) => {
         <DialogTitle className="flex justify-between pr-5">
           Add interests
           <span>
-            {selectedInterests?.length}/{props.SelectCount}
+            {studentData?.interests?.length}/{props.SelectCount}
           </span>
         </DialogTitle>
         <div className="flex flex-wrap gap-2 h-[500px] overflow-y-auto">
@@ -57,7 +47,7 @@ const AddInterestBtn = (props: Props) => {
             <span
               className={cn(
                 theme_border,
-                selectedInterests.some(
+                studentData?.interests.some(
                   (selected) => selected.interest_id === interest.interest_id
                 )
                   ? theme_style
@@ -67,22 +57,33 @@ const AddInterestBtn = (props: Props) => {
               key={interest.interest_id}
               onClick={() => {
                 if (
-                  selectedInterests.some(
+                  studentData?.interests.some(
                     (selected) => selected.interest_id === interest.interest_id
                   )
                 ) {
-                  setSelectedInterests(
-                    selectedInterests.filter(
-                      (i) => i.interest_id !== interest.interest_id
-                    )
-                  );
-                  setErr(null);
+                  if (studentData && studentData.interests.length === 1) {
+                    setErr("Atleast 1 interest should be selected");
+                  } else {
+                    updateStudentInterests(
+                      studentData.interests.filter(
+                        (i) => i.interest_id !== interest.interest_id
+                      )
+                    );
+                    setErr(null);
+                  }
                 } else {
-                  if (selectedInterests.length < props.SelectCount) {
-                    setSelectedInterests([...selectedInterests, interest]);
+                  if (
+                    studentData &&
+                    studentData?.interests.length < props.SelectCount
+                  ) {
+                    // add interest
+                    updateStudentInterests([
+                      ...studentData?.interests,
+                      interest,
+                    ]);
                     setErr(null);
                   } else {
-                    setErr("You can only select 5 interests");
+                    setErr("Atmost 5 interests can be selected");
                   }
                 }
               }}
@@ -95,7 +96,6 @@ const AddInterestBtn = (props: Props) => {
         {err && <span className="text-red-500">{err}</span>}
         <DialogClose>
           <span
-            onClick={handleAddInterest}
             className={cn(
               theme_border,
               hover_style,
