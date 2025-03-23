@@ -2,7 +2,11 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { InterestType, StudentPersonalInfoType } from "@/app/types";
+import {
+  InterestType,
+  MentorPersonalInfoType,
+  StudentPersonalInfoType,
+} from "@/app/types";
 import { cn } from "@/lib/utils";
 import AddInterestBtn from "./AddInterestBtn";
 import { theme_border, theme_style } from "./CustomStyles";
@@ -10,39 +14,75 @@ import { useStudentData } from "../contexts/StudentDataContext";
 import { apiRequest, ApiRequestType } from "../lib/apiClient";
 import { useRouter } from "next/navigation";
 import { getStudentPersonalInfo } from "@/lib/fetchers/student";
+import { useMentorData } from "../contexts/MentorDataContext";
+import { getMentorPersonalInfo } from "@/lib/fetchers/mentor";
 
 type Props = {
   student: boolean;
   interests: InterestType[];
+  query_id: string;
+};
+
+const getIdFromLocalStorage = (key: string): string | null => {
+  if (typeof window !== "undefined") {
+    const storedData = localStorage.getItem(key);
+    if (storedData) {
+      return storedData;
+    }
+    return null;
+  }
+  return null;
 };
 
 const Profile = (props: Props) => {
   const [sID, setSID] = React.useState<string | null>(null);
+  const [mID, setMID] = React.useState<string | null>(null);
   const { studentData, updateStudentInterests, updateStudentInfo } =
     useStudentData();
+
+  const { mentorData, updateMentorInterests, updateMentorInfo } =
+    useMentorData();
   const router = useRouter();
-  const personalInfo: StudentPersonalInfoType | undefined =
+
+  const studentInterests = studentData?.interests;
+  const mentorInterests = mentorData?.interests;
+  const studentPersonalInfo: StudentPersonalInfoType | undefined =
     studentData?.personalInfo;
+  const mentorPersonalInfo: MentorPersonalInfoType | undefined =
+    mentorData?.personalInfo;
+  let avatarLink = `https://robohash.org/${
+    props.student ? studentPersonalInfo?.name : mentorPersonalInfo?.name
+  }.png?size=200x200`;
+  if (!props.student && mentorPersonalInfo?.profile_pic) {
+    avatarLink = mentorPersonalInfo.profile_pic;
+  }
+
+  let isOwnProfile = false;
+  if (props.student) {
+    isOwnProfile = sID === props.query_id;
+  } else {
+    isOwnProfile = mID === props.query_id;
+  }
+
+  console.log(mentorData, updateMentorInfo, mID);
 
   React.useEffect(() => {
     if (props.student) {
-      const getStudentIdLocal = (): string | null => {
-        if (typeof window !== "undefined") {
-          const storedData = localStorage.getItem("student_id");
-          if (storedData) {
-            return storedData;
-          } else {
-            router.replace("/sign-in");
-          }
-        }
-        return null;
-      };
-      const student_id = getStudentIdLocal();
+      const student_id = getIdFromLocalStorage("student-id");
+      if (!student_id) {
+        router.replace("/sign-in");
+      }
       console.log("student id ", student_id);
       setSID(student_id);
       updateStudentInterests(props.interests);
     } else {
-      // mentor validated data
+      const mentor_id = getIdFromLocalStorage("mentor-id");
+      if (!mentor_id) {
+        router.replace("/sign-in");
+      }
+      console.log("Profile.tsx => mentor id ", mentor_id);
+      setMID(mentor_id);
+      updateMentorInterests(props.interests);
     }
   }, []);
 
@@ -55,6 +95,16 @@ const Profile = (props: Props) => {
     };
     fn();
   }, [sID]);
+
+  React.useEffect(() => {
+    const fn = async () => {
+      if (mID) {
+        const mInfo = await getMentorPersonalInfo(mID);
+        updateMentorInfo(mInfo);
+      }
+    };
+    fn();
+  }, [mID]);
 
   React.useEffect(() => {
     const i_array: string[] = studentData
@@ -78,14 +128,35 @@ const Profile = (props: Props) => {
     }
   }, [studentData?.interests]);
 
+  React.useEffect(() => {
+    const i_array: string[] = mentorData
+      ? (mentorData.interests ?? []).map((i) => i.interest_id)
+      : [];
+    const payload = {
+      interestIds: i_array,
+    };
+
+    if (payload) {
+      const fn = async () => {
+        const req: ApiRequestType = {
+          endpoint: "api/mentor/interests/update",
+          method: "PUT",
+          body: payload,
+          auth: true,
+        };
+        const res = await apiRequest(req);
+        console.log(res);
+      };
+      fn();
+    }
+  }, [mentorData?.interests]);
+
   return (
-    <div className="flex flex-col gap-y-4 p-5">
+    <div className="flex flex-col gap-y-4 p-5 ">
       <div className="flex flex-col  items-center  m-4">
         <div>
           <Image
-            src={`https://robohash.org/${
-              props.student ? personalInfo?.name : "mentorpart"
-            }.png?size=200x200`}
+            src={avatarLink}
             alt="avatar"
             width={200}
             height={200}
@@ -95,18 +166,25 @@ const Profile = (props: Props) => {
         <div className="flex flex-col justify-center">
           <div className="flex justify-end text-lg">
             <span className=" bg-orange-500/30 px-2 rounded-xl flex justify-center items-center">
-              student
+              {props.student ? "Student" : "Mentor"}
             </span>
           </div>
           <div className={` text-6xl font-black`}>
-            {props.student ? personalInfo?.name : "Mentor Name"}
+            {props.student
+              ? studentPersonalInfo?.name
+              : mentorPersonalInfo?.name}
           </div>
           <div className="flex gap-x-4 text-xl text-muted-foreground justify-end">
             <div>
-              @{props.student ? personalInfo?.username : "mentor username"}
+              @
+              {props.student
+                ? studentPersonalInfo?.username
+                : mentorPersonalInfo?.username}
             </div>
             <div>
-              {props.student ? studentData?.personalInfo?.email : "mentor mail"}
+              {props.student
+                ? studentPersonalInfo?.email
+                : mentorPersonalInfo?.email}
             </div>
           </div>
           <div className="flex justify-end my-3">
@@ -130,33 +208,59 @@ const Profile = (props: Props) => {
           >
             Interested At
           </span>
-          <AddInterestBtn
-            student={true}
-            setStudentInterests={(newInterests: InterestType[]) => {
-              updateStudentInterests(newInterests);
-            }}
-            SelectCount={5}
-          />
-        </div>
-        <div className="flex gap-x-4 font-normal flex-wrap gap-y-4 w-1/2">
-          {studentData && (studentData.interests ?? []).length > 0 ? (
-            (studentData.interests ?? []).map((interest) => (
-              <span
-                key={interest.interest_id}
-                className={cn(
-                  theme_border,
-                  "flex justify-center rounded-full px-4 "
-                )}
-              >
-                {interest.interest_name}
-              </span>
-            ))
-          ) : (
-            <span className=" text-lg font-normal text-muted-foreground">
-              Click the Add Button to add interests
-            </span>
+          {isOwnProfile && (
+            <AddInterestBtn
+              student={true}
+              setStudentInterests={(newInterests: InterestType[]) => {
+                updateStudentInterests(newInterests);
+              }}
+              SelectCount={5}
+            />
           )}
         </div>
+        {props.student && (
+          <div className="flex gap-x-4 font-normal flex-wrap gap-y-4 w-1/2">
+            {studentInterests && (studentInterests ?? []).length > 0 ? (
+              (studentInterests ?? []).map((interest) => (
+                <span
+                  key={interest.interest_id}
+                  className={cn(
+                    theme_border,
+                    "flex justify-center rounded-full px-4 "
+                  )}
+                >
+                  {interest.interest_name}
+                </span>
+              ))
+            ) : (
+              <span className=" text-lg font-normal text-muted-foreground">
+                Click the Add Button to add interests
+              </span>
+            )}
+          </div>
+        )}
+
+        {!props.student && (
+          <div className="flex gap-x-4 font-normal flex-wrap gap-y-4 w-1/2">
+            {mentorInterests && (mentorInterests ?? []).length > 0 ? (
+              (mentorInterests ?? []).map((interest) => (
+                <span
+                  key={interest.interest_id}
+                  className={cn(
+                    theme_border,
+                    "flex justify-center rounded-full px-4 "
+                  )}
+                >
+                  {interest.interest_name}
+                </span>
+              ))
+            ) : (
+              <span className=" text-lg font-normal text-muted-foreground">
+                Click the Add Button to add interests
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

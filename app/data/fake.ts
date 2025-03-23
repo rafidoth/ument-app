@@ -6,6 +6,23 @@ export const FakeStudentInfo = {
   dob: new Date("2000-01-01T00:00:00.000Z"),
   graduation_year: 2079,
 };
+
+export const FakeMentorInfo = {
+  name: "S Rafiul Hasan",
+  email: "rafiulhasan803@gmail.com",
+  username: "rafidoth",
+  gender: "Male",
+  dob: new Date("2000-01-01T00:00:00.000Z"),
+  socials: {
+    github: "github.com/rafidoth",
+    facebook: null,
+    linkedin: null,
+    twitter: null,
+  },
+  organization: "UIU",
+  profile_pic:
+    "https://avatars.githubusercontent.com/u/67283985?s=400&u=785ba4e71821a24fee9df89190cbfab208e72dd3&v=4",
+};
 // name: z.string(),
 // email: z.string(),
 // username: z.string(),

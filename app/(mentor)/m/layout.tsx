@@ -13,7 +13,7 @@ import {
 
 const SidebarElements = [
   {
-    name: "Schedule",
+    name: "My Schedule",
     icon: <Calendar />,
     url: "/s/schedule",
   },
@@ -51,13 +51,13 @@ const SidebarTopNavigationButtons = [
     url: "/s/notifications",
   },
 ];
-export default function StudentLayout({
+export default function MentorLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex w-screen h-screen">
+    <div className="flex w-screen">
       <Sidebar
         SidebarElements={SidebarElements}
         SidebarTopNavigationButtons={SidebarTopNavigationButtons}

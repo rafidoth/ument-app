@@ -47,7 +47,7 @@ export default function LoginForm({ student }: Props) {
         setErrorText("Invalid email or password");
       } else {
         const student_id = data.user.student_id;
-        localStorage.setItem("student_id", student_id);
+        localStorage.setItem("student-id", student_id);
         router.replace("/s/explore");
       }
       setIsPending(false);

@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import { single_student_interests } from "../(student)/fake";
-import { FakeStudentInfo } from "../data/fake";
+import { FakeMentorInfo, FakeStudentInfo } from "../data/fake";
 
 const USE_FAKE: boolean = true;
 export type ApiRequestType = {
@@ -63,8 +63,15 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
   console.log("Fake API request", endpoint);
   if (endpoint === "api/student/interests/list") {
     return { success: true, data: single_student_interests };
+  } else if (endpoint === "api/mentor/interests/list") {
+    return { success: true, data: single_student_interests };
   } else if (endpoint === "api/student/fakeStudentId") {
     return { success: true, data: FakeStudentInfo };
+  } else if (endpoint === "api/mentor/fakeMentorId") {
+    return {
+      success: true,
+      data: FakeMentorInfo,
+    };
   } else if (endpoint === "api/student/interests/update") {
     return {
       success: true,

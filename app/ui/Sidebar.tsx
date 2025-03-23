@@ -1,16 +1,6 @@
 "use client";
-import React from "react";
+import React, { ReactElement } from "react";
 import Toggler from "./Toggler";
-import {
-  Bell,
-  Calendar,
-  Globe,
-  Group,
-  History,
-  Inbox,
-  Workflow,
-} from "lucide-react";
-import { url } from "inspector";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { hover_style, smooth_hover, theme_style } from "./CustomStyles";
@@ -18,53 +8,17 @@ import { hover_style, smooth_hover, theme_style } from "./CustomStyles";
 type Props = {
   SidebarElements: {
     name: string;
-    icon: React.ReactNode;
+    icon: ReactElement;
+    url: string;
+  }[];
+  SidebarTopNavigationButtons: {
+    name: string;
+    icon: ReactElement;
     url: string;
   }[];
 };
 
-const SidebarTopNavigationButtons = [
-  {
-    name: "inbox",
-    icon: <Inbox />,
-    url: "/s/inbox",
-  },
-  {
-    name: "notifications",
-    icon: <Bell />,
-    url: "/s/notifications",
-  },
-];
-
-const SidebarElements = [
-  {
-    name: "Schedule",
-    icon: <Calendar />,
-    url: "/s/schedule",
-  },
-  {
-    name: "Explore",
-    icon: <Globe />,
-    url: "/s/explore",
-  },
-  {
-    name: "Group Sessions",
-    icon: <Group />,
-    url: "/s/group-sessions",
-  },
-  {
-    name: "History",
-    icon: <History />,
-    url: "/s/history",
-  },
-  {
-    name: "Jobs",
-    icon: <Workflow />,
-    url: "/s/jobs",
-  },
-];
-
-const Sidebar = (props: Props) => {
+const Sidebar = ({ SidebarElements, SidebarTopNavigationButtons }: Props) => {
   const [selected, setSelected] = React.useState<string>("");
   return (
     <div className="w-[300px] border-r h-screen flex flex-col ">
