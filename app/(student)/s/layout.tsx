@@ -63,7 +63,7 @@ export default function StudentLayout({
         SidebarTopNavigationButtons={SidebarTopNavigationButtons}
       />
       <div className="flex flex-col w-full">
-        <div className="h-[70px] border-b w-full">topbar</div>
+        {/* <div className="h-[70px] border-b w-full">topbar</div> */}
         <div>{children}</div>
       </div>
     </div>

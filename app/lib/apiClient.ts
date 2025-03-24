@@ -2,7 +2,11 @@
 
 import { cookies } from "next/headers";
 import { single_student_interests } from "../(student)/fake";
-import { FakeMentorInfo, FakeStudentInfo } from "../data/fake";
+import {
+  FakeMentorInfo,
+  FakeStudentInfo,
+  getFakeSessionInfo,
+} from "../data/fake";
 
 const USE_FAKE: boolean = true;
 export type ApiRequestType = {
@@ -79,7 +83,16 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
       interestsUpdated: 2,
       interests: single_student_interests,
     };
+  } else if (endpoint === "api/mentor/sessions") {
+    return {
+      success: true,
+      data: [
+        getFakeSessionInfo("SPL Midterm Question Solve Session"),
+        getFakeSessionInfo("SPL Final Question Solve Session"),
+        getFakeSessionInfo("OOP Midterm Question Solve Session"),
+      ],
+    };
   } else {
-    console.error("Unknown fake endpoint", endpoint);
+    return { success: false, message: "Unknown endpoint" };
   }
 }

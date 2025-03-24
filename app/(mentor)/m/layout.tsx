@@ -4,38 +4,50 @@ import React from "react";
 import {
   Bell,
   Calendar,
-  Globe,
-  Group,
-  History,
+  ChartScatter,
+  Home,
   Inbox,
+  LayoutGrid,
+  Star,
+  Users,
   Workflow,
 } from "lucide-react";
 
 const SidebarElements = [
   {
-    name: "My Schedule",
-    icon: <Calendar />,
-    url: "/s/schedule",
+    name: "Home",
+    icon: <Home />,
+    url: "/m/home",
   },
   {
-    name: "Explore",
-    icon: <Globe />,
-    url: "/s/explore",
+    name: "My Sessions",
+    icon: <LayoutGrid />,
+    url: "/m/mysessions",
+  },
+  {
+    name: "Bookings",
+    icon: <Calendar />,
+    url: "/m/bookings",
+  },
+  {
+    name: "Other Mentors",
+    icon: <ChartScatter />,
+    url: "/m/reviews",
+  },
+  {
+    name: "Reviews",
+    icon: <Star />,
+    url: "/m/reviews",
   },
   {
     name: "Group Sessions",
-    icon: <Group />,
-    url: "/s/group-sessions",
-  },
-  {
-    name: "History",
-    icon: <History />,
-    url: "/s/history",
+    icon: <Users />,
+    url: "/m/group-sessions",
   },
   {
     name: "Jobs",
     icon: <Workflow />,
-    url: "/s/jobs",
+    url: "/m/jobs",
   },
 ];
 
@@ -43,12 +55,12 @@ const SidebarTopNavigationButtons = [
   {
     name: "inbox",
     icon: <Inbox />,
-    url: "/s/inbox",
+    url: "/m/inbox",
   },
   {
     name: "notifications",
     icon: <Bell />,
-    url: "/s/notifications",
+    url: "/m/notifications",
   },
 ];
 export default function MentorLayout({
@@ -63,7 +75,7 @@ export default function MentorLayout({
         SidebarTopNavigationButtons={SidebarTopNavigationButtons}
       />
       <div className="flex flex-col w-full">
-        <div className="h-[70px] border-b w-full">topbar</div>
+        {/* <div className="h-[70px] border-b w-full">topbar</div> */}
         <div>{children}</div>
       </div>
     </div>

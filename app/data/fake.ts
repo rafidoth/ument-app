@@ -1,3 +1,5 @@
+import { randomUUID } from "crypto";
+
 export const FakeStudentInfo = {
   name: "S Rafiul Hasan",
   email: "rafiulhasan803@gmail.com",
@@ -23,6 +25,31 @@ export const FakeMentorInfo = {
   profile_pic:
     "https://avatars.githubusercontent.com/u/67283985?s=400&u=785ba4e71821a24fee9df89190cbfab208e72dd3&v=4",
 };
+
+export const FakeGetSessionsMentor = {
+  sessionId: "fake-session-id",
+  mentorId: "fakeMentorId",
+  title: "SPL Midterm Question Solve Session",
+  DurationInMinutes: 120,
+  session_medium: ["Online", "Offline"],
+  Description: `
+    - Previous two trimester question solving live
+    - 1 set Practice Question with solution
+  `,
+  Price: 500,
+};
+export const getFakeSessionInfo = (title: string) => {
+  return {
+    sessionId: randomUUID(),
+    mentorId: "fakeMentorId",
+    title: title,
+    DurationInMinutes: 120,
+    session_medium: ["Online", "Offline"],
+    Description: `Previous two trimester question solving live and 1 set Practice Question with solution`,
+    Price: 500,
+  };
+};
+
 // name: z.string(),
 // email: z.string(),
 // username: z.string(),
