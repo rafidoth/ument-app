@@ -1,4 +1,4 @@
-import { getSessionsMentor } from "@/app/lib/fetchers/sessions";
+import { getSessionsMentor } from "@/lib/fetchers/sessions";
 import SessionCard from "@/app/ui/SessionCard";
 import { jakarta } from "@/app/utils/font";
 import { Button } from "@/components/ui/button";

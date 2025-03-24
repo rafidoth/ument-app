@@ -13,9 +13,9 @@ import { theme_border, theme_style } from "./CustomStyles";
 import { useStudentData } from "../contexts/StudentDataContext";
 import { apiRequest, ApiRequestType } from "../lib/apiClient";
 import { useRouter } from "next/navigation";
-import { getStudentPersonalInfo } from "@/app/lib/fetchers/student";
+import { getStudentPersonalInfo } from "@/lib/fetchers/student";
 import { useMentorData } from "../contexts/MentorDataContext";
-import { getMentorPersonalInfo } from "@/app/lib/fetchers/mentor";
+import { getMentorPersonalInfo } from "@/lib/fetchers/mentor";
 import { jakarta } from "../utils/font";
 
 type Props = {
