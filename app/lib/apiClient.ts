@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import { single_student_interests } from "../(student)/fake";
 import {
+  fakeAvailabilities,
   FakeMentorInfo,
   FakeStudentInfo,
   getFakeSessionInfo,
@@ -91,6 +92,15 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
         getFakeSessionInfo("SPL Final Question Solve Session"),
         getFakeSessionInfo("OOP Midterm Question Solve Session"),
       ],
+    };
+  } else if (endpoint === "api/mentor/avalability/add") {
+    return {
+      success: true,
+    };
+  } else if (endpoint === "api/mentor/availability") {
+    return {
+      success: true,
+      data: fakeAvailabilities,
     };
   } else {
     return { success: false, message: "Unknown endpoint" };

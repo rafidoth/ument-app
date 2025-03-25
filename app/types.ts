@@ -20,3 +20,10 @@ export type SessionInfoType = {
   Description: string;
   Price: number;
 };
+
+export type AvalabilityType = {
+  id?: string;
+  start: Date;
+  end: Date;
+  booked: boolean;
+};

@@ -15,27 +15,23 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface DateTimePickerProps {
   field: {
-    value: string;
-    onChange: (value: string) => void;
+    value: Date;
+    onChange: (value: Date) => void;
   };
 }
 
 export function DateTimePicker({ field }: DateTimePickerProps) {
-  const [date, setDate] = React.useState<Date>(
-    field.value ? new Date(field.value) : new Date()
-  );
   const [isOpen, setIsOpen] = React.useState(false);
 
   const hours = Array.from({ length: 12 }, (_, i) => i + 1);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
-      const newDate = new Date(date);
+      const newDate = new Date(field.value);
       newDate.setFullYear(selectedDate.getFullYear());
       newDate.setMonth(selectedDate.getMonth());
       newDate.setDate(selectedDate.getDate());
-      setDate(newDate);
-      field.onChange(newDate.toISOString());
+      field.onChange(newDate);
     }
   };
 
@@ -43,7 +39,7 @@ export function DateTimePicker({ field }: DateTimePickerProps) {
     type: "hour" | "minute" | "ampm",
     value: string
   ) => {
-    const newDate = new Date(date);
+    const newDate = new Date(field.value);
     if (type === "hour") {
       newDate.setHours(
         (parseInt(value) % 12) + (newDate.getHours() >= 12 ? 12 : 0)
@@ -59,8 +55,7 @@ export function DateTimePicker({ field }: DateTimePickerProps) {
         newDate.setHours(currentHours - 12);
       }
     }
-    setDate(newDate);
-    field.onChange(newDate.toISOString());
+    field.onChange(newDate);
   };
 
   return (
@@ -70,12 +65,12 @@ export function DateTimePicker({ field }: DateTimePickerProps) {
           variant="outline"
           className={cn(
             "w-full justify-start text-left font-normal",
-            !date && "text-muted-foreground"
+            !field.value && "text-muted-foreground"
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? (
-            format(date, "MM/dd/yyyy hh:mm aa")
+          {field.value ? (
+            format(field.value, "PPp")
           ) : (
             <span>MM/DD/YYYY hh:mm aa</span>
           )}
@@ -85,7 +80,7 @@ export function DateTimePicker({ field }: DateTimePickerProps) {
         <div className="sm:flex">
           <Calendar
             mode="single"
-            selected={date}
+            selected={field.value}
             onSelect={handleDateSelect}
             initialFocus
           />
@@ -97,7 +92,7 @@ export function DateTimePicker({ field }: DateTimePickerProps) {
                     key={hour}
                     size="icon"
                     variant={
-                      date && date.getHours() % 12 === hour % 12
+                      field.value && field.value.getHours() % 12 === hour % 12
                         ? "default"
                         : "ghost"
                     }
@@ -117,7 +112,9 @@ export function DateTimePicker({ field }: DateTimePickerProps) {
                     key={minute}
                     size="icon"
                     variant={
-                      date && date.getMinutes() === minute ? "default" : "ghost"
+                      field.value && field.value.getMinutes() === minute
+                        ? "default"
+                        : "ghost"
                     }
                     className="sm:w-full shrink-0 aspect-square"
                     onClick={() =>
@@ -137,9 +134,9 @@ export function DateTimePicker({ field }: DateTimePickerProps) {
                     key={ampm}
                     size="icon"
                     variant={
-                      date &&
-                      ((ampm === "AM" && date.getHours() < 12) ||
-                        (ampm === "PM" && date.getHours() >= 12))
+                      field.value &&
+                      ((ampm === "AM" && field.value.getHours() < 12) ||
+                        (ampm === "PM" && field.value.getHours() >= 12))
                         ? "default"
                         : "ghost"
                     }

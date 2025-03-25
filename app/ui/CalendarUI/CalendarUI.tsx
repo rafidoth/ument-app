@@ -14,11 +14,15 @@ import {
 } from "date-fns";
 import { cn } from "@/lib/utils";
 import { theme_style } from "../CustomStyles";
-// import CalendarEvent from "../../calendar-event";
+import { AvalabilityType } from "@/app/types";
+import { useCalendarContext } from "./CalendarContext";
+type Props = {
+  availabilities: AvalabilityType[];
+};
 
-export default function CalendarUI() {
+export default function CalendarUI(props: Props) {
   //   const { date, events, setDate, setMode } = useCalendarContext();
-  const [date, setDate] = useState<Date>(new Date());
+  const { date, setDate } = useCalendarContext();
 
   // Get the first day of the month
   const monthStart = startOfMonth(date);
@@ -39,25 +43,28 @@ export default function CalendarUI() {
 
   const today = new Date();
 
-  // Filter events to only show those within the current month view
-  //   const visibleEvents = events.filter(
-  //     (event) =>
-  //       isWithinInterval(event.start, {
-  //         start: calendarStart,
-  //         end: calendarEnd,
-  //       }) ||
-  //       isWithinInterval(event.end, { start: calendarStart, end: calendarEnd })
-  //   );
+  // Filter Availabilities on this calendar views only
+  const visibleAvailabilities = props.availabilities?.filter(
+    (item) =>
+      isWithinInterval(item.start, {
+        start: calendarStart,
+        end: calendarEnd,
+      }) ||
+      isWithinInterval(item.end, {
+        start: calendarStart,
+        end: calendarEnd,
+      })
+  );
 
   return (
-    <div className="flex overflow-hidden divide-x h-full">
+    <div className="flex overflow-auto divide-x h-full ">
       {["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"].map(
         (day, ithDayWeek) => (
           <div
             key={day}
             className={cn(
               "py-2 text-center flex-grow text-lg font-medium border-b border-border",
-              "flex flex-col h-full"
+              "flex flex-col h-full w-[200px]"
             )}
           >
             <div className="border-b text-muted-foreground ">{day}</div>
@@ -68,7 +75,7 @@ export default function CalendarUI() {
                     <div
                       key={ithDayOfCal}
                       className={cn(
-                        "flex-grow border-b p-3",
+                        "flex-grow border-b p-3 h-[100px]",
                         isWithinInterval(calDate, {
                           start: monthStart,
                           end: monthEnd,
@@ -80,13 +87,30 @@ export default function CalendarUI() {
                       <span
                         className={cn(
                           "rounded-full p-2",
-                          today.getDate() === calDate.getDate()
-                            ? theme_style
-                            : ""
+                          isSameDay(today, calDate) ? theme_style : ""
                         )}
                       >
                         {calDate.getDate()}
                       </span>
+                      <div className="flex flex-col items-center my-2">
+                        {visibleAvailabilities.map(
+                          (item, i) =>
+                            isSameDay(item.start, calDate) && (
+                              <span
+                                key={i}
+                                className={cn(
+                                  "px-2 rounded-lg",
+                                  item.booked
+                                    ? "bg-orange-800"
+                                    : "bg-transparent border-2 border-orange-500"
+                                )}
+                              >
+                                {format(item.start, "p")} to{" "}
+                                {format(item.end, "p")}
+                              </span>
+                            )
+                        )}
+                      </div>
                     </div>
                   );
                 }
