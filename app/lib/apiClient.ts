@@ -8,7 +8,7 @@ import {
   fakeSessionsSuggestionStudentDashboard,
   FakeStudentInfo,
   getFakeSessionInfo,
-  getFakeSessionsForStudent,
+  mentorAvailableAt,
 } from "../data/fake";
 
 const USE_FAKE: boolean = true;
@@ -109,6 +109,11 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
     return {
       success: true,
       data: fakeAvailabilities,
+    };
+  } else if (endpoint === "api/student/mavaliableat/fakeMentorId") {
+    return {
+      success: true,
+      data: mentorAvailableAt,
     };
   } else {
     return { success: false, message: "Unknown endpoint" };

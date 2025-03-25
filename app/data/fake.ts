@@ -58,7 +58,10 @@ export const getFakeSessionsForStudent = (
 ) => {
   return {
     sessionId: randomUUID(),
-    mentorId: randomUUID(),
+    mentorId: "fakeMentorId",
+    mentorName: "S Rafiul Hasan",
+    mentorImageLink:
+      "https://avatars.githubusercontent.com/u/67283985?s=400&u=785ba4e71821a24fee9df89190cbfab208e72dd3&v=4",
     type: type,
     title: title,
     DurationInMinutes: 120,
@@ -84,6 +87,45 @@ export const fakeSessionsSuggestionStudentDashboard = [
   getFakeSessionsForStudent("AI Research Guidance", "Career Guidance"),
   getFakeSessionsForStudent("Hackathon Preparation", "Competition Prep"),
   getFakeSessionsForStudent("Stress Management Techniques", "Productivity"),
+];
+
+export const mentorAvailableAt = [
+  {
+    id: 1,
+    start: new Date("2025-03-25T09:43:44.000Z"),
+    end: new Date("2025-03-25T11:15:44.000Z"),
+    booked: false,
+  },
+  {
+    id: 2,
+    start: new Date("2025-03-28T10:20:44.000Z"),
+    end: new Date("2025-03-28T12:00:44.000Z"),
+    booked: false,
+  },
+  {
+    id: 3,
+    start: new Date("2025-03-26T08:00:44.000Z"),
+    end: new Date("2025-03-26T10:00:44.000Z"),
+    booked: false,
+  },
+  {
+    id: 4,
+    start: new Date("2025-03-25T12:30:00.000Z"),
+    end: new Date("2025-03-25T14:00:00.000Z"),
+    booked: false,
+  },
+  {
+    id: 5,
+    start: new Date("2025-03-28T14:30:00.000Z"),
+    end: new Date("2025-03-28T16:00:00.000Z"),
+    booked: false,
+  },
+  {
+    id: 6,
+    start: new Date("2025-03-26T11:00:00.000Z"),
+    end: new Date("2025-03-26T12:30:00.000Z"),
+    booked: false,
+  },
 ];
 
 export const fakeAvailabilities = [

@@ -17,3 +17,16 @@ export async function getStudentPersonalInfo(sID: string) {
 
   return studentPersonalInfo;
 }
+
+export async function getMentorAvailableSlots(mID: string) {
+  const req: ApiRequestType = {
+    endpoint: `api/student/mavaliableat/${mID}`,
+    method: "GET",
+    auth: true,
+  };
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error("Failed to fetch mentor availability");
+  }
+  return res.data;
+}

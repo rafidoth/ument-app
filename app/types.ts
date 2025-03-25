@@ -14,6 +14,8 @@ export type meeting_medium = "Online" | "Offline";
 export type SessionInfoType = {
   sessionId: string;
   mentorId: string;
+  mentorName: string;
+  mentorImageLink: string;
   type: SessionType;
   title: string;
   DurationInMinutes: number;
