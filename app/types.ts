@@ -14,6 +14,7 @@ export type meeting_medium = "Online" | "Offline";
 export type SessionInfoType = {
   sessionId: string;
   mentorId: string;
+  type: SessionType;
   title: string;
   DurationInMinutes: number;
   session_medium: meeting_medium[];
@@ -27,3 +28,11 @@ export type AvalabilityType = {
   end: Date;
   booked: boolean;
 };
+
+export type SessionType =
+  | "Course Topic Tution"
+  | "Project Help"
+  | "Career Guidance"
+  | "Competition Prep"
+  | "Productivity"
+  | "ECA";

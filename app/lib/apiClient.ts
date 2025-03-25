@@ -5,8 +5,10 @@ import { single_student_interests } from "../(student)/fake";
 import {
   fakeAvailabilities,
   FakeMentorInfo,
+  fakeSessionsSuggestionStudentDashboard,
   FakeStudentInfo,
   getFakeSessionInfo,
+  getFakeSessionsForStudent,
 } from "../data/fake";
 
 const USE_FAKE: boolean = true;
@@ -85,6 +87,7 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
       interests: single_student_interests,
     };
   } else if (endpoint === "api/mentor/sessions") {
+    // this should give sessions of a single mentor
     return {
       success: true,
       data: [
@@ -92,6 +95,11 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
         getFakeSessionInfo("SPL Final Question Solve Session"),
         getFakeSessionInfo("OOP Midterm Question Solve Session"),
       ],
+    };
+  } else if (endpoint === "api/student/sessions") {
+    return {
+      success: true,
+      data: fakeSessionsSuggestionStudentDashboard,
     };
   } else if (endpoint === "api/mentor/avalability/add") {
     return {

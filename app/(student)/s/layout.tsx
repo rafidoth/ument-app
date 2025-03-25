@@ -4,23 +4,36 @@ import React from "react";
 import {
   Bell,
   Calendar,
+  CalendarClock,
   Globe,
   Group,
   History,
   Inbox,
+  TrafficCone,
+  UserSearch,
   Workflow,
 } from "lucide-react";
 
 const SidebarElements = [
+  {
+    name: "AI Roadmap",
+    icon: <TrafficCone />,
+    url: "/s/airoadmap",
+  },
   {
     name: "Schedule",
     icon: <Calendar />,
     url: "/s/schedule",
   },
   {
-    name: "Explore",
-    icon: <Globe />,
-    url: "/s/explore",
+    name: "Find Mentor",
+    icon: <UserSearch />,
+    url: "/s/findmentor",
+  },
+  {
+    name: "1:1 Sessions",
+    icon: <CalendarClock />,
+    url: "/s/sessions",
   },
   {
     name: "Group Sessions",

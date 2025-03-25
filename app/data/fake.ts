@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import { SessionType } from "../types";
 
 export const FakeStudentInfo = {
   name: "S Rafiul Hasan",
@@ -49,6 +50,41 @@ export const getFakeSessionInfo = (title: string) => {
     Price: 500,
   };
 };
+
+export const getFakeSessionsForStudent = (
+  title: string,
+  type: SessionType,
+  description?: string
+) => {
+  return {
+    sessionId: randomUUID(),
+    mentorId: randomUUID(),
+    type: type,
+    title: title,
+    DurationInMinutes: 120,
+    session_medium: ["Online", "Offline"],
+    Description: description
+      ? description
+      : `Previous two trimester question solving live and 1 set Practice Question with solution`,
+    Price: 500,
+  };
+};
+
+export const fakeSessionsSuggestionStudentDashboard = [
+  getFakeSessionsForStudent("OOP Mid Term Preparation", "Course Topic Tution"),
+  getFakeSessionsForStudent("Data Structures Project Help", "Project Help"),
+  getFakeSessionsForStudent("Career Guidance for Freshers", "Career Guidance"),
+  getFakeSessionsForStudent(
+    "Blockchain Olympiad Preparation",
+    "Competition Prep"
+  ),
+  getFakeSessionsForStudent("Time Management Workshop", "Productivity"),
+  getFakeSessionsForStudent("ECA Club Leadership Training", "ECA"),
+  getFakeSessionsForStudent("SQL Crash Course", "Course Topic Tution"),
+  getFakeSessionsForStudent("AI Research Guidance", "Career Guidance"),
+  getFakeSessionsForStudent("Hackathon Preparation", "Competition Prep"),
+  getFakeSessionsForStudent("Stress Management Techniques", "Productivity"),
+];
 
 export const fakeAvailabilities = [
   {

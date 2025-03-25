@@ -14,3 +14,17 @@ export async function getSessionsMentor() {
   const data: SessionInfoType[] = res.data;
   return data;
 }
+
+export async function getSessionsStudent() {
+  const req: ApiRequestType = {
+    endpoint: `api/student/sessions`,
+    method: "GET",
+    auth: true,
+  };
+  const res = await apiRequest(req);
+  if (res.success === false) {
+    throw new Error("Failed to fetch student sessions");
+  }
+  const data: SessionInfoType[] = res.data;
+  return data;
+}

@@ -10,16 +10,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { SessionInfoType } from "../types";
 import { Clock, Banknote } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { hover_style, smooth_hover, theme_border } from "./CustomStyles";
 
 type Props = {
   sessionDetails: SessionInfoType;
+  student: boolean;
 };
 
-const SessionCard = ({ sessionDetails }: Props) => {
+const SessionCard = ({ sessionDetails, student }: Props) => {
   return (
-    <Card className="w-[350px] my-5">
+    <Card className="w-[350px] my-5 text-lg">
       <CardHeader>
-        <CardTitle className="text-xl">{sessionDetails.title}</CardTitle>
+        <CardTitle className="text-3xl">{sessionDetails.title}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 text-lg">
         <div className="flex items-center gap-2">
@@ -44,14 +47,30 @@ const SessionCard = ({ sessionDetails }: Props) => {
           {sessionDetails.Description}
         </CardDescription>
       </CardContent>
-      <CardFooter className="flex gap-2">
-        <Button size="sm" className="cursor-pointer">
-          Edit
-        </Button>
-        <Button variant="destructive" size="sm" className="cursor-pointer">
-          Delete
-        </Button>
-      </CardFooter>
+      {!student && (
+        <CardFooter className="flex gap-2">
+          <Button size="sm" className="cursor-pointer">
+            Edit
+          </Button>
+          <Button variant="destructive" size="sm" className="cursor-pointer">
+            Delete
+          </Button>
+        </CardFooter>
+      )}
+      {student && (
+        <CardFooter className="flex justify-end gap-2">
+          <span
+            className={cn(
+              theme_border,
+              hover_style,
+              smooth_hover,
+              "px-4 cursor-pointer"
+            )}
+          >
+            Book Session
+          </span>
+        </CardFooter>
+      )}
     </Card>
   );
 };
