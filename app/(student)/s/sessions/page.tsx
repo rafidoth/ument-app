@@ -6,12 +6,10 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import React from "react";
 
-type Props = {};
-
-const SessionsPage = async (props: Props) => {
+const SessionsPage = async () => {
   const sessions: SessionInfoType[] = await getSessionsStudent();
   return (
-    <div className=" px-16">
+    <div className="px-16">
       <div className="flex justify-end items-center">
         <div
           className={cn(
@@ -23,7 +21,7 @@ const SessionsPage = async (props: Props) => {
           1:1 Sessions
         </div>
       </div>
-      <ScrollArea className="h-[800px]">
+      <ScrollArea className="h-[800px] ">
         <div className="flex flex-wrap gap-x-10  my-8 justify-center  ">
           {sessions.map((s, i: number) => (
             <SessionCard key={i} sessionDetails={s} student={true} />

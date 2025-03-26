@@ -28,7 +28,7 @@ type Props = {
 
 const SessionCard = ({ sessionDetails, student }: Props) => {
   return (
-    <Card className="w-[350px] my-5 text-lg bg-orange-900/10 border-none">
+    <Card className="w-[350px] my-5 text-lg border-none bg-zinc-900/50">
       <CardHeader>
         <CardTitle className="text-3xl">{sessionDetails.title}</CardTitle>
       </CardHeader>
@@ -96,7 +96,7 @@ const SessionCard = ({ sessionDetails, student }: Props) => {
               </span>
             </PopoverTrigger>
             <PopoverContent className="w-[400px]">
-              <MentorScheduleForStudent mentorId="fakeMentorId" />
+              <MentorScheduleForStudent sessionDetails={sessionDetails} />
             </PopoverContent>
           </Popover>
         </CardFooter>

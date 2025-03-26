@@ -30,3 +30,29 @@ export async function getMentorAvailableSlots(mID: string) {
   }
   return res.data;
 }
+
+export async function getMentorBasedOnInterest() {
+  const req: ApiRequestType = {
+    endpoint: `api/student/findmentor/interest`,
+    method: "GET",
+    auth: true,
+  };
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error("Failed to fetch mentor availability");
+  }
+  return res.data;
+}
+
+export async function getMentorBasedOnLevel() {
+  const req: ApiRequestType = {
+    endpoint: `api/student/findmentor/level`,
+    method: "GET",
+    auth: true,
+  };
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error("Failed to fetch mentor availability");
+  }
+  return res.data;
+}

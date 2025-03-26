@@ -38,3 +38,43 @@ export type SessionType =
   | "Competition Prep"
   | "Productivity"
   | "ECA";
+
+export type mentorleveltype =
+  | "beginner guide"
+  | "uplifter"
+  | "pathfinder"
+  | "illuminator"
+  | "trailblazer"
+  | "grandmaster"
+  | "master of art";
+
+export type MentorSuggestionType = {
+  mentorId: string;
+  name: string;
+  organization: string;
+  profile_pic: string;
+  level: mentorleveltype;
+  bio: string;
+  sessions_taken: number;
+  review_count: number;
+};
+
+export type MentorPublicProfileType = {
+  mentor_id: string;
+  name: string;
+  email: string;
+  username: string;
+  gender: "Male" | "Female";
+  dob: Date;
+  socials: {
+    github: string;
+    facebook: string;
+    linkedin: string;
+    twitter: string;
+  };
+  organization: string;
+  profile_pic: string;
+  level: mentorleveltype;
+  bio: string;
+  interests: InterestType[];
+};

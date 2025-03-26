@@ -5,11 +5,13 @@ import { single_student_interests } from "../(student)/fake";
 import {
   fakeAvailabilities,
   FakeMentorInfo,
+  FakeMentorList,
   fakeSessionsSuggestionStudentDashboard,
   FakeStudentInfo,
   getFakeSessionInfo,
   mentorAvailableAt,
 } from "../data/fake";
+import { MentorSuggestionType } from "../types";
 
 const USE_FAKE: boolean = true;
 export type ApiRequestType = {
@@ -72,12 +74,24 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
     return { success: true, data: single_student_interests };
   } else if (endpoint === "api/mentor/interests/list") {
     return { success: true, data: single_student_interests };
+  } else if (endpoint === "api/student/interests/fakeMentorId") {
+    return { success: true, data: single_student_interests };
   } else if (endpoint === "api/student/fakeStudentId") {
     return { success: true, data: FakeStudentInfo };
   } else if (endpoint === "api/mentor/fakeMentorId") {
     return {
       success: true,
       data: FakeMentorInfo,
+    };
+  } else if (endpoint === "api/mentor/public/fakeMentorId") {
+    return {
+      success: true,
+      data: FakeMentorInfo,
+    };
+  } else if (endpoint === "api/mentor/level/fakeMentorId") {
+    return {
+      success: true,
+      data: "trailblazer",
     };
   } else if (endpoint === "api/student/interests/update") {
     return {
@@ -115,6 +129,19 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
       success: true,
       data: mentorAvailableAt,
     };
+  } else if (endpoint === "api/student/mavailableat/request") {
+    return {
+      success: true,
+      message: "Slot Requests are sent successfully",
+    };
+  } else if (endpoint === "api/student/findmentor/interest") {
+    return { success: true, data: FakeMentorList };
+  } else if (endpoint === "api/student/findmentor/level") {
+    const cpy: MentorSuggestionType[] = [...FakeMentorList];
+    const shuffled = (arr: MentorSuggestionType[]) =>
+      arr.sort(() => Math.random() - 0.5);
+    console.log(shuffled);
+    return { success: true, data: shuffled(cpy) };
   } else {
     return { success: false, message: "Unknown endpoint" };
   }

@@ -1,24 +1,30 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { getMentorAvailableSlots } from "../lib/fetchers/student";
-import { AvalabilityType, MentorPersonalInfoType } from "../types";
-import { format } from "date-fns";
+import {
+  AvalabilityType,
+  MentorPersonalInfoType,
+  SessionInfoType,
+} from "../types";
+import { format, intervalToDuration } from "date-fns";
 import { cn } from "@/lib/utils";
 import { hover_style, smooth_hover, theme_border } from "./CustomStyles";
 import { getMentorPersonalInfo } from "../lib/fetchers/mentor";
 import Image from "next/image";
+import { sendSlotRequest } from "../lib/mutations/student";
 
 type Props = {
-  mentorId: string;
+  sessionDetails: SessionInfoType;
 };
 
 const MentorScheduleForStudent = (props: Props) => {
-  const mid = props.mentorId;
+  const mid = props.sessionDetails.mentorId;
   const [selectedSlots, setSelectedSlots] = useState<AvalabilityType[]>([]);
   const [mentorFreeSlots, setMentorFreeSlots] = useState<AvalabilityType[]>([]);
   const [mentorInfo, setMentorInfo] = useState<MentorPersonalInfoType | null>(
     null
   );
+  const { sessionDetails } = props;
 
   const dateWiseFiltered = new Map<number, AvalabilityType[]>();
   mentorFreeSlots.forEach((fslot) => {
@@ -32,7 +38,6 @@ const MentorScheduleForStudent = (props: Props) => {
       dateWiseFiltered.set(date, [fslot]);
     }
   });
-  console.log(dateWiseFiltered);
 
   const dateWiseFilteredArray: {
     date: number;
@@ -40,12 +45,35 @@ const MentorScheduleForStudent = (props: Props) => {
   }[] = [];
 
   dateWiseFiltered.forEach((slots, date) => {
-    dateWiseFilteredArray.push({
-      date,
-      slots,
-    });
+    // filter slots with lower duration than session
+    const possibleSlots: AvalabilityType[] = slots
+      .map((s) => {
+        const durationOfFreeSlot = intervalToDuration({
+          start: s.start,
+          end: s.end,
+        });
+        let minutes: number = durationOfFreeSlot.minutes ?? 0;
+        if (durationOfFreeSlot.hours) {
+          minutes += durationOfFreeSlot.hours * 60;
+        }
+        if (minutes >= sessionDetails.DurationInMinutes) {
+          return s;
+        }
+        return undefined;
+      })
+      .filter(Boolean) as AvalabilityType[];
+    if (possibleSlots.length) {
+      dateWiseFilteredArray.push({
+        date,
+        slots: possibleSlots,
+      });
+    }
   });
-  console.log(dateWiseFilteredArray);
+  console.log(sessionDetails.DurationInMinutes);
+
+  const handleSlotRequest = async () => {
+    await sendSlotRequest(sessionDetails.mentorId, selectedSlots);
+  };
 
   useEffect(() => {
     const fetchMentorSlots = async () => {
@@ -77,41 +105,46 @@ const MentorScheduleForStudent = (props: Props) => {
         <div>No Free Slot Available!</div>
       ) : (
         <div className="flex flex-col gap-y-2 items-center">
-          {dateWiseFilteredArray.map((d) => (
-            <div key={d.date}>
-              <strong>{format(d.slots[0].start, "PP")}</strong>
-              <div className="flex flex-wrap gap-x-2 mt-3">
-                {d.slots.map((slot, i) => (
-                  <span
-                    className={cn(
-                      "rounded-lg cursor-pointer px-2",
-                      selectedSlots.some((s) => slot.id === s.id)
-                        ? "bg-orange-800"
-                        : theme_border + hover_style
-                    )}
-                    key={i}
-                    onClick={() =>
-                      setSelectedSlots((prev) =>
-                        prev.some((s) => s.id === slot.id)
-                          ? prev.filter((s) => s.id !== slot.id)
-                          : [...prev, slot]
-                      )
-                    }
-                  >
-                    {format(slot.start, "p")} to {format(slot.end, "p")}
-                  </span>
-                ))}
+          <div>
+            {dateWiseFilteredArray.map((d) => (
+              <div key={d.date} className="my-2">
+                <strong>{format(d.slots[0].start, "PP")}</strong>
+                <div className="flex flex-wrap gap-x-2 mt-3">
+                  {d.slots.map((slot, i) => (
+                    <span
+                      className={cn(
+                        "rounded-lg cursor-pointer px-2",
+                        selectedSlots.some((s) => slot.id === s.id)
+                          ? "bg-orange-800"
+                          : theme_border + hover_style
+                      )}
+                      key={i}
+                      onClick={() =>
+                        setSelectedSlots((prev) =>
+                          prev.some((s) => s.id === slot.id)
+                            ? prev.filter((s) => s.id !== slot.id)
+                            : [...prev, slot]
+                        )
+                      }
+                    >
+                      {format(slot.start, "p")} to {format(slot.end, "p")}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-          <span
-            className={cn(
-              "bg-orange-800 px-2 rounded-lg hover:bg-orange-800/60 select-none my-2",
-              smooth_hover
-            )}
-          >
-            Request
-          </span>
+            ))}
+          </div>
+          <div className="flex justify-end w-full">
+            <span
+              className={cn(
+                "bg-orange-800 px-2 rounded-lg hover:bg-orange-800/60 select-none my-2",
+                smooth_hover
+              )}
+              onClick={handleSlotRequest}
+            >
+              Request
+            </span>
+          </div>
         </div>
       )}
     </div>
