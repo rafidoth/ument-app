@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { hover_style, smooth_hover, theme_border } from "./CustomStyles";
 import { getMentorPersonalInfo } from "../lib/fetchers/mentor";
 import Image from "next/image";
-import { sendSlotRequest } from "../lib/mutations/student";
+import { useRouter } from "next/navigation";
 
 type Props = {
   sessionDetails: SessionInfoType;
@@ -19,12 +19,13 @@ type Props = {
 
 const MentorScheduleForStudent = (props: Props) => {
   const mid = props.sessionDetails.mentorId;
-  const [selectedSlots, setSelectedSlots] = useState<AvalabilityType[]>([]);
+  const [selectedSlot, setSelectedSlot] = useState<AvalabilityType | null>();
   const [mentorFreeSlots, setMentorFreeSlots] = useState<AvalabilityType[]>([]);
   const [mentorInfo, setMentorInfo] = useState<MentorPersonalInfoType | null>(
     null
   );
   const { sessionDetails } = props;
+  const router = useRouter();
 
   const dateWiseFiltered = new Map<number, AvalabilityType[]>();
   mentorFreeSlots.forEach((fslot) => {
@@ -71,8 +72,8 @@ const MentorScheduleForStudent = (props: Props) => {
   });
   console.log(sessionDetails.DurationInMinutes);
 
-  const handleSlotRequest = async () => {
-    await sendSlotRequest(sessionDetails.mentorId, selectedSlots);
+  const goToPayment = () => {
+    router.replace(`/s/payment`);
   };
 
   useEffect(() => {
@@ -114,18 +115,12 @@ const MentorScheduleForStudent = (props: Props) => {
                     <span
                       className={cn(
                         "rounded-lg cursor-pointer px-2",
-                        selectedSlots.some((s) => slot.id === s.id)
+                        selectedSlot?.id === slot.id
                           ? "bg-orange-800"
                           : theme_border + hover_style
                       )}
                       key={i}
-                      onClick={() =>
-                        setSelectedSlots((prev) =>
-                          prev.some((s) => s.id === slot.id)
-                            ? prev.filter((s) => s.id !== slot.id)
-                            : [...prev, slot]
-                        )
-                      }
+                      onClick={() => setSelectedSlot(slot)}
                     >
                       {format(slot.start, "p")} to {format(slot.end, "p")}
                     </span>
@@ -140,9 +135,9 @@ const MentorScheduleForStudent = (props: Props) => {
                 "bg-orange-800 px-2 rounded-lg hover:bg-orange-800/60 select-none my-2",
                 smooth_hover
               )}
-              onClick={handleSlotRequest}
+              onClick={goToPayment}
             >
-              Request
+              Book
             </span>
           </div>
         </div>

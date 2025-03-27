@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { MentorSuggestionType } from "../types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,6 +6,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { jakarta } from "../utils/font";
 import { getLevelColor } from "../utils/LevelColor";
+import { useRouter } from "next/navigation";
 
 type Props = {
   MentorDetails: MentorSuggestionType;
@@ -12,9 +14,16 @@ type Props = {
 
 const MentorShowCard = (props: Props) => {
   const { MentorDetails } = props;
+  const router = useRouter();
   console.log(MentorDetails);
+  const handleMentorCardClick = () => {
+    router.replace(`/s/mprofile/${MentorDetails.mentorId}`);
+  };
   return (
-    <Card className="w-[300px] border-none select-none hover:bg-orange-800/10 ">
+    <Card
+      className="w-[300px] border-none select-none hover:bg-orange-800/30 "
+      onClick={handleMentorCardClick}
+    >
       <CardHeader className="flex justify-center">
         <div className="flex gap-x-2">
           <Image
@@ -36,14 +45,14 @@ const MentorShowCard = (props: Props) => {
               {MentorDetails.level.toUpperCase()}
             </span>
 
-            <CardTitle className="text-4xl">{MentorDetails.name}</CardTitle>
+            <CardTitle className="text-2xl">{MentorDetails.name}</CardTitle>
           </div>
         </div>
-        <span className="text-xl">{MentorDetails.organization}</span>
+        <span className="text-md">{MentorDetails.organization}</span>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col ">
-          <span className="my-2 text-xl font-semibold">
+          <span className="my-2 text-md font-semibold">
             {MentorDetails.bio}
           </span>
           <div className="flex gap-x-2 text-md ">

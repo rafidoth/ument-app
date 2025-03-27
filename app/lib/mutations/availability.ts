@@ -7,6 +7,7 @@ export async function addAvailability(start: Date, end: Date) {
     body: {
       startTime: start,
       endTime: end,
+      //online / offline
     },
     auth: true,
   };

@@ -28,7 +28,7 @@ const page = async () => {
         </div>
       </div>
       <div className={cn("w-[1500px] flex flex-col gap-y-5")}>
-        <span className={cn(jakarta.className, " text-5xl font-semibold")}>
+        <span className={cn(jakarta.className, " text-4xl font-semibold")}>
           Mentors with Similar Interest
         </span>
         <ScrollArea>
@@ -41,7 +41,7 @@ const page = async () => {
         </ScrollArea>
       </div>
       <div className={cn("w-[1500px] flex flex-col gap-y-5")}>
-        <span className={cn(jakarta.className, " text-5xl font-semibold")}>
+        <span className={cn(jakarta.className, " text-4xl font-semibold")}>
           Top Rated Mentors
         </span>
         <ScrollArea>

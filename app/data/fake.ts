@@ -40,7 +40,7 @@ export const FakeMentorInfo = {
 // ];
 export const FakeMentorList: MentorSuggestionType[] = [
   {
-    mentorId: "fakeMentor1",
+    mentorId: "fakeMentorId",
     name: "John Doe",
     organization: "United International University",
     profile_pic: "https://i.pravatar.cc/300?img=8",
@@ -50,7 +50,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 25,
   },
   {
-    mentorId: "fakeMentor2",
+    mentorId: "fakeMentorId",
     name: "Jane Smith",
     organization: "United International University",
     profile_pic: "https://i.pravatar.cc/300?img=7",
@@ -60,7 +60,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 18,
   },
   {
-    mentorId: "fakeMentor3",
+    mentorId: "fakeMentorId",
     name: "Alice Johnson",
     organization: "United International University",
     profile_pic: "https://i.pravatar.cc/300?img=1",
@@ -70,7 +70,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 30,
   },
   {
-    mentorId: "fakeMentor4",
+    mentorId: "fakeMentorId",
     name: "Bob Brown",
     organization: "CyberTech Solutions",
     profile_pic: "https://i.pravatar.cc/300?img=2",
@@ -80,7 +80,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 15,
   },
   {
-    mentorId: "fakeMentor5",
+    mentorId: "fakeMentorId",
     name: "Charlie Davis",
     organization: "United International University",
     profile_pic: "https://i.pravatar.cc/300?img=3",
@@ -90,7 +90,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 20,
   },
   {
-    mentorId: "fakeMentor6",
+    mentorId: "fakeMentorId",
     name: "Diana Evans",
     organization: "Creative Design Studio",
     profile_pic: "https://i.pravatar.cc/300?img=4",
@@ -100,7 +100,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 22,
   },
   {
-    mentorId: "fakeMentor7",
+    mentorId: "fakeMentorId",
     name: "Ethan Foster",
     organization: "United International University",
     profile_pic: "https://i.pravatar.cc/300?img=5",
@@ -110,7 +110,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 35,
   },
   {
-    mentorId: "fakeMentor8",
+    mentorId: "fakeMentorId",
     name: "Fiona Green",
     organization: "United International University",
     profile_pic: "https://i.pravatar.cc/300?img=6",
@@ -120,7 +120,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 12,
   },
   {
-    mentorId: "fakeMentor9",
+    mentorId: "fakeMentorId",
     name: "George Harris",
     organization: "Data Insights Inc.",
     profile_pic: "https://i.pravatar.cc/300?img=9",
@@ -130,7 +130,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 19,
   },
   {
-    mentorId: "fakeMentor10",
+    mentorId: "fakeMentorId",
     name: "Hannah White",
     organization: "United International University",
     profile_pic: "https://i.pravatar.cc/300?img=10",
@@ -140,7 +140,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 28,
   },
   {
-    mentorId: "fakeMentor11",
+    mentorId: "fakeMentorId",
     name: "Ian King",
     organization: "Cloud Innovators",
     profile_pic: "https://i.pravatar.cc/300?img=11",
@@ -150,7 +150,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 16,
   },
   {
-    mentorId: "fakeMentor12",
+    mentorId: "fakeMentorId",
     name: "Jessica Lee",
     organization: "United International University",
     profile_pic: "https://i.pravatar.cc/300?img=12",
@@ -160,7 +160,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 24,
   },
   {
-    mentorId: "fakeMentor13",
+    mentorId: "fakeMentorId",
     name: "Kevin Martinez",
     organization: "United International University",
     profile_pic: "https://i.pravatar.cc/300?img=13",
@@ -170,7 +170,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 21,
   },
   {
-    mentorId: "fakeMentor14",
+    mentorId: "fakeMentorId",
     name: "Laura Nelson",
     organization: "United International University",
     profile_pic: "https://i.pravatar.cc/300?img=14",
@@ -180,7 +180,7 @@ export const FakeMentorList: MentorSuggestionType[] = [
     review_count: 33,
   },
   {
-    mentorId: "fakeMentor15",
+    mentorId: "fakeMentorId",
     name: "Michael Scott",
     organization: "Marketing Gurus Ltd.",
     profile_pic: "https://i.pravatar.cc/300?img=15",
