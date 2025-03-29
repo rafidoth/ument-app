@@ -236,10 +236,23 @@ export const getFakeSessionsForStudent = (
     Price: 500,
   };
 };
+export const fakeSingleSessionInfo = {
+  sessionId: "fakeSessionId",
+  mentorId: "fakeMentorId",
+  mentorName: "S Rafiul Hasan",
+  mentorImageLink:
+    "https://avatars.githubusercontent.com/u/67283985?s=400&u=785ba4e71821a24fee9df89190cbfab208e72dd3&v=4",
+  type: "Course Topic Tution",
+  title: "Physics Mid term preparation",
+  DurationInMinutes: 120,
+  session_medium: ["Online", "Offline"],
+  Description: `Previous two trimester question solving live and 1 set Practice Question with solution`,
+  Price: 500,
+};
 
 export const fakeSessionsSuggestionStudentDashboard = [
   {
-    sessionId: randomUUID(),
+    sessionId: "fakeSessionId",
     mentorId: "fakeMentorId",
     mentorName: "S Rafiul Hasan",
     mentorImageLink:
@@ -252,7 +265,7 @@ export const fakeSessionsSuggestionStudentDashboard = [
     Price: 500,
   },
   {
-    sessionId: randomUUID(),
+    sessionId: "fakeSessionId",
     mentorId: "fakeMentor1",
     mentorName: "John Doe",
     mentorImageLink: "https://i.pravatar.cc/300?img=1",
@@ -264,7 +277,7 @@ export const fakeSessionsSuggestionStudentDashboard = [
     Price: 500,
   },
   {
-    sessionId: randomUUID(),
+    sessionId: "fakeSessionId",
     mentorId: "fakeMentor2",
     mentorName: "Jane Smith",
     mentorImageLink: "https://i.pravatar.cc/300?img=2",
@@ -276,7 +289,7 @@ export const fakeSessionsSuggestionStudentDashboard = [
     Price: 500,
   },
   {
-    sessionId: randomUUID(),
+    sessionId: "fakeSessionId",
     mentorId: "fakeMentor3",
     mentorName: "Alice Johnson",
     mentorImageLink: "https://i.pravatar.cc/300?img=3",
@@ -288,7 +301,7 @@ export const fakeSessionsSuggestionStudentDashboard = [
     Price: 500,
   },
   {
-    sessionId: randomUUID(),
+    sessionId: "fakeSessionId",
     mentorId: "fakeMentor4",
     mentorName: "Bob Brown",
     mentorImageLink: "https://i.pravatar.cc/300?img=4",
@@ -300,7 +313,7 @@ export const fakeSessionsSuggestionStudentDashboard = [
     Price: 500,
   },
   {
-    sessionId: randomUUID(),
+    sessionId: "fakeSessionId",
     mentorId: "fakeMentor5",
     mentorName: "Charlie Davis",
     mentorImageLink: "https://i.pravatar.cc/300?img=5",
@@ -312,7 +325,7 @@ export const fakeSessionsSuggestionStudentDashboard = [
     Price: 500,
   },
   {
-    sessionId: randomUUID(),
+    sessionId: "fakeSessionId",
     mentorId: "fakeMentor6",
     mentorName: "Diana Evans",
     mentorImageLink: "https://i.pravatar.cc/300?img=6",
@@ -324,7 +337,7 @@ export const fakeSessionsSuggestionStudentDashboard = [
     Price: 500,
   },
   {
-    sessionId: randomUUID(),
+    sessionId: "fakeSessionId",
     mentorId: "fakeMentor7",
     mentorName: "Ethan Foster",
     mentorImageLink: "https://i.pravatar.cc/300?img=7",
@@ -336,7 +349,7 @@ export const fakeSessionsSuggestionStudentDashboard = [
     Price: 500,
   },
   {
-    sessionId: randomUUID(),
+    sessionId: "fakeSessionId",
     mentorId: "fakeMentor8",
     mentorName: "Fiona Green",
     mentorImageLink: "https://i.pravatar.cc/300?img=8",
@@ -348,7 +361,7 @@ export const fakeSessionsSuggestionStudentDashboard = [
     Price: 500,
   },
   {
-    sessionId: randomUUID(),
+    sessionId: "fakeSessionId",
     mentorId: "fakeMentor9",
     mentorName: "George Harris",
     mentorImageLink: "https://i.pravatar.cc/300?img=9",
@@ -360,7 +373,7 @@ export const fakeSessionsSuggestionStudentDashboard = [
     Price: 500,
   },
   {
-    sessionId: randomUUID(),
+    sessionId: "fakeSessionId",
     mentorId: "fakeMentor10",
     mentorName: "Hannah White",
     mentorImageLink: "https://i.pravatar.cc/300?img=10",
@@ -372,63 +385,68 @@ export const fakeSessionsSuggestionStudentDashboard = [
     Price: 500,
   },
 ];
-
 export const mentorAvailableAt = [
   {
-    id: 1,
+    id: "fakeId1",
     start: new Date("2025-03-25T09:43:44.000Z"),
     end: new Date("2025-03-25T11:15:44.000Z"),
     booked: false,
   },
   {
-    id: 2,
+    id: "fakeId2",
     start: new Date("2025-03-28T10:20:44.000Z"),
     end: new Date("2025-03-28T12:00:44.000Z"),
     booked: false,
   },
   {
-    id: 3,
+    id: "fakeId3",
     start: new Date("2025-03-26T08:00:44.000Z"),
     end: new Date("2025-03-26T10:00:44.000Z"),
     booked: false,
   },
   {
-    id: 4,
+    id: "fakeId4",
     start: new Date("2025-03-25T12:30:00.000Z"),
     end: new Date("2025-03-25T14:00:00.000Z"),
     booked: false,
   },
   {
-    id: 5,
+    id: "fakeId5",
     start: new Date("2025-03-28T14:30:00.000Z"),
     end: new Date("2025-03-28T16:00:00.000Z"),
     booked: false,
   },
   {
-    id: 6,
+    id: "fakeId6",
     start: new Date("2025-03-26T11:00:00.000Z"),
     end: new Date("2025-03-26T12:30:00.000Z"),
     booked: false,
   },
   {
-    id: 7,
+    id: "fakeId7",
     start: new Date("2025-03-25T15:00:00.000Z"),
     end: new Date("2025-03-25T17:30:00.000Z"),
     booked: false,
   },
   {
-    id: 8,
+    id: "fakeid8",
     start: new Date("2025-03-28T16:30:00.000Z"),
     end: new Date("2025-03-28T19:00:00.000Z"),
     booked: false,
   },
   {
-    id: 9,
+    id: "fakeid9",
     start: new Date("2025-03-26T13:00:00.000Z"),
     end: new Date("2025-03-26T15:30:00.000Z"),
     booked: false,
   },
 ];
+export const fakeSingleMentorAvailability = {
+  id: "fakeid9",
+  start: new Date("2025-03-26T13:00:00.000Z"),
+  end: new Date("2025-03-26T15:30:00.000Z"),
+  booked: false,
+};
 
 export const fakeAvailabilities = [
   {

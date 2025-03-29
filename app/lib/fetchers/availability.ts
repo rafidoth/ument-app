@@ -1,4 +1,6 @@
 import { apiRequest, ApiRequestType } from "../apiClient";
+import { getSessionBySessionID } from "./sessions";
+import { getMentorAvailabliltyById } from "./student";
 
 export async function getAvailabilities() {
   const req: ApiRequestType = {
@@ -13,4 +15,13 @@ export async function getAvailabilities() {
     throw new Error("Availability fetching error");
   }
   return res.data;
+}
+
+export async function getSessionAndAvailabilityByIds(sId: string, aId: string) {
+  const session = await getSessionBySessionID(sId);
+  const freeslot = await getMentorAvailabliltyById(aId);
+  return {
+    session,
+    freeslot,
+  };
 }

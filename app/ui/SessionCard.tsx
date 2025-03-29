@@ -24,9 +24,10 @@ import MentorScheduleForStudent from "./MentorScheduleForStudent";
 type Props = {
   sessionDetails: SessionInfoType;
   student: boolean;
+  checkoutpage?: boolean;
 };
 
-const SessionCard = ({ sessionDetails, student }: Props) => {
+const SessionCard = ({ sessionDetails, student, checkoutpage }: Props) => {
   return (
     <Card className="w-[350px] my-5 text-lg border-none bg-zinc-900/50">
       <CardHeader>
@@ -84,16 +85,18 @@ const SessionCard = ({ sessionDetails, student }: Props) => {
         <CardFooter className="flex justify-end gap-2">
           <Popover>
             <PopoverTrigger>
-              <span
-                className={cn(
-                  theme_border,
-                  hover_style,
-                  smooth_hover,
-                  "px-4 cursor-pointer"
-                )}
-              >
-                Book Session
-              </span>
+              {!checkoutpage && (
+                <span
+                  className={cn(
+                    theme_border,
+                    hover_style,
+                    smooth_hover,
+                    "px-4 cursor-pointer"
+                  )}
+                >
+                  Book Session
+                </span>
+              )}
             </PopoverTrigger>
             <PopoverContent className="w-[400px]">
               <MentorScheduleForStudent sessionDetails={sessionDetails} />

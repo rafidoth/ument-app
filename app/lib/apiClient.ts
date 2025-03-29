@@ -7,6 +7,8 @@ import {
   FakeMentorInfo,
   FakeMentorList,
   fakeSessionsSuggestionStudentDashboard,
+  fakeSingleMentorAvailability,
+  fakeSingleSessionInfo,
   FakeStudentInfo,
   getFakeSessionInfo,
   mentorAvailableAt,
@@ -110,6 +112,11 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
         getFakeSessionInfo("OOP Midterm Question Solve Session"),
       ],
     };
+  } else if (endpoint === "api/student/sessions/fakeSessionId") {
+    return {
+      success: true,
+      data: fakeSingleSessionInfo,
+    };
   } else if (endpoint === "api/student/sessions") {
     return {
       success: true,
@@ -142,6 +149,11 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
       arr.sort(() => Math.random() - 0.5);
     console.log(shuffled);
     return { success: true, data: shuffled(cpy) };
+  } else if (endpoint === `api/student/mavaliableat/fakeid8`) {
+    return {
+      success: true,
+      data: fakeSingleMentorAvailability,
+    };
   } else {
     return { success: false, message: "Unknown endpoint" };
   }

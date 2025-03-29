@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { jakarta } from "../utils/font";
 import { getLevelColor } from "../utils/LevelColor";
 import { useRouter } from "next/navigation";
+import { smooth_hover } from "./CustomStyles";
 
 type Props = {
   MentorDetails: MentorSuggestionType;
@@ -21,7 +22,10 @@ const MentorShowCard = (props: Props) => {
   };
   return (
     <Card
-      className="w-[300px] border-none select-none hover:bg-orange-800/30 "
+      className={cn(
+        "w-[300px] border-none select-none bg-zinc-800/30 hover:bg-zinc-800/70",
+        smooth_hover
+      )}
       onClick={handleMentorCardClick}
     >
       <CardHeader className="flex justify-center">
@@ -44,8 +48,7 @@ const MentorShowCard = (props: Props) => {
             >
               {MentorDetails.level.toUpperCase()}
             </span>
-
-            <CardTitle className="text-2xl">{MentorDetails.name}</CardTitle>
+            <CardTitle className="text-4xl">{MentorDetails.name}</CardTitle>
           </div>
         </div>
         <span className="text-md">{MentorDetails.organization}</span>

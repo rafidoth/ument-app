@@ -3,6 +3,7 @@ import {
   getMentorBasedOnLevel,
 } from "@/app/lib/fetchers/student";
 import { MentorSuggestionType } from "@/app/types";
+import { gradientText1 } from "@/app/ui/CustomStyles";
 import MentorShowCard from "@/app/ui/MentorShowCard";
 import { jakarta } from "@/app/utils/font";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -21,13 +22,14 @@ const page = async () => {
           className={cn(
             "font-semibold text-5xl  px-2 pb-2 my-6 z-10 ",
             jakarta.className,
-            "border-b-2 border-orange-800"
+            "border-b-2 border-orange-800",
+            gradientText1
           )}
         >
           Find Mentor
         </div>
       </div>
-      <div className={cn("w-[1500px] flex flex-col gap-y-5")}>
+      <div className={cn("w-[1500px] flex flex-col gap-y-5 mb-10")}>
         <span className={cn(jakarta.className, " text-4xl font-semibold")}>
           Mentors with Similar Interest
         </span>

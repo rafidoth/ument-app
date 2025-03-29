@@ -4,6 +4,7 @@ import Toggler from "./Toggler";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { hover_style, smooth_hover, theme_style } from "./CustomStyles";
+import { usePathname } from "next/navigation";
 
 type Props = {
   SidebarElements: {
@@ -20,6 +21,7 @@ type Props = {
 
 const Sidebar = ({ SidebarElements, SidebarTopNavigationButtons }: Props) => {
   const [selected, setSelected] = React.useState<string>("");
+  const thisurl = usePathname();
   return (
     <div className="w-[300px] border-r h-screen flex flex-col ">
       <Toggler
@@ -37,7 +39,7 @@ const Sidebar = ({ SidebarElements, SidebarTopNavigationButtons }: Props) => {
             <div
               className={cn(
                 "flex items-center gap-x-2 py-2 px-6 cursor-pointer text-lg",
-                selected === element.name ? theme_style : hover_style,
+                thisurl === element.url ? theme_style : hover_style,
                 "rounded-xl",
                 smooth_hover
               )}

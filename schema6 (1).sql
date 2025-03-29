@@ -125,10 +125,12 @@
 
     CREATE TABLE Mentor_Availability (
         availability_id CHAR(36) DEFAULT (UUID()) NOT NULL,
+    
         -- session_id CHAR(36) NOT NULL,(delete)
         -- available_date DATE NOT NULL,(delete)
         --
         -- newwwwwwww
+        -- mentorID(fk)
         -- start_time
         -- end_time
         -- medium(online/offline)

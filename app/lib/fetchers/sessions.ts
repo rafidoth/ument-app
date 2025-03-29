@@ -28,3 +28,17 @@ export async function getSessionsStudent() {
   const data: SessionInfoType[] = res.data;
   return data;
 }
+
+export async function getSessionBySessionID(sID: string) {
+  const req: ApiRequestType = {
+    endpoint: `api/student/sessions/${sID}`,
+    method: "GET",
+    auth: false,
+  };
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error(`Failed to fetch session with id ${sID}`);
+  }
+  const data: SessionInfoType = res.data;
+  return data;
+}

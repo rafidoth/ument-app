@@ -1,5 +1,6 @@
 import { getSessionsStudent } from "@/app/lib/fetchers/sessions";
 import { SessionInfoType } from "@/app/types";
+import { gradientText1 } from "@/app/ui/CustomStyles";
 import SessionCard from "@/app/ui/SessionCard";
 import { jakarta } from "@/app/utils/font";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -15,7 +16,8 @@ const SessionsPage = async () => {
           className={cn(
             "font-semibold text-5xl  px-2 pb-2 my-6 z-10 ",
             jakarta.className,
-            "border-b-2 border-orange-800"
+            "border-b-2 border-orange-800",
+            gradientText1
           )}
         >
           1:1 Sessions

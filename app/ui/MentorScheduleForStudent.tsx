@@ -70,10 +70,11 @@ const MentorScheduleForStudent = (props: Props) => {
       });
     }
   });
-  console.log(sessionDetails.DurationInMinutes);
 
   const goToPayment = () => {
-    router.replace(`/s/payment`);
+    router.replace(
+      `/s/payment?s=${sessionDetails.sessionId}&a=${selectedSlot?.id}`
+    );
   };
 
   useEffect(() => {
