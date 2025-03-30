@@ -1,69 +1,15 @@
 "use client";
+import { getGroupSessionsList } from "@/app/lib/student/fetchers";
+import { GroupSessionInfoType } from "@/app/types";
 import { smooth_hover } from "@/app/ui/CustomStyles";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { Clock, Hourglass } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
-const fakeGroupSessionInfos = [
-  {
-    id: "fakeGSession",
-    Title: "Golang Zero to One",
-    Description: "Group session description",
-    DurationInMinutes: 120,
-    mentorId: "fakeMentorId",
-    mentorName: "S Rafiul Hasan",
-    mentorPhotoLink:
-      "https://avatars.githubusercontent.com/u/67283985?s=400&u=785ba4e71821a24fee9df89190cbfab208e72dd3&v=4",
-    participantCount: 37,
-    participantTotal: 40,
-  },
-  {
-    id: "fakeGSession2",
-    Title: "React for Beginners",
-    Description: "Learn the basics of React.js",
-    DurationInMinutes: 90,
-    mentorId: "fakeMentorId2",
-    mentorName: "John Doe",
-    mentorPhotoLink: "https://i.pravatar.cc/150?img=1",
-    participantCount: 25,
-    participantTotal: 30,
-  },
-  {
-    id: "fakeGSession3",
-    Title: "Advanced TypeScript",
-    Description: "Deep dive into TypeScript features",
-    DurationInMinutes: 150,
-    mentorId: "fakeMentorId3",
-    mentorName: "Jane Smith",
-    mentorPhotoLink: "https://i.pravatar.cc/150?img=2",
-    participantCount: 18,
-    participantTotal: 20,
-  },
-  {
-    id: "fakeGSession4",
-    Title: "Python for Data Science",
-    Description: "Explore Python libraries for data analysis",
-    DurationInMinutes: 120,
-    mentorId: "fakeMentorId4",
-    mentorName: "Alice Johnson",
-    mentorPhotoLink: "https://i.pravatar.cc/150?img=3",
-    participantCount: 35,
-    participantTotal: 40,
-  },
-  {
-    id: "fakeGSession5",
-    Title: "Introduction to Machine Learning",
-    Description: "Understand the basics of ML algorithms",
-    DurationInMinutes: 180,
-    mentorId: "fakeMentorId5",
-    mentorName: "Bob Brown",
-    mentorPhotoLink: "https://i.pravatar.cc/150?img=4",
-    participantCount: 20,
-    participantTotal: 25,
-  },
-];
+import React, { useEffect, useState } from "react";
 const colors = [
   {
     bg: "bg-orange-800",
@@ -99,26 +45,51 @@ const colors = [
   },
 ];
 
-type Props = {};
+export const minutesToHours = (minutes: number) => {
+  const hours: number = Math.floor(minutes / 60);
+  const remain = minutes % 60;
+  if (remain > 0) {
+    return `${hours} hours ${remain} minutes`;
+  } else {
+    return `${hours} hours`;
+  }
+};
 
-const GroupSessionPage = (props: Props) => {
+const GroupSessionPage = () => {
+  const [gsInfo, setGsInfo] = useState<GroupSessionInfoType[] | null>(null);
+  useEffect(() => {
+    const fn = async () => {
+      const data: GroupSessionInfoType[] = await getGroupSessionsList();
+      setGsInfo(data);
+    };
+    fn();
+  }, []);
   return (
     <ScrollArea className="h-screen">
       <div className="p-16 flex flex-wrap gap-10">
-        {fakeGroupSessionInfos.map((grpSession, i) => (
-          <GroupSessionCard
-            key={grpSession.id}
-            GroupSessionDetails={grpSession}
-            ColorTheme={colors[i % colors.length]}
-          />
-        ))}
+        {gsInfo &&
+          gsInfo.map((grpSession, i) => (
+            <GroupSessionCard
+              key={grpSession.id}
+              GroupSessionDetails={grpSession}
+              ColorTheme={colors[i % colors.length]}
+            />
+          ))}
       </div>
       <ScrollBar orientation="vertical" />
     </ScrollArea>
   );
 };
 
-const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }) => {
+type Props = {
+  GroupSessionDetails: GroupSessionInfoType;
+  ColorTheme: {
+    bg: string;
+    text: string;
+  };
+};
+
+const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }: Props) => {
   const router = useRouter();
   const handleGSClick = () => {
     router.replace(
@@ -127,7 +98,10 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }) => {
   };
   return (
     <Card
-      className={cn(" w-[700px] hover:opacity-90 select-none", ColorTheme.bg)}
+      className={cn(
+        "w-[700px] hover:opacity-90 select-none border-none",
+        ColorTheme.bg
+      )}
       onClick={handleGSClick}
     >
       <CardHeader>
@@ -150,7 +124,17 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }) => {
         <CardTitle className={cn("text-8xl font-black ", ColorTheme.text)}>
           {GroupSessionDetails.Title}
         </CardTitle>
-        <div className="flex justify-end">
+        <div className="flex justify-between my-2">
+          <span className="flex  gap-x-4 font-semibold">
+            <span className="flex gap-x-2">
+              <Hourglass />
+              {minutesToHours(GroupSessionDetails.DurationInMinutes)}
+            </span>
+            <span className="flex gap-x-2">
+              <Clock />
+              {format(GroupSessionDetails.StartTime, "Pp")}
+            </span>
+          </span>
           <span
             className={cn(
               "font-semibold cursor-pointer hover:opacity-80",

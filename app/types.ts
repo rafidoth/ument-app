@@ -78,3 +78,16 @@ export type MentorPublicProfileType = {
   bio: string;
   interests: InterestType[];
 };
+
+export type GroupSessionInfoType = {
+  id: string;
+  Title: string;
+  Description: string;
+  DurationInMinutes: number;
+  StartTime: Date;
+  mentorId: string;
+  mentorName: string;
+  mentorPhotoLink: string;
+  participantCount: number;
+  participantTotal: number;
+};
