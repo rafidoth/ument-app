@@ -10,6 +10,11 @@ import { Clock, Hourglass } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 const colors = [
   {
     bg: "bg-orange-800",
@@ -109,30 +114,51 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }: Props) => {
           <div className="flex items-center gap-x-2 font-semibold">
             <Image
               className="rounded-full border-2 border-white"
-              src={GroupSessionDetails.mentorPhotoLink}
+              src={GroupSessionDetails.mentor.photoLink}
               alt="mentor image"
               width={50}
               height={50}
             />
-            <span>{GroupSessionDetails.mentorName}</span>
+            <span>{GroupSessionDetails.mentor.name}</span>
           </div>
-          <div>
-            {GroupSessionDetails.participantCount}/
-            {GroupSessionDetails.participantTotal}
+          <div className="flex items-center font-bold gap-x-2">
+            <div className="flex">
+              {GroupSessionDetails.previewParticipants.map((item, i) => {
+                return (
+                  <Tooltip key={i}>
+                    <TooltipTrigger className="-ml-2">
+                      <Image
+                        key={i}
+                        src={item.photoLink}
+                        alt="group session participants"
+                        width={40}
+                        height={40}
+                        className="rounded-full  border-2 border-white  "
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent>{item.name}</TooltipContent>
+                  </Tooltip>
+                );
+              })}
+            </div>
+            <div>
+              {GroupSessionDetails.participants.current}/
+              {GroupSessionDetails.participants.max}
+            </div>
           </div>
         </div>
         <CardTitle className={cn("text-8xl font-black ", ColorTheme.text)}>
-          {GroupSessionDetails.Title}
+          {GroupSessionDetails.title}
         </CardTitle>
         <div className="flex justify-between my-2">
           <span className="flex  gap-x-4 font-semibold">
             <span className="flex gap-x-2">
               <Hourglass />
-              {minutesToHours(GroupSessionDetails.DurationInMinutes)}
+              {minutesToHours(GroupSessionDetails.durationInMinutes)}
             </span>
             <span className="flex gap-x-2">
               <Clock />
-              {format(GroupSessionDetails.StartTime, "Pp")}
+              {format(GroupSessionDetails.startTime, "Pp")}
             </span>
           </span>
           <span

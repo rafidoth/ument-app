@@ -5,6 +5,7 @@ import { single_student_interests } from "../(student)/fake";
 import {
   fakeAvailabilities,
   fakeGroupSessionInfos,
+  fakeGroupSessionParticipants,
   FakeMentorInfo,
   FakeMentorList,
   fakeSessionsSuggestionStudentDashboard,
@@ -164,6 +165,11 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
     return {
       success: true,
       data: fakeGroupSessionInfos[0],
+    };
+  } else if (endpoint === `api/group-sessions/participantlist/gsid`) {
+    return {
+      success: true,
+      data: fakeGroupSessionParticipants,
     };
   } else {
     return { success: false, message: "Unknown endpoint" };

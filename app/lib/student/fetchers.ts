@@ -30,3 +30,23 @@ export async function getGroupSessionsById(gsid: string) {
   }
   return res.data;
 }
+
+export async function getGroupSessionParticipants(gsid: string) {
+  console.log(`Fetching participants for Group Session ID: ${gsid}`);
+  const req: ApiRequestType = {
+    endpoint: `api/group-sessions/participantlist/gsid`, // for testing its hardcoded, we have to change it later
+    method: "GET",
+    auth: true,
+  };
+
+  const res = await apiRequest(req);
+  console.log(res);
+
+  if (!res.success) {
+    throw new Error(
+      `Error fetching participants for Group Session ID: ${gsid}`
+    );
+  }
+
+  return res.data;
+}

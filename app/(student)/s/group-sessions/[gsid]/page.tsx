@@ -8,7 +8,6 @@ import React, { useEffect, useState } from "react";
 import { minutesToHours } from "../page";
 import { ChevronLeft, Clock, Hourglass } from "lucide-react";
 import { format } from "date-fns";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const GroupSessionPageIndividual = () => {
@@ -43,24 +42,24 @@ const GroupSessionPageIndividual = () => {
           <span className="flex  items-center font-semibold gap-x-2 ">
             <Image
               className="rounded-full border-2 border-white"
-              src={gsInfo.mentorPhotoLink}
+              src={gsInfo.mentor.photoLink}
               alt="mentor image"
               width={40}
               height={40}
             />
-            {gsInfo.mentorName}
+            {gsInfo.mentor.name}
           </span>
           <span className={cn(text, "text-9xl font-black ")}>
-            {gsInfo.Title}
+            {gsInfo.title}
           </span>
           <span className="flex  gap-x-4 font-semiboldi my-4">
             <span className="flex gap-x-2">
               <Hourglass />
-              {minutesToHours(gsInfo.DurationInMinutes)}
+              {minutesToHours(gsInfo.durationInMinutes)}
             </span>
             <span className="flex gap-x-2">
               <Clock />
-              {format(gsInfo.StartTime, "Pp")}
+              {format(gsInfo.startTime, "Pp")}
             </span>
           </span>
         </div>

@@ -81,13 +81,26 @@ export type MentorPublicProfileType = {
 
 export type GroupSessionInfoType = {
   id: string;
-  Title: string;
-  Description: string;
-  DurationInMinutes: number;
-  StartTime: Date;
-  mentorId: string;
-  mentorName: string;
-  mentorPhotoLink: string;
-  participantCount: number;
-  participantTotal: number;
+  title: string;
+  description: string;
+  durationInMinutes: number;
+  startTime: Date;
+  mentor: {
+    id: string;
+    name: string;
+    photoLink: string;
+  };
+  participants: {
+    current: number;
+    max: number;
+  };
+  previewParticipants: { id: string; name: string; photoLink: string }[];
+};
+
+export type GroupSessionParticipantInfo = {
+  id: string; // Unique participant ID
+  name: string; // Participant's name
+  photoLink: string; // URL of the participant's profile picture
+  joinedAt: string; // ISO string of when the participant joined the session
+  status: "registered" | "cancelled" | "completed" | "waiting";
 };

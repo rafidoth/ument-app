@@ -1,5 +1,10 @@
 import { randomUUID } from "crypto";
-import { MentorSuggestionType, SessionType } from "../types";
+import {
+  GroupSessionInfoType,
+  GroupSessionParticipantInfo,
+  MentorSuggestionType,
+  SessionType,
+} from "../types";
 
 export const FakeStudentInfo = {
   name: "S Rafiul Hasan",
@@ -749,67 +754,231 @@ export const All_Interests = [
     interest_name: "Writing & Blogging",
   },
 ];
-
-export const fakeGroupSessionInfos = [
+export const fakeGroupSessionInfos: GroupSessionInfoType[] = [
   {
     id: "fakeGSession",
-    Title: "Golang Zero to One",
-    Description: "Group session description",
-    DurationInMinutes: 120,
-    StartTime: new Date(),
-    mentorId: "fakeMentorId",
-    mentorName: "S Rafiul Hasan",
-    mentorPhotoLink:
-      "https://avatars.githubusercontent.com/u/67283985?s=400&u=785ba4e71821a24fee9df89190cbfab208e72dd3&v=4",
-    participantCount: 37,
-    participantTotal: 40,
+    title: "Golang Zero to One",
+    description: "Group session description",
+    durationInMinutes: 120,
+    startTime: new Date(),
+    mentor: {
+      id: "fakeMentorId",
+      name: "S Rafiul Hasan",
+      photoLink:
+        "https://avatars.githubusercontent.com/u/67283985?s=400&u=785ba4e71821a24fee9df89190cbfab208e72dd3&v=4",
+    },
+    participants: {
+      current: 37,
+      max: 40,
+    },
+    previewParticipants: [
+      { id: "p1", name: "Alice", photoLink: "https://i.pravatar.cc/150?img=5" },
+      { id: "p2", name: "Bob", photoLink: "https://i.pravatar.cc/150?img=6" },
+      {
+        id: "p3",
+        name: "Charlie",
+        photoLink: "https://i.pravatar.cc/150?img=7",
+      },
+      { id: "p4", name: "David", photoLink: "https://i.pravatar.cc/150?img=8" },
+      { id: "p5", name: "Eve", photoLink: "https://i.pravatar.cc/150?img=9" },
+    ],
   },
   {
     id: "fakeGSession2",
-    Title: "React for Beginners",
-    Description: "Learn the basics of React.js",
-    DurationInMinutes: 90,
-    StartTime: new Date(),
-    mentorId: "fakeMentorId2",
-    mentorName: "John Doe",
-    mentorPhotoLink: "https://i.pravatar.cc/150?img=1",
-    participantCount: 25,
-    participantTotal: 30,
+    title: "React for Beginners",
+    description: "Learn the basics of React.js",
+    durationInMinutes: 90,
+    startTime: new Date(),
+    mentor: {
+      id: "fakeMentorId2",
+      name: "John Doe",
+      photoLink: "https://i.pravatar.cc/150?img=1",
+    },
+    participants: {
+      current: 25,
+      max: 30,
+    },
+    previewParticipants: [
+      {
+        id: "p6",
+        name: "Frank",
+        photoLink: "https://i.pravatar.cc/150?img=10",
+      },
+      {
+        id: "p7",
+        name: "Grace",
+        photoLink: "https://i.pravatar.cc/150?img=11",
+      },
+      {
+        id: "p8",
+        name: "Henry",
+        photoLink: "https://i.pravatar.cc/150?img=12",
+      },
+      {
+        id: "p9",
+        name: "Isabel",
+        photoLink: "https://i.pravatar.cc/150?img=13",
+      },
+      {
+        id: "p10",
+        name: "Jack",
+        photoLink: "https://i.pravatar.cc/150?img=14",
+      },
+    ],
   },
   {
     id: "fakeGSession3",
-    Title: "Advanced TypeScript",
-    Description: "Deep dive into TypeScript features",
-    DurationInMinutes: 150,
-    StartTime: new Date(),
-    mentorId: "fakeMentorId3",
-    mentorName: "Jane Smith",
-    mentorPhotoLink: "https://i.pravatar.cc/150?img=2",
-    participantCount: 18,
-    participantTotal: 20,
+    title: "Advanced TypeScript",
+    description: "Deep dive into TypeScript features",
+    durationInMinutes: 150,
+    startTime: new Date(),
+    mentor: {
+      id: "fakeMentorId3",
+      name: "Jane Smith",
+      photoLink: "https://i.pravatar.cc/150?img=2",
+    },
+    participants: {
+      current: 18,
+      max: 20,
+    },
+    previewParticipants: [
+      {
+        id: "p11",
+        name: "Kate",
+        photoLink: "https://i.pravatar.cc/150?img=15",
+      },
+      { id: "p12", name: "Leo", photoLink: "https://i.pravatar.cc/150?img=16" },
+      { id: "p13", name: "Mia", photoLink: "https://i.pravatar.cc/150?img=17" },
+      {
+        id: "p14",
+        name: "Noah",
+        photoLink: "https://i.pravatar.cc/150?img=18",
+      },
+      {
+        id: "p15",
+        name: "Olivia",
+        photoLink: "https://i.pravatar.cc/150?img=19",
+      },
+    ],
   },
   {
     id: "fakeGSession4",
-    Title: "Python for Data Science",
-    Description: "Explore Python libraries for data analysis",
-    DurationInMinutes: 120,
-    StartTime: new Date(),
-    mentorId: "fakeMentorId4",
-    mentorName: "Alice Johnson",
-    mentorPhotoLink: "https://i.pravatar.cc/150?img=3",
-    participantCount: 35,
-    participantTotal: 40,
+    title: "Python for Data Science",
+    description: "Explore Python libraries for data analysis",
+    durationInMinutes: 120,
+    startTime: new Date(),
+    mentor: {
+      id: "fakeMentorId4",
+      name: "Alice Johnson",
+      photoLink: "https://i.pravatar.cc/150?img=3",
+    },
+    participants: {
+      current: 35,
+      max: 40,
+    },
+    previewParticipants: [
+      {
+        id: "p16",
+        name: "Paul",
+        photoLink: "https://i.pravatar.cc/150?img=20",
+      },
+      {
+        id: "p17",
+        name: "Quinn",
+        photoLink: "https://i.pravatar.cc/150?img=21",
+      },
+      {
+        id: "p18",
+        name: "Rachel",
+        photoLink: "https://i.pravatar.cc/150?img=22",
+      },
+      {
+        id: "p19",
+        name: "Steve",
+        photoLink: "https://i.pravatar.cc/150?img=23",
+      },
+      {
+        id: "p20",
+        name: "Tina",
+        photoLink: "https://i.pravatar.cc/150?img=24",
+      },
+    ],
   },
   {
     id: "fakeGSession5",
-    Title: "Introduction to Machine Learning",
-    Description: "Understand the basics of ML algorithms",
-    DurationInMinutes: 180,
-    StartTime: new Date(),
-    mentorId: "fakeMentorId5",
-    mentorName: "Bob Brown",
-    mentorPhotoLink: "https://i.pravatar.cc/150?img=4",
-    participantCount: 20,
-    participantTotal: 25,
+    title: "Introduction to Machine Learning",
+    description: "Understand the basics of ML algorithms",
+    durationInMinutes: 180,
+    startTime: new Date(),
+    mentor: {
+      id: "fakeMentorId5",
+      name: "Bob Brown",
+      photoLink: "https://i.pravatar.cc/150?img=4",
+    },
+    participants: {
+      current: 20,
+      max: 25,
+    },
+    previewParticipants: [
+      { id: "p21", name: "Uma", photoLink: "https://i.pravatar.cc/150?img=25" },
+      {
+        id: "p22",
+        name: "Victor",
+        photoLink: "https://i.pravatar.cc/150?img=26",
+      },
+      {
+        id: "p23",
+        name: "Wendy",
+        photoLink: "https://i.pravatar.cc/150?img=27",
+      },
+      {
+        id: "p24",
+        name: "Xander",
+        photoLink: "https://i.pravatar.cc/150?img=28",
+      },
+      {
+        id: "p25",
+        name: "Yvonne",
+        photoLink: "https://i.pravatar.cc/150?img=29",
+      },
+    ],
+  },
+];
+
+export const fakeGroupSessionParticipants: GroupSessionParticipantInfo[] = [
+  {
+    id: "participant1",
+    name: "Alice Johnson",
+    photoLink: "https://i.pravatar.cc/150?img=10",
+    joinedAt: new Date("2025-03-25T14:30:00Z").toISOString(),
+    status: "registered",
+  },
+  {
+    id: "participant2",
+    name: "Bob Smith",
+    photoLink: "https://i.pravatar.cc/150?img=11",
+    joinedAt: new Date("2025-03-26T09:15:00Z").toISOString(),
+    status: "completed",
+  },
+  {
+    id: "participant3",
+    name: "Charlie Brown",
+    photoLink: "https://i.pravatar.cc/150?img=12",
+    joinedAt: new Date("2025-03-27T16:45:00Z").toISOString(),
+    status: "cancelled",
+  },
+  {
+    id: "participant4",
+    name: "David Wilson",
+    photoLink: "https://i.pravatar.cc/150?img=13",
+    joinedAt: new Date("2025-03-28T08:00:00Z").toISOString(),
+    status: "registered",
+  },
+  {
+    id: "participant5",
+    name: "Emma Davis",
+    photoLink: "https://i.pravatar.cc/150?img=14",
+    joinedAt: new Date("2025-03-28T10:30:00Z").toISOString(),
+    status: "waiting",
   },
 ];

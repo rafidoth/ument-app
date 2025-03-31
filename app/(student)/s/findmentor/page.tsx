@@ -22,7 +22,7 @@ const page = async () => {
           className={cn(
             "font-semibold text-5xl  px-2 pb-2 my-6 z-10 ",
             jakarta.className,
-            "border-b-2 border-orange-800",
+            // "border-b-2 border-orange-800",
             gradientText1
           )}
         >
