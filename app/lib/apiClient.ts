@@ -156,20 +156,31 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
       success: true,
       data: fakeSingleMentorAvailability,
     };
-  } else if (endpoint === `api/student/groupseesions/`) {
+  } else if (endpoint === `api/groupsessions/`) {
     return {
       success: true,
       data: fakeGroupSessionInfos,
     };
-  } else if (endpoint === `api/student/groupseesions/gsid`) {
+  } else if (endpoint === `api/groupsessions/gsid`) {
     return {
       success: true,
       data: fakeGroupSessionInfos[0],
     };
-  } else if (endpoint === `api/group-sessions/participantlist/gsid`) {
+  } else if (endpoint === `api/groupsessions/participantlist/gsid`) {
     return {
       success: true,
       data: fakeGroupSessionParticipants,
+    };
+  } else if (endpoint === `api/groupsessions/join`) {
+    return {
+      success: true,
+      data: {
+        meetingLink: "https://meet.google.com/landing",
+      },
+    };
+  } else if (endpoint === `api/groupsessions/cancel`) {
+    return {
+      success: true,
     };
   } else {
     return { success: false, message: "Unknown endpoint" };

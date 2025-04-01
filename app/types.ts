@@ -102,6 +102,6 @@ export type GroupSessionParticipantInfo = {
   name: string;
   photoLink: string;
   email: string;
-  joinedAt: Date;
+  joinedAt: string;
   status: "registered" | "cancelled" | "completed" | "waiting";
 };
