@@ -1,6 +1,9 @@
 "use client";
-import { getGroupSessionsById } from "@/app/lib/student/fetchers";
-import { GroupSessionInfoType } from "@/app/types";
+import {
+  getGroupSessionParticipants,
+  getGroupSessionsById,
+} from "@/app/lib/student/fetchers";
+import { GroupSessionInfoType, GroupSessionParticipantInfo } from "@/app/types";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useParams, useSearchParams } from "next/navigation";
@@ -9,9 +12,21 @@ import { minutesToHours } from "../page";
 import { ChevronLeft, Clock, Hourglass } from "lucide-react";
 import { format } from "date-fns";
 import Link from "next/link";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { smooth_hover } from "@/app/ui/CustomStyles";
 
 const GroupSessionPageIndividual = () => {
   const [gsInfo, setGsInfo] = useState<GroupSessionInfoType | null>(null);
+  const [participants, setParticipants] = useState<
+    GroupSessionParticipantInfo[]
+  >([]);
   const params = useParams();
   const gsid = params.gsid as string;
   const searchParams = useSearchParams();
@@ -21,6 +36,9 @@ const GroupSessionPageIndividual = () => {
     const fn = async () => {
       const data: GroupSessionInfoType = await getGroupSessionsById(gsid);
       setGsInfo(data);
+      const p: GroupSessionParticipantInfo[] =
+        await getGroupSessionParticipants(gsid);
+      setParticipants(p);
     };
     fn();
   }, []);
@@ -62,8 +80,53 @@ const GroupSessionPageIndividual = () => {
               {format(gsInfo.startTime, "Pp")}
             </span>
           </span>
+          <span
+            className={cn(
+              "rounded-full border border-orange-500 px-2 hover:bg-orange-500 cursor-pointer",
+              smooth_hover
+            )}
+            onClick={() => {
+              console.log("hello world");
+            }}
+          >
+            {" "}
+            Book A Seat Now
+          </span>
         </div>
       )}
+      <div className="w flex justify-center">
+        <span>
+          <Table className="w-[1200px] my-10 text-lg p-2 rounded-xl  ">
+            <TableHeader className="p-10">
+              <TableRow>
+                <TableHead>Student</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>Registered At</TableHead>
+                <TableHead>Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            {participants.map((p, i) => (
+              <TableBody key={i}>
+                <TableRow>
+                  <TableCell className="flex  items-center gap-x-2 ">
+                    <Image
+                      className="rounded-full"
+                      src={p.photoLink}
+                      alt="participant image"
+                      width={40}
+                      height={40}
+                    />
+                    <span>{p.name}</span>
+                  </TableCell>
+                  <TableCell>{p.email}</TableCell>
+                  <TableCell>{format(p.joinedAt, "PPp")}</TableCell>
+                  <TableCell>{p.status}</TableCell>
+                </TableRow>
+              </TableBody>
+            ))}
+          </Table>
+        </span>
+      </div>
     </div>
   );
 };

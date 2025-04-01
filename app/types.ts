@@ -98,9 +98,10 @@ export type GroupSessionInfoType = {
 };
 
 export type GroupSessionParticipantInfo = {
-  id: string; // Unique participant ID
-  name: string; // Participant's name
-  photoLink: string; // URL of the participant's profile picture
-  joinedAt: string; // ISO string of when the participant joined the session
+  id: string;
+  name: string;
+  photoLink: string;
+  email: string;
+  joinedAt: Date;
   status: "registered" | "cancelled" | "completed" | "waiting";
 };

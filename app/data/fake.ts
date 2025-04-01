@@ -949,6 +949,7 @@ export const fakeGroupSessionParticipants: GroupSessionParticipantInfo[] = [
   {
     id: "participant1",
     name: "Alice Johnson",
+    email: "alice.johnson@example.com",
     photoLink: "https://i.pravatar.cc/150?img=10",
     joinedAt: new Date("2025-03-25T14:30:00Z").toISOString(),
     status: "registered",
@@ -956,6 +957,7 @@ export const fakeGroupSessionParticipants: GroupSessionParticipantInfo[] = [
   {
     id: "participant2",
     name: "Bob Smith",
+    email: "bob.smith@example.com",
     photoLink: "https://i.pravatar.cc/150?img=11",
     joinedAt: new Date("2025-03-26T09:15:00Z").toISOString(),
     status: "completed",
@@ -963,6 +965,7 @@ export const fakeGroupSessionParticipants: GroupSessionParticipantInfo[] = [
   {
     id: "participant3",
     name: "Charlie Brown",
+    email: "charlie.brown@example.com",
     photoLink: "https://i.pravatar.cc/150?img=12",
     joinedAt: new Date("2025-03-27T16:45:00Z").toISOString(),
     status: "cancelled",
@@ -970,6 +973,7 @@ export const fakeGroupSessionParticipants: GroupSessionParticipantInfo[] = [
   {
     id: "participant4",
     name: "David Wilson",
+    email: "david.wilson@example.com",
     photoLink: "https://i.pravatar.cc/150?img=13",
     joinedAt: new Date("2025-03-28T08:00:00Z").toISOString(),
     status: "registered",
@@ -977,6 +981,7 @@ export const fakeGroupSessionParticipants: GroupSessionParticipantInfo[] = [
   {
     id: "participant5",
     name: "Emma Davis",
+    email: "emma.davis@example.com",
     photoLink: "https://i.pravatar.cc/150?img=14",
     joinedAt: new Date("2025-03-28T10:30:00Z").toISOString(),
     status: "waiting",
