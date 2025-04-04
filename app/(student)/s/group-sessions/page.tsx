@@ -1,5 +1,5 @@
 "use client";
-import { getGroupSessionsList } from "@/app/lib/student/fetchers";
+import { getGroupSessionsList } from "@/app/lib/fetchers";
 import { GroupSessionInfoType } from "@/app/types";
 import { smooth_hover } from "@/app/ui/CustomStyles";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,45 +15,15 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-const colors = [
-  {
-    bg: "bg-orange-800",
-    text: "text-orange-500",
-  },
-  {
-    bg: "bg-blue-800",
-    text: "text-blue-500",
-  },
-  {
-    bg: "bg-green-800",
-    text: "text-green-500",
-  },
-  {
-    bg: "bg-red-800",
-    text: "text-red-500",
-  },
-  {
-    bg: "bg-purple-800",
-    text: "text-purple-500",
-  },
-  {
-    bg: "bg-yellow-800",
-    text: "text-yellow-500",
-  },
-  {
-    bg: "bg-teal-800",
-    text: "text-teal-500",
-  },
-  {
-    bg: "bg-pink-800",
-    text: "text-pink-500",
-  },
-];
+import { colors } from "@/app/ui/CustomStyles";
 
 export const minutesToHours = (minutes: number) => {
   const hours: number = Math.floor(minutes / 60);
   const remain = minutes % 60;
   if (remain > 0) {
+    if (hours === 0) {
+      return `${remain} minutes`;
+    }
     return `${hours} hours ${remain} minutes`;
   } else {
     return `${hours} hours`;

@@ -32,7 +32,7 @@ const SidebarElements = [
   {
     name: "Other Mentors",
     icon: <ChartScatter />,
-    url: "/m/reviews",
+    url: "/m/othermentors",
   },
   {
     name: "Reviews",

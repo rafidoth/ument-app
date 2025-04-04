@@ -182,6 +182,16 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
     return {
       success: true,
     };
+  } else if (endpoint === `api/groupsessions/mentor/fakeMentorId`) {
+    return {
+      success: true,
+      data: fakeGroupSessionInfos,
+    };
+  } else if (endpoint === `api/groupsessions/create`) {
+    return {
+      success: true,
+      data: fakeGroupSessionInfos[0],
+    };
   } else {
     return { success: false, message: "Unknown endpoint" };
   }

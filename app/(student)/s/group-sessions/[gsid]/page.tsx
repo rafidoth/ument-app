@@ -2,7 +2,7 @@
 import {
   getGroupSessionParticipants,
   getGroupSessionsById,
-} from "@/app/lib/student/fetchers";
+} from "@/app/lib/fetchers";
 import { GroupSessionInfoType, GroupSessionParticipantInfo } from "@/app/types";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -21,10 +21,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { smooth_hover } from "@/app/ui/CustomStyles";
-import {
-  cancelGroupSession,
-  joinGroupSession,
-} from "@/app/lib/student/mutations";
+import { cancelGroupSession, joinGroupSession } from "@/app/lib/mutations";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
   DialogClose,

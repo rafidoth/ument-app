@@ -1,6 +1,7 @@
 import { getMentorPublicProfile } from "@/app/lib/fetchers/mentor";
 import { MentorPublicProfileType } from "@/app/types";
 import MentorProfile from "@/app/ui/MentorProfile";
+
 type Props = { params: Promise<{ mentor_id: string }> };
 
 const page = async ({ params }: Props) => {

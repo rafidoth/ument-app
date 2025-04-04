@@ -1,4 +1,4 @@
-import { apiRequest, ApiRequestType } from "../apiClient";
+import { apiRequest, ApiRequestType } from "./apiClient";
 
 export async function getGroupSessionsList() {
   const req: ApiRequestType = {
@@ -48,5 +48,20 @@ export async function getGroupSessionParticipants(gsid: string) {
     );
   }
 
+  return res.data;
+}
+
+export async function getGroupSessionListByMentorId(mID: string) {
+  const req: ApiRequestType = {
+    endpoint: `api/groupsessions/mentor/${mID}`,
+    method: "GET",
+    auth: true,
+  };
+
+  const res = await apiRequest(req);
+  console.log(res);
+  if (!res.success) {
+    throw new Error("Error fetching Group Sessions List By Mentor ID");
+  }
   return res.data;
 }
