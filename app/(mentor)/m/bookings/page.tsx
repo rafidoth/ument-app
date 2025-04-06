@@ -1,5 +1,5 @@
 "use client";
-import { getAvailabilities } from "@/app/lib/fetchers/availability";
+import { getAvailabilities } from "@/app/lib/fetchers/mentor";
 import { AvalabilityType } from "@/app/types";
 import AddAvailabilityBooking from "@/app/ui/AddAvailabilityBooking";
 import CalendarMonthSwitcher from "@/app/ui/CalendarUI/CalendarMonthSwitcher";
@@ -8,7 +8,6 @@ import React, { useEffect, useState } from "react";
 
 const Bookings = () => {
   const [availabilities, setAvailabilities] = useState<AvalabilityType[]>([]);
-
   useEffect(() => {
     const fn = async () => {
       const res = await getAvailabilities();

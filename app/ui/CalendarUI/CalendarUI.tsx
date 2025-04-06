@@ -48,7 +48,7 @@ export default function CalendarUI(props: Props) {
     start: calendarStart,
     end: calendarEnd,
   });
-  console.log(calendarDays);
+  // console.log(calendarDays);
 
   const today = new Date();
 
@@ -119,18 +119,33 @@ export default function CalendarUI(props: Props) {
                           visibleAvailabilities.map(
                             (item, i) =>
                               isSameDay(item.start, calDate) && (
-                                <span
-                                  key={i}
-                                  className={cn(
-                                    "px-2 rounded-lg",
-                                    item.booked
-                                      ? "bg-orange-800"
-                                      : "bg-transparent border-2 border-orange-500"
-                                  )}
-                                >
-                                  {format(item.start, "p")} to{" "}
-                                  {format(item.end, "p")}
-                                </span>
+                                <Sheet key={i}>
+                                  <SheetTrigger>
+                                    <span
+                                      key={i}
+                                      className={cn(
+                                        "px-2 rounded-lg",
+                                        item.booked.length > 0
+                                          ? "bg-orange-800"
+                                          : "bg-transparent border-2 border-orange-500"
+                                      )}
+                                    >
+                                      {format(item.start, "p")} to{" "}
+                                      {format(item.end, "p")}
+                                    </span>
+                                  </SheetTrigger>
+                                  <SheetContent className="px-4">
+                                    <SheetTitle className="p-5"></SheetTitle>
+                                    <SessionDetailsSheet
+                                      bookedSession={{
+                                        session_type: "1:1",
+                                        sessionId: item.booked,
+                                        start: item.start,
+                                        end: item.end,
+                                      }}
+                                    />
+                                  </SheetContent>
+                                </Sheet>
                               )
                           )}
                         {visibleBookedSessions &&

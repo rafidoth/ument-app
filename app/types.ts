@@ -35,7 +35,7 @@ export type AvalabilityType = {
   id?: string;
   start: Date;
   end: Date;
-  booked: boolean;
+  booked: string;
 };
 
 export type SessionType =

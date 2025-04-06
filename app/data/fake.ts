@@ -458,19 +458,19 @@ export const fakeAvailabilities = [
     id: 1,
     start: new Date("2025-03-25T09:43:44.000Z"),
     end: new Date("2025-03-25T11:15:44.000Z"),
-    booked: true,
+    booked: "fakeSessionId",
   },
   {
     id: 2,
     start: new Date("2025-03-28T10:20:44.000Z"),
     end: new Date("2025-03-28T12:00:44.000Z"),
-    booked: false,
+    booked: "",
   },
   {
     id: 3,
     start: new Date("2025-03-26T08:00:44.000Z"),
     end: new Date("2025-03-26T10:00:44.000Z"),
-    booked: false,
+    booked: "",
   },
 ];
 

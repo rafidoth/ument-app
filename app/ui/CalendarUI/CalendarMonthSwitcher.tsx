@@ -2,8 +2,6 @@
 import React from "react";
 import { useCalendarContext } from "./CalendarContext";
 
-type Props = {};
-
 import { getMonth, addMonths, subMonths } from "date-fns";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -22,9 +20,10 @@ const months = [
   "December",
 ];
 
-const CalendarMonthSwitcher = (props: Props) => {
+const CalendarMonthSwitcher = () => {
   const { date, setDate } = useCalendarContext();
   const month = months[getMonth(date)];
+  const year = date.getFullYear();
 
   const goToPreviousMonth = () => {
     setDate(subMonths(date, 1));
@@ -36,8 +35,11 @@ const CalendarMonthSwitcher = (props: Props) => {
 
   return (
     <div>
-      <div className={cn(" h-[60px] flex flex-col")}>
-        <div className="flex bg-orange-800 rounded-lg">
+      <div className={cn("h-[60px] flex flex-col items-center justify-center")}>
+        {/* <span className="w-full flex justify-center text-4xl font-semibold">
+          {date.getDate()}
+        </span> */}
+        <div className="flex justify-evenly w-[140px] bg-orange-800 rounded-lg">
           <span className="hover:opacity-60" onClick={goToPreviousMonth}>
             <ChevronLeft />
           </span>
@@ -48,9 +50,7 @@ const CalendarMonthSwitcher = (props: Props) => {
             <ChevronRight />
           </span>
         </div>
-        <span className="w-full flex justify-center text-4xl font-semibold">
-          {date.getDate()}
-        </span>
+        <span className="font-semibold text-lg">{year}</span>
       </div>
     </div>
   );

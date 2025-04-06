@@ -1,7 +1,8 @@
 import { MentorInfoSchema } from "@/app/(mentor)/schemas";
 import { apiRequest, ApiRequestType } from "@/app/lib/apiClient";
 import { MentorPublicProfileType } from "@/app/types";
-
+import { getSessionBySessionID } from "./sessions";
+import { getMentorAvailabliltyById } from "./student";
 export async function getMentorPersonalInfo(mID: string) {
   const req: ApiRequestType = {
     endpoint: `api/mentor/${mID}`,
@@ -74,4 +75,28 @@ export async function getMentorPublicProfile(mID: string) {
     interests,
   };
   return data;
+}
+
+export async function getAvailabilities() {
+  const req: ApiRequestType = {
+    endpoint: "api/mentor/availability",
+    method: "GET",
+    auth: true,
+  };
+
+  const res = await apiRequest(req);
+
+  if (!res.success) {
+    throw new Error("Availability fetching error");
+  }
+  return res.data;
+}
+
+export async function getSessionAndAvailabilityByIds(sId: string, aId: string) {
+  const session = await getSessionBySessionID(sId);
+  const freeslot = await getMentorAvailabliltyById(aId);
+  return {
+    session,
+    freeslot,
+  };
 }

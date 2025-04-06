@@ -7,15 +7,20 @@ import { hover_style, smooth_hover, theme_border } from "@/app/ui/CustomStyles";
 import {
   Dialog,
   DialogContent,
-  // DialogDescription,
-  // DialogFooter,
-  // DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { addAvailability } from "../lib/mutations/availability";
+import { addAvailability } from "../lib/mutations/mentor";
 import { AvalabilityType } from "../types";
+import { addMinutes, isBefore, isSameDay } from "date-fns";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
 type Props = {
   availabilityState: {
     values: AvalabilityType[];
@@ -26,21 +31,20 @@ type Props = {
 const AddAvailabilityBooking = (props: Props) => {
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
+  const [medium, setMedium] = useState<("online" | "offline")[]>(["online"]);
+  const [err, setErr] = useState<string | null>(null);
   const handleAvailabilitySave = async () => {
-    // write checks
     // start and end time should be in a single day
     // start time is always less than end time
-
-    // new availability post request to server
-    await addAvailability(startTime, endTime);
-    props.availabilityState.onChange({
-      start: startTime,
-      end: endTime,
-      booked: false,
-    });
+    if (isSameDay(startTime, endTime) && isBefore(startTime, endTime)) {
+      await addAvailability(startTime, endTime, medium);
+      props.availabilityState.onChange({
+        start: startTime,
+        end: endTime,
+        booked: "",
+      });
+    }
   };
-  console.log("start ", startTime);
-  console.log("end ", endTime);
   return (
     <Dialog>
       <DialogTrigger>
@@ -59,23 +63,80 @@ const AddAvailabilityBooking = (props: Props) => {
         <DialogTitle className="text-2xl">Create Avaliablity</DialogTitle>
         <div className="text-lg flex flex-col gap-4">
           <span className="mx-3 font-semibold">Start</span>
+          <span className="bg-red-800 text-red-300 font-semibold flex justify-center rounded-md">
+            {err}
+          </span>
           <DateTimePicker
             field={{
               value: startTime,
               onChange: (val: Date) => {
-                setStartTime(val);
+                const nowtime = new Date();
+                console.log("val", val.getTime());
+                console.log("now", nowtime.getTime());
+                if (val.getTime() > nowtime.getTime()) {
+                  setStartTime(val);
+                  setErr(null);
+                } else {
+                  setStartTime(addMinutes(nowtime, 1));
+                  setErr("Start time should be greater than current time");
+                }
               },
             }}
           />
-          <span className="mx-3 font-semibold">End</span>
-          <DateTimePicker
-            field={{
-              value: endTime,
-              onChange: (val: Date) => {
-                setEndTime(val);
-              },
+          <span className="mx-3 font-semibold">Duration</span>
+          <Select
+            onValueChange={(val) => {
+              const duration = parseInt(val);
+              const newEndTime = new Date(startTime);
+              newEndTime.setMinutes(newEndTime.getMinutes() + duration);
+              setEndTime(newEndTime);
             }}
-          />
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select Duration" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="30">30 minutes</SelectItem>
+              <SelectItem value="60">1 hour</SelectItem>
+              <SelectItem value="90">1.5 hours</SelectItem>
+              <SelectItem value="120">2 hours</SelectItem>
+              <SelectItem value="150">2.5 hours</SelectItem>
+              <SelectItem value="180">3 hours</SelectItem>
+            </SelectContent>
+          </Select>
+          <span>Available </span>
+          <div className="flex gap-4 mx-3 select-none">
+            <span
+              className={cn(
+                "border border-orange-500 px-2 rounded-2xl hover:bg-orange-800",
+                medium.includes("online") ? "bg-orange-800" : ""
+              )}
+              onClick={() => {
+                if (!medium.includes("online")) {
+                  setMedium([...medium, "online"]);
+                } else {
+                  setMedium(medium.filter((item) => item !== "online"));
+                }
+              }}
+            >
+              Online
+            </span>
+            <span
+              className={cn(
+                "border border-orange-500 px-2 rounded-2xl hover:bg-orange-800",
+                medium.includes("offline") ? "bg-orange-800" : ""
+              )}
+              onClick={() => {
+                if (!medium.includes("offline")) {
+                  setMedium([...medium, "offline"]);
+                } else {
+                  setMedium(medium.filter((item) => item !== "offline"));
+                }
+              }}
+            >
+              Offline
+            </span>
+          </div>
         </div>
         <DialogClose>
           <span
