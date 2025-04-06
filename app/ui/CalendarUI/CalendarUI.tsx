@@ -7,23 +7,31 @@ import {
   startOfWeek,
   endOfWeek,
   eachDayOfInterval,
-  isSameMonth,
   isSameDay,
   format,
   isWithinInterval,
+  isBefore,
+  startOfToday,
 } from "date-fns";
 
 import { cn } from "@/lib/utils";
-import { theme_style } from "../CustomStyles";
-import { AvalabilityType } from "@/app/types";
+import { AvalabilityType, BookedSessionType } from "@/app/types";
 import { useCalendarContext } from "./CalendarContext";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import SessionDetailsSheet from "./SessionDetailsSheet";
 type Props = {
-  availabilities: AvalabilityType[];
+  availabilities?: AvalabilityType[];
+  bookedSessions?: BookedSessionType[];
 };
 
 export default function CalendarUI(props: Props) {
   //   const { date, events, setDate, setMode } = useCalendarContext();
-  const { date, setDate } = useCalendarContext();
+  const { date } = useCalendarContext();
 
   // Get the first day of the month
   const monthStart = startOfMonth(date);
@@ -46,6 +54,17 @@ export default function CalendarUI(props: Props) {
 
   // Filter Availabilities on this calendar views only
   const visibleAvailabilities = props.availabilities?.filter(
+    (item) =>
+      isWithinInterval(item.start, {
+        start: calendarStart,
+        end: calendarEnd,
+      }) ||
+      isWithinInterval(item.end, {
+        start: calendarStart,
+        end: calendarEnd,
+      })
+  );
+  const visibleBookedSessions = props.bookedSessions?.filter(
     (item) =>
       isWithinInterval(item.start, {
         start: calendarStart,
@@ -88,29 +107,57 @@ export default function CalendarUI(props: Props) {
                       <span
                         className={cn(
                           "rounded-full p-2",
-                          isSameDay(today, calDate) ? theme_style : ""
+                          isSameDay(today, calDate)
+                            ? "text-orange-500 text-3xl"
+                            : ""
                         )}
                       >
                         {calDate.getDate()}
                       </span>
                       <div className="flex flex-col items-center my-2">
-                        {visibleAvailabilities.map(
-                          (item, i) =>
-                            isSameDay(item.start, calDate) && (
-                              <span
-                                key={i}
-                                className={cn(
-                                  "px-2 rounded-lg",
-                                  item.booked
-                                    ? "bg-orange-800"
-                                    : "bg-transparent border-2 border-orange-500"
-                                )}
-                              >
-                                {format(item.start, "p")} to{" "}
-                                {format(item.end, "p")}
-                              </span>
-                            )
-                        )}
+                        {visibleAvailabilities &&
+                          visibleAvailabilities.map(
+                            (item, i) =>
+                              isSameDay(item.start, calDate) && (
+                                <span
+                                  key={i}
+                                  className={cn(
+                                    "px-2 rounded-lg",
+                                    item.booked
+                                      ? "bg-orange-800"
+                                      : "bg-transparent border-2 border-orange-500"
+                                  )}
+                                >
+                                  {format(item.start, "p")} to{" "}
+                                  {format(item.end, "p")}
+                                </span>
+                              )
+                          )}
+                        {visibleBookedSessions &&
+                          visibleBookedSessions.map(
+                            (item, i) =>
+                              isSameDay(item.start, calDate) && (
+                                <Sheet key={i}>
+                                  <SheetTrigger>
+                                    <span
+                                      className={cn(
+                                        "px-2 rounded-lg",
+                                        isBefore(item.start, startOfToday())
+                                          ? "bg-black text-zinc-500"
+                                          : "bg-green-900 text-green-500"
+                                      )}
+                                    >
+                                      {format(item.start, "p")} to{" "}
+                                      {format(item.end, "p")}
+                                    </span>
+                                  </SheetTrigger>
+                                  <SheetContent className="px-4">
+                                    <SheetTitle className="p-5"></SheetTitle>
+                                    <SessionDetailsSheet bookedSession={item} />
+                                  </SheetContent>
+                                </Sheet>
+                              )
+                          )}
                       </div>
                     </div>
                   );

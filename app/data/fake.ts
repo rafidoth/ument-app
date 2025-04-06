@@ -987,3 +987,48 @@ export const fakeGroupSessionParticipants: GroupSessionParticipantInfo[] = [
     status: "waiting",
   },
 ];
+
+export const fakeBookedSessions = [
+  {
+    session_type: "1:1",
+    sessionId: "fakeSessionId",
+    start: new Date("2025-04-25T09:43:44.000Z"),
+    end: new Date("2025-04-25T11:15:44.000Z"),
+  },
+  {
+    session_type: "Group",
+    sessionId: "fakeSessionId",
+    start: new Date("2025-04-26T14:00:00.000Z"),
+    end: new Date("2025-04-26T15:00:00.000Z"), // 1 hour
+  },
+  {
+    session_type: "1:1",
+    sessionId: "fakeSessionId",
+    start: new Date("2025-04-27T10:30:00.000Z"),
+    end: new Date("2025-04-27T12:30:00.000Z"), // 2 hours
+  },
+  {
+    session_type: "Group",
+    sessionId: "fakeSessionId",
+    start: new Date("2025-04-28T16:00:00.000Z"),
+    end: new Date("2025-04-28T17:30:00.000Z"), // 1.5 hours
+  },
+  {
+    session_type: "1:1",
+    sessionId: "fakeSessionId",
+    start: new Date("2025-04-29T09:00:00.000Z"),
+    end: new Date("2025-04-29T09:30:00.000Z"), // 30 mins
+  },
+  {
+    session_type: "Group",
+    sessionId: "fakeSessionId",
+    start: new Date("2025-03-30T13:15:00.000Z"),
+    end: new Date("2025-03-30T15:45:00.000Z"), // 2.5 hours
+  },
+  {
+    session_type: "1:1",
+    sessionId: "fakeSessionId",
+    start: new Date("2025-04-24T11:00:00.000Z"),
+    end: new Date("2025-04-24T12:00:00.000Z"), // 1 hour
+  },
+];

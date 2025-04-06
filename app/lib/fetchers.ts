@@ -65,3 +65,18 @@ export async function getGroupSessionListByMentorId(mID: string) {
   }
   return res.data;
 }
+
+export async function getStudentBookedSessions(sID: string) {
+  const req: ApiRequestType = {
+    endpoint: `api/student/booked/${sID}`,
+    method: "GET",
+    auth: true,
+  };
+
+  const res = await apiRequest(req);
+  console.log(res);
+  if (!res.success) {
+    throw new Error("Error fetching Booked Sessions");
+  }
+  return res.data;
+}

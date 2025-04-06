@@ -31,9 +31,9 @@ export async function getSessionsStudent() {
 
 export async function getSessionBySessionID(sID: string) {
   const req: ApiRequestType = {
-    endpoint: `api/student/sessions/${sID}`,
+    endpoint: `api/sessions/${sID}`,
     method: "GET",
-    auth: false,
+    auth: true,
   };
   const res = await apiRequest(req);
   if (!res.success) {

@@ -24,6 +24,13 @@ export type SessionInfoType = {
   Price: number;
 };
 
+export type BookedSessionType = {
+  session_type: "group" | "1:1";
+  start: Date;
+  end: Date;
+  sessionId: string;
+};
+
 export type AvalabilityType = {
   id?: string;
   start: Date;

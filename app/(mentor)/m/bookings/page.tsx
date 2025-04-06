@@ -6,9 +6,7 @@ import CalendarMonthSwitcher from "@/app/ui/CalendarUI/CalendarMonthSwitcher";
 import CalendarUI from "@/app/ui/CalendarUI/CalendarUI";
 import React, { useEffect, useState } from "react";
 
-type Props = {};
-
-const Bookings = (props: Props) => {
+const Bookings = () => {
   const [availabilities, setAvailabilities] = useState<AvalabilityType[]>([]);
 
   useEffect(() => {

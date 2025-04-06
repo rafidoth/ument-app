@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { single_student_interests } from "../(student)/fake";
 import {
   fakeAvailabilities,
+  fakeBookedSessions,
   fakeGroupSessionInfos,
   fakeGroupSessionParticipants,
   FakeMentorInfo,
@@ -191,6 +192,16 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
     return {
       success: true,
       data: fakeGroupSessionInfos[0],
+    };
+  } else if (endpoint === `api/student/booked/fakeStudentId`) {
+    return {
+      success: true,
+      data: fakeBookedSessions,
+    };
+  } else if (endpoint === `api/sessions/fakeSessionId`) {
+    return {
+      success: true,
+      data: fakeSingleSessionInfo,
     };
   } else {
     return { success: false, message: "Unknown endpoint" };
