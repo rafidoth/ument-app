@@ -208,15 +208,48 @@ export const FakeGetSessionsMentor = {
   `,
   Price: 500,
 };
-export const getFakeSessionInfo = (title: string) => {
+export const getFakeSessionInfo = () => {
+  const sessionTypes = [
+    "Course Topic Tution",
+    "Project Help",
+    "Career Guidance",
+    "Competition Prep",
+    "Productivity",
+    "ECA",
+  ];
+
+  const titles = [
+    "Data Structures and Algorithms",
+    "Web Development Fundamentals",
+    "Machine Learning Basics",
+    "Mobile App Development",
+    "Cloud Computing Essentials",
+    "Software Engineering Principles",
+    "Database Management Systems",
+    "Network Security Fundamentals",
+    "UI/UX Design Workshop",
+    "Programming with Python",
+  ];
+
+  const descriptions = [
+    "In-depth coverage of core concepts with practical examples",
+    "Previous question solving with detailed explanations",
+    "Interactive session with hands-on practice",
+    "Comprehensive guide with real-world applications",
+    "One-on-one mentoring with personalized feedback",
+  ];
+
+  const mediums = [["Online"], ["Offline"], ["Online", "Offline"]];
+
   return {
     sessionId: randomUUID(),
     mentorId: "fakeMentorId",
-    title: title,
-    DurationInMinutes: 120,
-    session_medium: ["Online", "Offline"],
-    Description: `Previous two trimester question solving live and 1 set Practice Question with solution`,
-    Price: 500,
+    type: sessionTypes[Math.floor(Math.random() * sessionTypes.length)],
+    title: titles[Math.floor(Math.random() * titles.length)],
+    DurationInMinutes: Math.floor(Math.random() * 120) + 60, // Random duration between 60-180 minutes
+    session_medium: mediums[Math.floor(Math.random() * mediums.length)],
+    Description: descriptions[Math.floor(Math.random() * descriptions.length)],
+    Price: Math.floor(Math.random() * 1000) + 200, // Random price between 200-1200
   };
 };
 
@@ -456,20 +489,20 @@ export const fakeSingleMentorAvailability = {
 export const fakeAvailabilities = [
   {
     id: 1,
-    start: new Date("2025-03-25T09:43:44.000Z"),
-    end: new Date("2025-03-25T11:15:44.000Z"),
+    start: new Date("2025-04-25T09:43:44.000Z"),
+    end: new Date("2025-04-25T11:15:44.000Z"),
     booked: "fakeSessionId",
   },
   {
     id: 2,
-    start: new Date("2025-03-28T10:20:44.000Z"),
-    end: new Date("2025-03-28T12:00:44.000Z"),
+    start: new Date("2025-04-28T10:20:44.000Z"),
+    end: new Date("2025-04-28T12:00:44.000Z"),
     booked: "",
   },
   {
     id: 3,
-    start: new Date("2025-03-26T08:00:44.000Z"),
-    end: new Date("2025-03-26T10:00:44.000Z"),
+    start: new Date("2025-04-26T08:00:44.000Z"),
+    end: new Date("2025-04-26T10:00:44.000Z"),
     booked: "",
   },
 ];

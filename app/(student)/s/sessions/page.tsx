@@ -1,4 +1,4 @@
-import { getSessionsStudent } from "@/app/lib/fetchers/sessions";
+import { getSessionsForStudentBasedOnInterest } from "@/app/lib/fetchers/sessions";
 import { SessionInfoType } from "@/app/types";
 import { gradientText1 } from "@/app/ui/CustomStyles";
 import SessionCard from "@/app/ui/SessionCard";
@@ -8,7 +8,8 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 const SessionsPage = async () => {
-  const sessions: SessionInfoType[] = await getSessionsStudent();
+  const sessions: SessionInfoType[] =
+    await getSessionsForStudentBasedOnInterest();
   return (
     <div className="px-16">
       <div className="flex justify-end items-center">

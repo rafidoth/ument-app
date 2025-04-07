@@ -63,7 +63,7 @@ const AddAvailabilityBooking = (props: Props) => {
         <DialogTitle className="text-2xl">Create Avaliablity</DialogTitle>
         <div className="text-lg flex flex-col gap-4">
           <span className="mx-3 font-semibold">Start</span>
-          <span className="bg-red-800 text-red-300 font-semibold flex justify-center rounded-md">
+          <span className="bg-red-800/60 text-red-300 font-semibold flex justify-center rounded-md">
             {err}
           </span>
           <DateTimePicker

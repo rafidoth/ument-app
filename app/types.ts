@@ -44,7 +44,10 @@ export type SessionType =
   | "Career Guidance"
   | "Competition Prep"
   | "Productivity"
-  | "ECA";
+  | "ECA"
+  | "Resume Review"
+  | "Research Guidance"
+  | "Mock Interview";
 
 export type mentorleveltype =
   | "beginner guide"

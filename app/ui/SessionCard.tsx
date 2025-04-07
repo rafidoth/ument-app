@@ -20,6 +20,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import MentorScheduleForStudent from "./MentorScheduleForStudent";
+import { minutesToHours } from "../(student)/s/group-sessions/page";
 
 type Props = {
   sessionDetails: SessionInfoType;
@@ -54,7 +55,7 @@ const SessionCard = ({ sessionDetails, student, checkoutpage }: Props) => {
 
         <div className="flex items-center gap-2">
           <Clock className="w-6 h-6" />
-          <span>{sessionDetails.DurationInMinutes} minutes</span>
+          <span>{minutesToHours(sessionDetails.DurationInMinutes)}</span>
         </div>
         <div className="flex items-center gap-2">
           <Banknote className="w-6 h-6" />

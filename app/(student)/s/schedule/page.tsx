@@ -1,5 +1,6 @@
 "use client";
-import { getStudentBookedSessions } from "@/app/lib/fetchers";
+
+import { getStudentBookedSessions } from "@/app/lib/fetchers/student";
 import { BookedSessionType } from "@/app/types";
 import CalendarMonthSwitcher from "@/app/ui/CalendarUI/CalendarMonthSwitcher";
 import CalendarUI from "@/app/ui/CalendarUI/CalendarUI";

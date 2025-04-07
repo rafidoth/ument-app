@@ -35,14 +35,14 @@ const GroupSessions = () => {
   }, []);
   return (
     <ScrollArea className="h-screen">
-      <div className="p-16 flex flex-wrap gap-10">
+      <div className="p-16 flex justify-center flex-wrap gap-10">
         <Card
-          className="w-[700px] hover:bg-zinc-900 flex items-center justify-center"
+          className="w-[500px] hover:bg-zinc-900 flex items-center justify-center"
           onClick={() => {
             router.push("/m/group-sessions/create");
           }}
         >
-          <span className="text-4xl font-semibold select-none">
+          <span className="text-2xl font-semibold select-none">
             Create A New Group Session
           </span>
         </Card>
@@ -78,7 +78,7 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }: Props) => {
   return (
     <Card
       className={cn(
-        "w-[700px] hover:opacity-90 select-none border-none",
+        "w-[500px] hover:opacity-90 select-none border-none",
         ColorTheme.bg
       )}
       onClick={handleGSClick}
@@ -121,11 +121,11 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }: Props) => {
             </div>
           </div>
         </div>
-        <CardTitle className={cn("text-8xl font-black ", ColorTheme.text)}>
+        <CardTitle className={cn("text-6xl font-black ", ColorTheme.text)}>
           {GroupSessionDetails.title}
         </CardTitle>
         <div className="flex justify-between my-2">
-          <span className="flex  gap-x-4 font-semibold">
+          <span className="flex flex-col  gap-y-4 font-semibold">
             <span className="flex gap-x-2">
               <Hourglass />
               {minutesToHours(GroupSessionDetails.durationInMinutes)}
@@ -135,7 +135,7 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }: Props) => {
               {format(GroupSessionDetails.startTime, "Pp")}
             </span>
           </span>
-          <div className="flex gap-x-4">
+          <div className="flex flex-col justify-end gap-y-4">
             <span
               className={cn(
                 "font-semibold cursor-pointer hover:opacity-80 flex items-center gap-x-2",

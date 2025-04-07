@@ -1,5 +1,6 @@
 "use client";
-import { getSessionAndAvailabilityByIds } from "@/app/lib/fetchers/availability";
+import { getSessionAndAvailabilityByIds } from "@/app/lib/fetchers/mentor";
+import { sendPaymentRequest } from "@/app/lib/mutations/student";
 import { AvalabilityType, SessionInfoType } from "@/app/types";
 import { gradientText1, smooth_hover } from "@/app/ui/CustomStyles";
 import SessionCard from "@/app/ui/SessionCard";
@@ -14,8 +15,13 @@ const StudentPayment = () => {
   const availabilityID = searchParams.get("a");
   const [sessionInfo, setSessionInfo] = useState<SessionInfoType | null>(null);
   const [fslot, setFslot] = useState<AvalabilityType | null>(null);
+
   const handlePayNow = () => {
-    console.log("paying now");
+    if (sessionID && availabilityID) {
+      sendPaymentRequest(sessionID, availabilityID);
+    } else {
+      throw new Error("Payment Page URL SessionId or AvailabilityID not found");
+    }
   };
 
   useEffect(() => {

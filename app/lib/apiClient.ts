@@ -107,18 +107,14 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
     };
   } else if (endpoint === "api/mentor/sessions") {
     // this should give sessions of a single mentor
-    return {
-      success: true,
-      data: [
-        getFakeSessionInfo("SPL Midterm Question Solve Session"),
-        getFakeSessionInfo("SPL Final Question Solve Session"),
-        getFakeSessionInfo("OOP Midterm Question Solve Session"),
-      ],
-    };
   } else if (endpoint === "api/student/sessions/fakeSessionId") {
     return {
       success: true,
       data: fakeSingleSessionInfo,
+    };
+  } else if (endpoint === `api/student/payment/fakeSessionId`) {
+    return {
+      success: true,
     };
   } else if (endpoint === "api/student/sessions") {
     return {
@@ -202,6 +198,21 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
     return {
       success: true,
       data: fakeSingleSessionInfo,
+    };
+  } else if (endpoint === `api/sessions/mentor`) {
+    return {
+      success: true,
+      data: [getFakeSessionInfo(), getFakeSessionInfo(), getFakeSessionInfo()],
+    };
+  } else if (endpoint === `api/sessions/student/others`)
+    return {
+      success: true,
+      data: fakeSessionsSuggestionStudentDashboard,
+    };
+  else if (endpoint === `api/sessions/student/interest`) {
+    return {
+      success: true,
+      data: fakeSessionsSuggestionStudentDashboard,
     };
   } else {
     return { success: false, message: "Unknown endpoint" };

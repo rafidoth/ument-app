@@ -14,7 +14,7 @@ const MySessions = async () => {
         <span className={`${jakarta.className} font-black text-4xl`}>
           My Sessions
         </span>
-        <Link href="/m/newsession">
+        <Link href="/m/mysessions/new">
           <Button className="cursor-pointer">Create New Session</Button>
         </Link>
       </div>
@@ -23,7 +23,11 @@ const MySessions = async () => {
           <p className="text-muted-foreground">No sessions created yet</p>
         ) : (
           sessions.map((session) => (
-            <SessionCard key={session.sessionId} sessionDetails={session} />
+            <SessionCard
+              student={false}
+              key={session.sessionId}
+              sessionDetails={session}
+            />
           ))
         )}
       </div>

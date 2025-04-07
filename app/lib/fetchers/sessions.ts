@@ -3,7 +3,7 @@ import { SessionInfoType } from "@/app/types";
 
 export async function getSessionsMentor() {
   const req: ApiRequestType = {
-    endpoint: `api/mentor/sessions`,
+    endpoint: `api/sessions/mentor`,
     method: "GET",
     auth: true,
   };
@@ -15,9 +15,9 @@ export async function getSessionsMentor() {
   return data;
 }
 
-export async function getSessionsStudent() {
+export async function getSessionsForStudentBasedOnInterest() {
   const req: ApiRequestType = {
-    endpoint: `api/student/sessions`,
+    endpoint: `api/sessions/student/interest`,
     method: "GET",
     auth: true,
   };
@@ -27,6 +27,9 @@ export async function getSessionsStudent() {
   }
   const data: SessionInfoType[] = res.data;
   return data;
+}
+export async function getSessionsForStudentOuterInterests() {
+  console.log("sessions outside similar interests");
 }
 
 export async function getSessionBySessionID(sID: string) {
