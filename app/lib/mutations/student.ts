@@ -38,3 +38,20 @@ export async function sendPaymentRequest(
   }
   return res;
 }
+
+export async function getNextBookedStudent(t: string) {
+  const req: ApiRequestType = {
+    endpoint: `api/student/booked/closest?t=${t}`,
+    method: "GET",
+    auth: true,
+  };
+
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error("Failed to fetch next booked session");
+  }
+  const refined = { ...res.data };
+  refined.StartTime = new Date(res.data.StartTime);
+
+  return refined;
+}

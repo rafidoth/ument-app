@@ -107,6 +107,16 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
     };
   } else if (endpoint === "api/mentor/sessions") {
     // this should give sessions of a single mentor
+  } else if (endpoint.includes("api/student/booked/closest?t=")) {
+    return {
+      success: true,
+      data: {
+        SessionId: "fakeSessionId",
+        SessionTitle: "Physics Mid Term Question Solution",
+        StartTime: "2025-04-08T02:51:45.000+06:00",
+        DurationInMinutes: 90,
+      },
+    };
   } else if (endpoint === "api/student/sessions/fakeSessionId") {
     return {
       success: true,

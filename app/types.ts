@@ -115,3 +115,10 @@ export type GroupSessionParticipantInfo = {
   joinedAt: string;
   status: "registered" | "cancelled" | "completed" | "waiting";
 };
+
+export type NextBookedType = {
+  SessionId: string;
+  SessionTitle: string;
+  StartTime: Date;
+  DurationInMinutes: number;
+};

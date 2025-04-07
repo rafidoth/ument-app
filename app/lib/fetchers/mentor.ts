@@ -95,8 +95,26 @@ export async function getAvailabilities() {
 export async function getSessionAndAvailabilityByIds(sId: string, aId: string) {
   const session = await getSessionBySessionID(sId);
   const freeslot = await getMentorAvailabliltyById(aId);
+
   return {
     session,
     freeslot,
   };
+}
+
+export async function getNextBookedMentor(t: string) {
+  const req: ApiRequestType = {
+    endpoint: `api/mentor/booked/closest?t=${t}`,
+    method: "GET",
+    auth: true,
+  };
+
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error("Failed to fetch next booked session");
+  }
+  const refined = { ...res.data };
+  refined.StartTime = new Date(res.data.StartTime);
+
+  return refined;
 }
