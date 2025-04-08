@@ -108,12 +108,15 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
   } else if (endpoint === "api/mentor/sessions") {
     // this should give sessions of a single mentor
   } else if (endpoint.includes("api/student/booked/closest?t=")) {
+    const t = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+    const t2 = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+
     return {
       success: true,
       data: {
         SessionId: "fakeSessionId",
         SessionTitle: "Physics Mid Term Question Solution",
-        StartTime: "2025-04-08T02:51:45.000+06:00",
+        StartTime: t,
         DurationInMinutes: 90,
       },
     };
