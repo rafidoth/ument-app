@@ -11,7 +11,7 @@ export const FakeStudentInfo = {
   email: "rafiulhasan803@gmail.com",
   username: "rafidoth",
   gender: "Female",
-  dob: new Date("2000-01-01T00:00:00.000Z"),
+  dob: "2000-01-01T00:00:00.000Z",
   graduation_year: 2079,
 };
 

@@ -6,6 +6,16 @@ export type InterestType = {
   interest_id: string;
   interest_name: string;
 };
+
+export type StudentInfoType = {
+  name: string;
+  email: string;
+  username: string;
+  gender: "Male" | "Female";
+  dob: Date;
+  graduation_year: number;
+};
+
 export type StudentPersonalInfoType = z.infer<typeof StudentInfoSchema>;
 export type MentorPersonalInfoType = z.infer<typeof MentorInfoSchema>;
 

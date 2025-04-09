@@ -83,6 +83,8 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
     return { success: true, data: single_student_interests };
   } else if (endpoint === "api/student/fakeStudentId") {
     return { success: true, data: FakeStudentInfo };
+  } else if (endpoint === "api/student/myself") {
+    return { success: true, data: FakeStudentInfo };
   } else if (endpoint === "api/mentor/fakeMentorId") {
     return {
       success: true,
@@ -107,8 +109,21 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
     };
   } else if (endpoint === "api/mentor/sessions") {
     // this should give sessions of a single mentor
+    return { success: true, data: [] };
+  } else if (endpoint.includes("api/mentor/booked/closest?t=")) {
+    //const t = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+    const t2 = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+    return {
+      success: true,
+      data: {
+        SessionId: "fakeSessionId",
+        SessionTitle: "Physics Mid Term Question Solution",
+        StartTime: t2,
+        DurationInMinutes: 90,
+      },
+    };
   } else if (endpoint.includes("api/student/booked/closest?t=")) {
-    const t = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+    //const t = new Date(Date.now() + 60 * 60 * 1000).toISOString();
     const t2 = new Date(Date.now() - 15 * 60 * 1000).toISOString();
 
     return {
@@ -116,7 +131,7 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
       data: {
         SessionId: "fakeSessionId",
         SessionTitle: "Physics Mid Term Question Solution",
-        StartTime: t,
+        StartTime: t2,
         DurationInMinutes: 90,
       },
     };
@@ -138,7 +153,7 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
     return {
       success: true,
     };
-  } else if (endpoint === "api/mentor/availability") {
+  } else if (endpoint === "api/mentor/availability/list") {
     return {
       success: true,
       data: fakeAvailabilities,

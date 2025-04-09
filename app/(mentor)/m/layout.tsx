@@ -71,6 +71,7 @@ export default function MentorLayout({
   return (
     <div className="flex w-screen">
       <Sidebar
+        role="mentor"
         SidebarElements={SidebarElements}
         SidebarTopNavigationButtons={SidebarTopNavigationButtons}
       />

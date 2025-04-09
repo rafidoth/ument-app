@@ -79,7 +79,7 @@ export async function getMentorPublicProfile(mID: string) {
 
 export async function getAvailabilities() {
   const req: ApiRequestType = {
-    endpoint: "api/mentor/availability",
+    endpoint: "api/mentor/availability/list",
     method: "GET",
     auth: true,
   };
@@ -111,7 +111,7 @@ export async function getNextBookedMentor(t: string) {
 
   const res = await apiRequest(req);
   if (!res.success) {
-    throw new Error("Failed to fetch next booked session");
+    throw new Error("Failed to fetch mentors next booked session");
   }
   const refined = { ...res.data };
   refined.StartTime = new Date(res.data.StartTime);

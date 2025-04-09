@@ -5,7 +5,6 @@ import {
   Bell,
   Calendar,
   CalendarClock,
-  Globe,
   Group,
   History,
   Inbox,
@@ -72,6 +71,7 @@ export default function StudentLayout({
   return (
     <div className="flex w-screen h-screen">
       <Sidebar
+        role="student"
         SidebarElements={SidebarElements}
         SidebarTopNavigationButtons={SidebarTopNavigationButtons}
       />

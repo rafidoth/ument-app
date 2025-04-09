@@ -1,5 +1,6 @@
 import { StudentInfoSchema } from "@/app/(student)/schemas";
 import { apiRequest, ApiRequestType } from "@/app/lib/apiClient";
+import { StudentInfoType } from "@/app/types";
 
 export async function getStudentPersonalInfo(sID: string) {
   const req: ApiRequestType = {
@@ -84,4 +85,20 @@ export async function getStudentBookedSessions(sID: string) {
     throw new Error("Error fetching Booked Sessions");
   }
   return res.data;
+}
+
+export async function getMyProfileDetails() {
+  const req: ApiRequestType = {
+    endpoint: `api/student/myself`,
+    method: "GET",
+    auth: true,
+  };
+
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error("Error fetching my (student) details");
+  }
+  const refined: StudentInfoType = { ...res.data };
+  refined.dob = new Date(res.data.dob);
+  return refined;
 }
