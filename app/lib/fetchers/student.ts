@@ -1,6 +1,6 @@
 import { StudentInfoSchema } from "@/app/(student)/schemas";
 import { apiRequest, ApiRequestType } from "@/app/lib/apiClient";
-import { StudentInfoType } from "@/app/types";
+import { InterestType, StudentInfoType } from "@/app/types";
 
 export async function getStudentPersonalInfo(sID: string) {
   const req: ApiRequestType = {
@@ -100,5 +100,36 @@ export async function getMyProfileDetails() {
   }
   const refined: StudentInfoType = { ...res.data };
   refined.dob = new Date(res.data.dob);
+  return refined;
+}
+
+export async function getInterestsList() {
+  const req: ApiRequestType = {
+    endpoint: `api/student/interests/list`,
+    method: "GET",
+    auth: true,
+  };
+
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error("Error fetching interests list");
+  }
+  return res.data as InterestType[];
+}
+
+export async function getNextBookedStudent(t: string) {
+  const req: ApiRequestType = {
+    endpoint: `api/student/booked/closest?t=${t}`,
+    method: "GET",
+    auth: true,
+  };
+
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error("Failed to fetch next booked session");
+  }
+  const refined = { ...res.data };
+  refined.StartTime = new Date(res.data.StartTime);
+
   return refined;
 }

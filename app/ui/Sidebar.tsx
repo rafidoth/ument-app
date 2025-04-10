@@ -7,7 +7,7 @@ import { hover_style, smooth_hover, theme_style } from "./CustomStyles";
 import { usePathname, useRouter } from "next/navigation";
 import { getNextBookedMentor } from "../lib/fetchers/mentor";
 import { NextBookedType, StudentInfoType } from "../types";
-import { getNextBookedStudent } from "../lib/mutations/student";
+import { getNextBookedStudent } from "../lib/fetchers/student";
 import SidebarTimeLeft from "./SidebarTimeLeft";
 import { isAfter, isBefore } from "date-fns";
 import { getMyProfileDetails } from "../lib/fetchers/student";

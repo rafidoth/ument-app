@@ -1,4 +1,4 @@
-import { AvalabilityType } from "@/app/types";
+import { AvalabilityType, InterestType } from "@/app/types";
 import { apiRequest, ApiRequestType } from "../apiClient";
 
 export async function sendSlotRequest(mId: string, slots: AvalabilityType[]) {
@@ -39,19 +39,18 @@ export async function sendPaymentRequest(
   return res;
 }
 
-export async function getNextBookedStudent(t: string) {
+export async function updateInterestList(interests: InterestType[]) {
   const req: ApiRequestType = {
-    endpoint: `api/student/booked/closest?t=${t}`,
-    method: "GET",
+    endpoint: "api/student/interests/list",
+    method: "POST",
+    body: {
+      interests: interests,
+    },
     auth: true,
   };
 
   const res = await apiRequest(req);
   if (!res.success) {
-    throw new Error("Failed to fetch next booked session");
+    throw new Error("Failed to update interests");
   }
-  const refined = { ...res.data };
-  refined.StartTime = new Date(res.data.StartTime);
-
-  return refined;
 }
