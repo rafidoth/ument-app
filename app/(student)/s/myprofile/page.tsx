@@ -26,7 +26,6 @@ const MyProfile = () => {
               {myProfile.email}
             </span>
           </div>
-
           <Image
             src={`https://robohash.org/${myProfile?.username}.png?size=200x200`}
             alt="myprofile"
