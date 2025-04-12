@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import signInAction from "@/app/(auth)/authActions";
+import { signInAction } from "@/app/(auth)/authActions";
 import { startTransition, useState } from "react";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
@@ -56,7 +56,7 @@ export default function LoginForm({ student }: Props) {
 
   return (
     <div className={cn("flex flex-col gap-6")}>
-      <Card className="border border-transparent">
+      <Card className="border-none">
         <CardHeader>
           <CardTitle className="text-4xl flex justify-center"></CardTitle>
           <CardDescription className="flex justify-center text-lg">

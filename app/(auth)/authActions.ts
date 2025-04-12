@@ -2,9 +2,63 @@
 import { cookies } from "next/headers";
 import { SignInSchemaType } from "@/app/ui/LoginForm";
 import { redirect } from "next/navigation";
+import { StudentRegisterDataType } from "./sign-up/ui/SignupStudent";
+import { apiRequest, ApiRequestType } from "../lib/apiClient";
 //import type { SignUpFormValues } from "@/app/(student)/ui/SignUpForm";
 
-export default async function signInAction(signInData: SignInSchemaType) {
+export async function registerStudent(data: StudentRegisterDataType) {
+  const req: ApiRequestType = {
+    endpoint: `api/student/register`,
+    method: "POST",
+    body: {
+      name: data.name,
+      email: data.email,
+      username: data.username,
+      gender: data.gender,
+      grad_year: data.grad_year,
+      dob: data.dob.toISOString(),
+      password: data.password,
+    },
+    auth: false,
+  };
+
+  const response = await apiRequest(req);
+  if (!response.success) {
+    throw new Error("Registration Failed");
+  }
+  const jwt = response.jwtToken;
+
+  const cookieStore = await cookies();
+  cookieStore.set("auth_token", jwt, {
+    path: "/",
+    sameSite: "lax",
+  });
+  redirect("/s/findmentor");
+}
+
+export async function registerMentor(data: StudentRegisterDataType) {
+  const req: ApiRequestType = {
+    endpoint: `api/mentor/register`,
+    method: "POST",
+    body: {},
+    auth: false,
+  };
+
+  const response = await apiRequest(req);
+  if (!response.success) {
+    throw new Error("Registration Failed");
+  }
+  const jwt = response.jwtToken;
+
+  const cookieStore = await cookies();
+  cookieStore.set("auth_token", jwt, {
+    path: "/",
+    sameSite: "lax",
+  });
+  redirect("/m/findmentor");
+}
+
+export async function signInAction(signInData: SignInSchemaType) {
   const student = signInData.student;
   console.log("student", signInData.student);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -47,27 +101,3 @@ export default async function signInAction(signInData: SignInSchemaType) {
   };
   redirect(student ? "/s/explore" : "/m/explore");
 }
-
-// export async function SignupStudent(data: SignUpFormValues) {
-// const api = "http://localhost:3000/api/student/signup";
-// const response = await fetch(api.signup, {
-//   method: "POST",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-//   body: JSON.stringify(data),
-// });
-// console.log(response);
-// }
-
-// export async function LoginStudent(data: SignUpFormValues) {
-// const api = "http://localhost:3000/api/student/login";
-// const response = await fetch(api.signup, {
-//   method: "POST",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-//   body: JSON.stringify(data),
-// });
-// console.log(response);
-// }

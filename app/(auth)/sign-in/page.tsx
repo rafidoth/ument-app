@@ -10,10 +10,10 @@ export default function Page() {
             <TabsTrigger value="student">Student</TabsTrigger>
             <TabsTrigger value="mentor">Mentor</TabsTrigger>
           </TabsList>
-          <TabsContent value="student" className="border rounded-xl">
+          <TabsContent value="student">
             <LoginForm student={true} />
           </TabsContent>
-          <TabsContent value="mentor" className="border rounded-xl">
+          <TabsContent value="mentor">
             <LoginForm student={false} />
           </TabsContent>
         </Tabs>

@@ -15,17 +15,21 @@ import React, { useState } from "react";
 const style1 =
   "w-full h-[50px] flex items-center text-2xl bg-orange-800/20 my-5 px-4 text-orange-500 rounded-xl";
 
+export type StudentRegisterDataType = {
+  name: string;
+  email: string;
+  username: string;
+  gender: "Male" | "Female" | null;
+  grad_year: string;
+  dob: Date;
+  password: string;
+  repeatPassword: string;
+};
+
+export type MentorRegisterDataType = {};
+
 const Signup = () => {
-  const [info, setInfo] = useState<{
-    name: string;
-    email: string;
-    username: string;
-    gender: "Male" | "Female" | null;
-    grad_year: string;
-    dob: Date;
-    password: string;
-    repeatPassword: string;
-  }>({
+  const [info, setInfo] = useState<StudentRegisterDataType>({
     name: "",
     email: "",
     username: "",

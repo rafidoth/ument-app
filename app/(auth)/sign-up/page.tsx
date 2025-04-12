@@ -4,6 +4,7 @@ import Signup from "./ui/SignupStudent";
 import { cn } from "@/lib/utils";
 import { gradientText1 } from "@/app/ui/CustomStyles";
 import SignupMentor from "./ui/SignupMentor";
+
 const page = () => {
   return (
     <div className="flex min-h-svh justify-center  p-6 md:p-10">
