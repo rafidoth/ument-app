@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Signup from "./ui/SignupStudent";
+import SignupStudent from "./ui/SignupStudent";
 import { cn } from "@/lib/utils";
 import { gradientText1 } from "@/app/ui/CustomStyles";
 import SignupMentor from "./ui/SignupMentor";
@@ -26,8 +26,7 @@ const page = () => {
           >
             Create Student Account
           </span>
-
-          <Signup />
+          <SignupStudent />
         </TabsContent>
         <TabsContent value="mentor" className="py-10">
           <span

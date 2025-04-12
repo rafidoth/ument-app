@@ -18,6 +18,7 @@ export async function registerStudent(data: StudentRegisterDataType) {
       grad_year: data.grad_year,
       dob: data.dob.toISOString(),
       password: data.password,
+      image: null,
     },
     auth: false,
   };

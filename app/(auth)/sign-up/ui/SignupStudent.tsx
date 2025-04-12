@@ -26,9 +26,7 @@ export type StudentRegisterDataType = {
   repeatPassword: string;
 };
 
-export type MentorRegisterDataType = {};
-
-const Signup = () => {
+const SignupStudent = () => {
   const [info, setInfo] = useState<StudentRegisterDataType>({
     name: "",
     email: "",
@@ -174,4 +172,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignupStudent;
