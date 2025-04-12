@@ -4,6 +4,7 @@ import { SignInSchemaType } from "@/app/ui/LoginForm";
 import { redirect } from "next/navigation";
 import { StudentRegisterDataType } from "./sign-up/ui/SignupStudent";
 import { apiRequest, ApiRequestType } from "../lib/apiClient";
+import { MentorRegisterDataType } from "./sign-up/ui/SignupMentor";
 //import type { SignUpFormValues } from "@/app/(student)/ui/SignUpForm";
 
 export async function registerStudent(data: StudentRegisterDataType) {
@@ -37,11 +38,26 @@ export async function registerStudent(data: StudentRegisterDataType) {
   redirect("/s/findmentor");
 }
 
-export async function registerMentor(data: StudentRegisterDataType) {
+export async function registerMentor(data: MentorRegisterDataType) {
   const req: ApiRequestType = {
     endpoint: `api/mentor/register`,
     method: "POST",
-    body: {},
+    body: {
+      name: data.name,
+      email: data.email,
+      username: data.username,
+      gender: data.gender,
+      grad_year: data.grad_year,
+      socials: {
+        github: data.socials.github,
+        facebook: data.socials.facebook,
+        linkedin: data.socials.linkedin,
+        twitter: data.socials.twitter,
+      },
+      dob: data.dob.toISOString(),
+      password: data.password,
+      image: null,
+    },
     auth: false,
   };
 

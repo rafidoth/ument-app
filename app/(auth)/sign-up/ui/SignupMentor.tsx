@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 import { Select } from "@radix-ui/react-select";
 import React, { useState } from "react";
 
-type MentorRegisterDataType = {
+export type MentorRegisterDataType = {
   name: string;
   email: string;
   username: string;
