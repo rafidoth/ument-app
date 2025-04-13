@@ -1,4 +1,4 @@
-import { AvalabilityType, InterestType } from "@/app/types";
+import { AvalabilityType, InterestType, StudentInfoType } from "@/app/types";
 import { apiRequest, ApiRequestType } from "../apiClient";
 
 export async function sendSlotRequest(mId: string, slots: AvalabilityType[]) {
@@ -53,4 +53,31 @@ export async function updateInterestListStudent(interests: InterestType[]) {
   if (!res.success) {
     throw new Error("Failed to update interests");
   }
+}
+
+export async function updateStudentProfile(
+  data: StudentInfoType,
+  imageFile: File | null
+) {
+  const req: ApiRequestType = {
+    endpoint: "api/student/myself",
+    method: "PUT",
+    body: {
+      name: data.name,
+      email: data.email,
+      username: data.username,
+      gender: data.gender,
+      grad_year: data.grad_year,
+      dob: data.dob.toISOString(),
+      password: data.password,
+      image: imageFile,
+    },
+    auth: true,
+  };
+
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error("Failed to update student profile");
+  }
+  return res;
 }

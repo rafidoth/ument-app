@@ -14,7 +14,8 @@ export type StudentInfoType = {
   bio: string;
   gender: "Male" | "Female";
   dob: Date;
-  graduation_year: number;
+  grad_year: number;
+  password: string;
   image_link: string;
 };
 
@@ -32,6 +33,7 @@ export type MentorInfoType = {
     twitter: string;
   };
   dob: Date;
+  password: string;
   image_link: string;
 };
 

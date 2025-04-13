@@ -59,6 +59,7 @@ export async function updateMentorProfile(
         linkedin: data.socials.linkedin,
         twitter: data.socials.twitter,
       },
+      password: data.password,
       dob: data.dob.toISOString(),
       image: imageFile,
     },
