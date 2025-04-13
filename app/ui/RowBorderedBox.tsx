@@ -6,7 +6,7 @@ type Props = {
 
 const RowBorderedBox = ({ children }: Props) => {
   return (
-    <span className="flex flex-col bg-orange-800/30   rounded-md m-2 py-3 w-full">
+    <span className="flex flex-col bg-orange-800/30   rounded-2xl m-2 py-3 w-full">
       {children}
     </span>
   );
@@ -22,7 +22,7 @@ const RowBorderedBoxRow = ({ children }: Props) => {
 
 const RowBorderedBoxHeader = ({ children }: Props) => {
   return (
-    <div className="flex items-center justify-between px-4 text-orange-500">
+    <div className="flex items-center justify-between px-4 text-orange-500 py-2">
       {children}
     </div>
   );

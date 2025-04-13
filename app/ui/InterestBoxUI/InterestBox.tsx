@@ -1,5 +1,5 @@
 "use client";
-import { getInterestsList } from "@/app/lib/fetchers/student";
+import { getInterestsListStudent } from "@/app/lib/fetchers/student";
 import { InterestType } from "@/app/types";
 import React, { useEffect, useState } from "react";
 import AddInterestBtn from "../AddInterestBtn";
@@ -8,14 +8,21 @@ import {
   RowBorderedBoxHeader,
   RowBorderedBoxRow,
 } from "../RowBorderedBox";
+import { getInterestsListMentor } from "@/app/lib/fetchers/mentor";
 
-const InterestBox = () => {
+type Props = {
+  role: "mentor" | "student";
+};
+
+const InterestBox = ({ role }: Props) => {
   const [interestList, setInterestList] = useState<InterestType[]>([]);
   const maxInterests = 10;
-  console.log("interests fetched", interestList);
   useEffect(() => {
     const fn = async () => {
-      const data: InterestType[] = await getInterestsList();
+      const data: InterestType[] =
+        role === "student"
+          ? await getInterestsListStudent()
+          : await getInterestsListMentor();
       setInterestList(data);
     };
     fn();
@@ -32,6 +39,7 @@ const InterestBox = () => {
               setInterestList(newInterstList);
             }}
             value={interestList}
+            role={role}
           />
         </span>
       </RowBorderedBoxHeader>

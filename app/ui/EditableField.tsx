@@ -1,3 +1,4 @@
+import { Edit } from "lucide-react";
 import React, { useState } from "react";
 
 type Props = {
@@ -7,6 +8,7 @@ type Props = {
   className?: string;
   placeholder: string;
   pass?: boolean;
+  editIcon?: boolean;
 };
 
 const EditableField = ({
@@ -16,6 +18,7 @@ const EditableField = ({
   onChange,
   className = "",
   pass,
+  editIcon,
 }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -37,7 +40,7 @@ const EditableField = ({
         onChange={(e) => onChange(e.target.value)}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
-        className={className}
+        className={`${className} px-2 w-full outline-none`}
         autoFocus
       />
     );
@@ -49,7 +52,12 @@ const EditableField = ({
             onClick={() => setIsEditing(true)}
             className={`${className} cursor-pointer flex justify-between`}
           >
-            {value.length ? value : placeholder}
+            <span className="flex items-center gap-x-4">
+              {value.length ? value : placeholder}{" "}
+              {editIcon && (
+                <Edit className="text-muted-foreground opacity-30 hover:opacity-100" />
+              )}
+            </span>
             <span className="opacity-50">{title}</span>
           </span>
         )}

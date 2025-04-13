@@ -11,9 +11,28 @@ export type StudentInfoType = {
   name: string;
   email: string;
   username: string;
+  bio: string;
   gender: "Male" | "Female";
   dob: Date;
   graduation_year: number;
+  image_link: string;
+};
+
+export type MentorInfoType = {
+  name: string;
+  email: string;
+  username: string;
+  gender: "Male" | "Female" | null;
+  grad_year: number;
+  bio: string;
+  socials: {
+    github: string;
+    facebook: string;
+    linkedin: string;
+    twitter: string;
+  };
+  dob: Date;
+  image_link: string;
 };
 
 export type StudentPersonalInfoType = z.infer<typeof StudentInfoSchema>;

@@ -39,7 +39,7 @@ export async function sendPaymentRequest(
   return res;
 }
 
-export async function updateInterestList(interests: InterestType[]) {
+export async function updateInterestListStudent(interests: InterestType[]) {
   const req: ApiRequestType = {
     endpoint: "api/student/interests/list",
     method: "POST",

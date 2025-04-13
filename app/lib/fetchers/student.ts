@@ -87,7 +87,7 @@ export async function getStudentBookedSessions(sID: string) {
   return res.data;
 }
 
-export async function getMyProfileDetails() {
+export async function getMyProfileDetailsStudent() {
   const req: ApiRequestType = {
     endpoint: `api/student/myself`,
     method: "GET",
@@ -103,7 +103,7 @@ export async function getMyProfileDetails() {
   return refined;
 }
 
-export async function getInterestsList() {
+export async function getInterestsListStudent() {
   const req: ApiRequestType = {
     endpoint: `api/student/interests/list`,
     method: "GET",

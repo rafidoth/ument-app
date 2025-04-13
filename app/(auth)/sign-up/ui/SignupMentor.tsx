@@ -2,11 +2,6 @@
 import { DateTimePicker } from "@/app/ui/CalendarUI/CustomDateTimePicker";
 import { hover_style, theme_style } from "@/app/ui/CustomStyles";
 import EditableField from "@/app/ui/EditableField";
-import {
-  RowBorderedBox,
-  RowBorderedBoxHeader,
-  RowBorderedBoxRow,
-} from "@/app/ui/RowBorderedBox";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   SelectContent,
@@ -17,6 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Select } from "@radix-ui/react-select";
 import React, { useState } from "react";
+import { registerMentor } from "../../authActions";
 
 export type MentorRegisterDataType = {
   name: string;
@@ -36,7 +32,7 @@ export type MentorRegisterDataType = {
 };
 
 const style1 =
-  "w-full h-[50px] flex items-center text-2xl bg-orange-800/20 my-5 px-4 text-orange-500 rounded-xl";
+  "w-full h-[50px] flex items-center text-2xl bg-orange-800/20 my-5 px-4 text-muted-foreground rounded-xl";
 
 const SignupMentor = () => {
   const [info, setInfo] = useState<MentorRegisterDataType>({
@@ -56,7 +52,7 @@ const SignupMentor = () => {
     },
   });
   const handleRegisterMentor = async () => {
-    console.log(info);
+    await registerMentor(info);
   };
   return (
     <div className=" flex flex-col ">
@@ -83,7 +79,7 @@ const SignupMentor = () => {
         />
 
         <EditableField
-          value={info.email}
+          value={info.username}
           onChange={(newValue) => {
             setInfo((prev) => ({ ...prev, username: newValue }));
           }}
@@ -180,41 +176,32 @@ const SignupMentor = () => {
             placeholder="Confirm Password"
             pass={true}
           />
-
-          <div>
-            <RowBorderedBox>
-              <RowBorderedBoxHeader>
-                <span className="text-3xl font-semibold py-2">
-                  Social Links
-                </span>
-                <span className="flex items-center text-xl gap-x-2"></span>
-              </RowBorderedBoxHeader>
-
-              {["Facebook", "Github", "LinkedIn", "Twitter"].map((s, i) => {
-                const key = s.toLowerCase() as keyof typeof info.socials;
-                return (
-                  <RowBorderedBoxRow key={i}>
-                    <EditableField
-                      value={info.socials[key]}
-                      onChange={(newValue) => {
-                        setInfo((prev) => ({
-                          ...prev,
-                          socials: {
-                            ...prev.socials,
-                            [key]: newValue,
-                          },
-                        }));
-                      }}
-                      className={style1}
-                      placeholder={s}
-                    />
-                  </RowBorderedBoxRow>
-                );
-              })}
-            </RowBorderedBox>
-          </div>
         </div>
 
+        <div>
+          <span className="text-xl">Social Links</span>
+          {["Facebook", "Github", "LinkedIn", "Twitter"].map((s, i) => {
+            const key = s.toLowerCase() as keyof typeof info.socials;
+            return (
+              <span key={i}>
+                <EditableField
+                  value={info.socials[key]}
+                  onChange={(newValue) => {
+                    setInfo((prev) => ({
+                      ...prev,
+                      socials: {
+                        ...prev.socials,
+                        [key]: newValue,
+                      },
+                    }));
+                  }}
+                  className={style1}
+                  placeholder={s}
+                />
+              </span>
+            );
+          })}
+        </div>
         <ScrollBar orientation="vertical" />
       </ScrollArea>
       <div className="flex justify-end">

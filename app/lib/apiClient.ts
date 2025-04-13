@@ -54,6 +54,7 @@ export async function apiRequest({
   }
   const url = `${apiUrl}/${endpoint}`;
   console.log("Sending Request to ", url);
+  console.log("provided method ", method);
 
   const res = await fetch(url, {
     method,
@@ -85,6 +86,11 @@ async function fakeApiRequest(endpoint: string): Promise<unknown> {
     return { success: true, data: FakeStudentInfo };
   } else if (endpoint === "api/student/myself") {
     return { success: true, data: FakeStudentInfo };
+  } else if (endpoint === "api/mentor/myself") {
+    return {
+      success: true,
+      data: FakeMentorInfo,
+    };
   } else if (endpoint === "api/mentor/fakeMentorId") {
     return {
       success: true,

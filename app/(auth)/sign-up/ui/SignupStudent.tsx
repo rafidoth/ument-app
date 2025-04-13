@@ -11,9 +11,10 @@ import {
 import { cn } from "@/lib/utils";
 import { Select } from "@radix-ui/react-select";
 import React, { useState } from "react";
+import { registerStudent } from "../../authActions";
 
 const style1 =
-  "w-full h-[50px] flex items-center text-2xl bg-orange-800/20 my-5 px-4 text-orange-500 rounded-xl";
+  "w-full h-[50px] flex items-center text-2xl bg-orange-800/20 my-5 px-4 text-muted-foreground rounded-xl";
 
 export type StudentRegisterDataType = {
   name: string;
@@ -38,7 +39,7 @@ const SignupStudent = () => {
     repeatPassword: "",
   });
   const handleRegisterStudent = async () => {
-    console.log(info);
+    registerStudent(info);
   };
   return (
     <div className="my-10">
@@ -64,7 +65,7 @@ const SignupStudent = () => {
       />
 
       <EditableField
-        value={info.email}
+        value={info.username}
         onChange={(newValue) => {
           setInfo((prev) => ({ ...prev, username: newValue }));
         }}

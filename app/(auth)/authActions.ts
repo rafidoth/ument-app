@@ -61,6 +61,8 @@ export async function registerMentor(data: MentorRegisterDataType) {
     auth: false,
   };
 
+  console.log(req.body);
+
   const response = await apiRequest(req);
   if (!response.success) {
     throw new Error("Registration Failed");

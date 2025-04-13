@@ -11,24 +11,29 @@ import {
 import { InterestType } from "../types";
 import { All_Interests } from "../data/fake";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { updateInterestList } from "../lib/mutations/student";
+import { updateInterestListStudent } from "../lib/mutations/student";
+import { updateInterestListMentor } from "../lib/mutations/mentor";
 
 type Props = {
   SelectCount: number;
   student?: boolean;
   updateInterestList: (newInterests: InterestType[]) => void;
   value: InterestType[];
+  role: "mentor" | "student";
 };
 
 const AddInterestBtn = (props: Props) => {
-  console.log("propsvalue", props.value);
   const [selectedInterests, setSelectedInterests] = useState<InterestType[]>(
     props.value
   );
   const [err, setErr] = React.useState<string | null>(null);
   const handleSubmission = async () => {
     props.updateInterestList(selectedInterests);
-    await updateInterestList(selectedInterests);
+    if (props.role === "mentor") {
+      await updateInterestListStudent(selectedInterests);
+    } else {
+      await updateInterestListMentor(selectedInterests);
+    }
   };
   useEffect(() => {
     setSelectedInterests(props.value);

@@ -2,6 +2,7 @@ import { randomUUID } from "crypto";
 import {
   GroupSessionInfoType,
   GroupSessionParticipantInfo,
+  MentorInfoType,
   MentorSuggestionType,
   SessionType,
 } from "../types";
@@ -13,23 +14,23 @@ export const FakeStudentInfo = {
   gender: "Female",
   dob: "2000-01-01T00:00:00.000Z",
   graduation_year: 2079,
+  image_link: "",
 };
 
-export const FakeMentorInfo = {
-  name: "S Rafiul Hasan",
+export const FakeMentorInfo: MentorInfoType = {
+  name: "Adiba Ibnat",
   email: "rafiulhasan803@gmail.com",
   username: "rafidoth",
   gender: "Male",
   dob: new Date("2000-01-01T00:00:00.000Z"),
+  grad_year: 2027,
   socials: {
     github: "github.com/rafidoth",
-    facebook: null,
-    linkedin: null,
-    twitter: null,
+    facebook: "",
+    linkedin: "",
+    twitter: "",
   },
-  organization: "United International University",
-  profile_pic:
-    "https://avatars.githubusercontent.com/u/67283985?s=400&u=785ba4e71821a24fee9df89190cbfab208e72dd3&v=4",
+  image_link: "",
   bio: "Golang | JS | AWS | Scalable System Development ",
 };
 

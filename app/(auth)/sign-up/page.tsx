@@ -9,7 +9,7 @@ const page = () => {
   return (
     <div className="flex min-h-svh justify-center  p-6 md:p-10">
       <Tabs defaultValue="student" className="w-fit">
-        <TabsList className="w-[700px]  ">
+        <TabsList className="w-[800px]   ">
           <TabsTrigger className="text-xl" value="student">
             Student
           </TabsTrigger>

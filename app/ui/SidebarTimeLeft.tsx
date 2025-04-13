@@ -12,8 +12,6 @@ type Props = {
 const calculateTimeLeft = (t: Date, d: number) => {
   const endtime = new Date(t.getTime() + d * 60 * 1000);
   const now = new Date();
-  console.log("nowtime", now);
-  console.log("endtime", endtime);
   const diff = differenceInMinutes(endtime, now);
   return diff;
 };

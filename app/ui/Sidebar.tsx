@@ -5,13 +5,19 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { hover_style, smooth_hover, theme_style } from "./CustomStyles";
 import { usePathname, useRouter } from "next/navigation";
-import { getNextBookedMentor } from "../lib/fetchers/mentor";
-import { NextBookedType, StudentInfoType } from "../types";
-import { getNextBookedStudent } from "../lib/fetchers/student";
+import {
+  getMyProfileDetailsMentor,
+  getNextBookedMentor,
+} from "../lib/fetchers/mentor";
+import { MentorInfoType, NextBookedType, StudentInfoType } from "../types";
+import {
+  getMyProfileDetailsStudent,
+  getNextBookedStudent,
+} from "../lib/fetchers/student";
 import SidebarTimeLeft from "./SidebarTimeLeft";
 import { isAfter, isBefore } from "date-fns";
-import { getMyProfileDetails } from "../lib/fetchers/student";
 import Image from "next/image";
+import { getAvatar } from "../utils/utility";
 
 type Props = {
   role: "student" | "mentor";
@@ -38,12 +44,19 @@ const Sidebar = ({
   const [nextBooked, setNextBooked] = useState<NextBookedType | null>(null);
   const [myprofileStudent, setMyProfileStudent] =
     useState<StudentInfoType | null>(null);
+  const [myProfileMentor, setMyProfileMentor] = useState<MentorInfoType | null>(
+    null
+  );
 
   useEffect(() => {
     const fn = async () => {
       if (role === "student") {
-        const p: StudentInfoType = await getMyProfileDetails();
+        const p: StudentInfoType = await getMyProfileDetailsStudent();
         setMyProfileStudent(p);
+      }
+      if (role === "mentor") {
+        const p: MentorInfoType = await getMyProfileDetailsMentor();
+        setMyProfileMentor(p);
       }
       const nowtime = new Date();
       let data: NextBookedType;
@@ -96,28 +109,63 @@ const Sidebar = ({
           </div>
         </div>
       </div>
-      <div
-        className="h-[100px] p-3 flex items-center justify-center gap-x-2 hover:bg-orange-800/10 rounded-xl select-none"
-        onClick={() => router.push("/s/myprofile")}
-      >
-        <Image
-          src={`https://robohash.org/${myprofileStudent?.username}.png?size=200x200`}
-          alt="my profile"
-          width={40}
-          height={40}
-          className="rounded-full border-2 border-white"
-        />
-        <span className="flex flex-col">
-          <span className="text-xl font-semibold">
-            {myprofileStudent?.name}
-          </span>
-          <div>
-            <span className="bg-orange-900 px-2 rounded-sm font-semibold">
-              {role}
+      {myprofileStudent && (
+        <div
+          className="h-[100px] p-3 flex items-center justify-center gap-x-2 hover:bg-orange-800/10 rounded-xl select-none"
+          onClick={() => router.push("/s/myprofile")}
+        >
+          <Image
+            src={
+              myprofileStudent.image_link.length
+                ? myprofileStudent.image_link
+                : getAvatar(myprofileStudent.username)
+            }
+            alt="my profile"
+            width={40}
+            height={40}
+            className="rounded-full border-2 border-white"
+          />
+          <span className="flex flex-col">
+            <span className="text-xl font-semibold">
+              {myprofileStudent.name}
             </span>
-          </div>
-        </span>
-      </div>
+            <div>
+              <span className="bg-orange-900 px-2 rounded-sm font-semibold">
+                {role}
+              </span>
+            </div>
+          </span>
+        </div>
+      )}
+
+      {myProfileMentor && (
+        <div
+          className="h-[100px] p-3 flex items-center justify-center gap-x-2 hover:bg-orange-800/10 rounded-xl select-none"
+          onClick={() => router.push("/m/myprofile")}
+        >
+          <Image
+            src={
+              myProfileMentor.image_link.length
+                ? myProfileMentor.image_link
+                : getAvatar(myProfileMentor.username)
+            }
+            alt="my profile"
+            width={40}
+            height={40}
+            className="rounded-full border-2 border-white"
+          />
+          <span className="flex flex-col">
+            <span className="text-xl font-semibold">
+              {myProfileMentor.name}
+            </span>
+            <div>
+              <span className="bg-orange-900 px-2 rounded-sm font-semibold">
+                {role}
+              </span>
+            </div>
+          </span>
+        </div>
+      )}
     </div>
   );
 };

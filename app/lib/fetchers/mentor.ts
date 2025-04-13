@@ -1,6 +1,10 @@
 import { MentorInfoSchema } from "@/app/(mentor)/schemas";
 import { apiRequest, ApiRequestType } from "@/app/lib/apiClient";
-import { MentorPublicProfileType } from "@/app/types";
+import {
+  InterestType,
+  MentorInfoType,
+  MentorPublicProfileType,
+} from "@/app/types";
 import { getSessionBySessionID } from "./sessions";
 import { getMentorAvailabliltyById } from "./student";
 export async function getMentorPersonalInfo(mID: string) {
@@ -117,4 +121,35 @@ export async function getNextBookedMentor(t: string) {
   refined.StartTime = new Date(res.data.StartTime);
 
   return refined;
+}
+
+export async function getMyProfileDetailsMentor() {
+  const req: ApiRequestType = {
+    endpoint: `api/mentor/myself`,
+    method: "GET",
+    auth: true,
+  };
+
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error("Error fetching my (mentor) details");
+  }
+
+  const refined: MentorInfoType = { ...res.data };
+  refined.dob = new Date(res.data.dob);
+  return refined;
+}
+
+export async function getInterestsListMentor() {
+  const req: ApiRequestType = {
+    endpoint: `api/mentor/interests/list`,
+    method: "GET",
+    auth: true,
+  };
+
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error("Error fetching interests list");
+  }
+  return res.data as InterestType[];
 }
