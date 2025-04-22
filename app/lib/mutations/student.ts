@@ -42,13 +42,14 @@ export async function sendPaymentRequest(
 export async function updateInterestListStudent(interests: InterestType[]) {
   const req: ApiRequestType = {
     endpoint: "api/student/interests/list",
-    method: "POST",
+    method: "PUT",
     body: {
-      interests: interests,
+      interestIds: interests.map((i) => {
+        return i.interest_id;
+      }),
     },
     auth: true,
   };
-
   const res = await apiRequest(req);
   if (!res.success) {
     throw new Error("Failed to update interests");

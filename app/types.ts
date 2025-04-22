@@ -60,6 +60,7 @@ export type BookedSessionType = {
   start: Date;
   end: Date;
   sessionId: string;
+  medium: "online" | "offline";
 };
 
 export type AvalabilityType = {

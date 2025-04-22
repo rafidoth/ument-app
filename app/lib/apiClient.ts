@@ -18,7 +18,7 @@ import {
 } from "../data/fake";
 import { MentorSuggestionType } from "../types";
 
-const USE_FAKE: boolean = true;
+const USE_FAKE: boolean = false;
 export type ApiRequestType = {
   endpoint: string;
   method?: "GET" | "POST" | "PUT" | "DELETE";
@@ -49,12 +49,13 @@ export async function apiRequest({
     if (!token) {
       throw new Error("Authentication token missing");
     }
-
+    console.log("added token to the req : ", token);
     headers["Authorization"] = `Bearer ${token}`;
   }
   const url = `${apiUrl}/${endpoint}`;
   console.log("Sending Request to ", url);
   console.log("provided method ", method);
+  console.log("body ", body);
 
   const res = await fetch(url, {
     method,
@@ -63,14 +64,13 @@ export async function apiRequest({
       ? { body: JSON.stringify(body) }
       : {}),
   });
-
+  console.log("response status code ", res.status);
   if (!res.ok) {
     const errorData = await res.json().catch(() => null);
     throw new Error(
       `API Error ${res.status}: ${res.statusText}. ${errorData?.message || ""}`
     );
   }
-
   return res.json();
 }
 

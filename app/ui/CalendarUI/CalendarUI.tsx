@@ -142,6 +142,7 @@ export default function CalendarUI(props: Props) {
                                         sessionId: item.booked,
                                         start: item.start,
                                         end: item.end,
+                                        medium: "offline",
                                       }}
                                     />
                                   </SheetContent>

@@ -1,5 +1,21 @@
 import { apiRequest, ApiRequestType } from "./apiClient";
 
+// public api calls
+
+export async function getEntireInterestsList() {
+  const req: ApiRequestType = {
+    endpoint: "api/interests",
+    method: "GET",
+    auth: false,
+  };
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error("Failed to fetch entire interests list");
+  }
+  return res.data;
+}
+
+/// these functions should be in the inner folders for separate auth
 export async function getGroupSessionsList() {
   const req: ApiRequestType = {
     endpoint: "api/groupsessions/",

@@ -9,10 +9,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { InterestType } from "../types";
-import { All_Interests } from "../data/fake";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { updateInterestListStudent } from "../lib/mutations/student";
 import { updateInterestListMentor } from "../lib/mutations/mentor";
+import { getEntireInterestsList } from "../lib/fetchers";
 
 type Props = {
   SelectCount: number;
@@ -26,18 +26,29 @@ const AddInterestBtn = (props: Props) => {
   const [selectedInterests, setSelectedInterests] = useState<InterestType[]>(
     props.value
   );
+  const [all, setAll] = useState<InterestType[] | null>();
   const [err, setErr] = React.useState<string | null>(null);
+
+  useEffect(() => {
+    const fn = async () => {
+      const data: InterestType[] = await getEntireInterestsList();
+      setAll(data);
+    };
+    fn();
+  }, []);
   const handleSubmission = async () => {
     props.updateInterestList(selectedInterests);
     if (props.role === "mentor") {
-      await updateInterestListStudent(selectedInterests);
-    } else {
       await updateInterestListMentor(selectedInterests);
+    } else {
+      await updateInterestListStudent(selectedInterests);
     }
   };
+
   useEffect(() => {
     setSelectedInterests(props.value);
   }, [props.value]);
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -60,51 +71,53 @@ const AddInterestBtn = (props: Props) => {
         </DialogTitle>
         <ScrollArea>
           <div className="flex flex-wrap gap-2 h-[500px] ">
-            {All_Interests.map((interest) => (
-              <span
-                className={cn(
-                  theme_border,
-                  selectedInterests.some(
-                    (selected) => selected.interest_id === interest.interest_id
-                  )
-                    ? theme_style
-                    : hover_style,
-                  "flex justify-center border p-2 cursor-pointer"
-                )}
-                key={interest.interest_id}
-                onClick={() => {
-                  if (
+            {all &&
+              all.map((interest) => (
+                <span
+                  className={cn(
+                    theme_border,
                     selectedInterests.some(
                       (selected) =>
                         selected.interest_id === interest.interest_id
                     )
-                  ) {
-                    if (props.value.length === 1) {
-                      setErr("Atleast 1 interest should be selected");
+                      ? theme_style
+                      : hover_style,
+                    "flex justify-center border p-2 cursor-pointer"
+                  )}
+                  key={interest.interest_id}
+                  onClick={() => {
+                    if (
+                      selectedInterests.some(
+                        (selected) =>
+                          selected.interest_id === interest.interest_id
+                      )
+                    ) {
+                      if (props.value.length === 1) {
+                        setErr("Atleast 1 interest should be selected");
+                      } else {
+                        setSelectedInterests(
+                          selectedInterests.filter(
+                            (i) => i.interest_id !== interest.interest_id
+                          )
+                        );
+                        setErr(null);
+                      }
                     } else {
-                      setSelectedInterests(
-                        selectedInterests.filter(
-                          (i) => i.interest_id !== interest.interest_id
-                        )
-                      );
-                      setErr(null);
+                      if (selectedInterests.length < props.SelectCount) {
+                        // add interest
+                        setSelectedInterests([...selectedInterests, interest]);
+                        setErr(null);
+                      } else {
+                        setErr(
+                          `Atmost ${props.SelectCount} interests can be selected`
+                        );
+                      }
                     }
-                  } else {
-                    if (selectedInterests.length < props.SelectCount) {
-                      // add interest
-                      setSelectedInterests([...selectedInterests, interest]);
-                      setErr(null);
-                    } else {
-                      setErr(
-                        `Atmost ${props.SelectCount} interests can be selected`
-                      );
-                    }
-                  }
-                }}
-              >
-                {interest.interest_name}
-              </span>
-            ))}
+                  }}
+                >
+                  {interest.interest_name}
+                </span>
+              ))}
           </div>
           <ScrollBar orientation={"vertical"} />
         </ScrollArea>

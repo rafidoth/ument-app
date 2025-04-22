@@ -35,7 +35,7 @@ export async function registerStudent(data: StudentRegisterDataType) {
     path: "/",
     sameSite: "lax",
   });
-  redirect("/s/findmentor");
+  redirect("/s/myprofile");
 }
 
 export async function registerMentor(data: MentorRegisterDataType) {

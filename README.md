@@ -40,16 +40,58 @@ Students can register as a Mentor and teach their expertised knowledges to other
 
 ## Review and Rating System
 
+- At the end of every 1:1 session can provide Text Review (Not mandatory)
+- Giving a rating point ( mandatory)
+- Group Session Review (Text)
+- Group Session Average Review Points
+- Based on Review Points Mentor Gets a Level
+
 ## UCOIN (In app Currency system)
+
+- Every price should be in UCOIN Currency
+- UCOIN Recharge
+- UCOIN Current Balance
+- Every transaction happens using UCOIN
+
+## NEWSFEED
 
 ## Blogs
 
+- Student can CRUD Blog post in their profile
+- Blogs Can be Filtered By different tags and authors
+- Reaction System for blogs
+
+## Project Showcase
+
+- Student can post their codes, projects
+- Other students see them in their feed
+- Reaction System for showcase posts
+
 ## Leaderboard
+
+- Student Leaderboard
+- Leaderboard developed based on Reactions earned in blogs and projectshowcases
 
 ## Find Team
 
+- Find Team for Course projects
+- FInd team for hackathons
+- find team for olympiad
+- find team for FYDP
+- find Reasearch collaborators
+
 ## Job Postings
+
+- CRUD JOB posting by student
 
 ## Resume Review (AI + Mentor)
 
+- Resume Review Post (Student can Post)
+- Mentor can provide Review
+- AI reviews the Resume as soon as its created / updated
+
 ## Roadmap
+
+- AI Generated Roadmap for students
+- Task Completion Status
+- Time based plan generation
