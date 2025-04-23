@@ -51,9 +51,7 @@ export async function updateInterestListStudent(interests: InterestType[]) {
     auth: true,
   };
   const res = await apiRequest(req);
-  if (!res.success) {
-    throw new Error("Failed to update interests");
-  }
+  return res;
 }
 
 export async function updateStudentProfile(
@@ -72,6 +70,7 @@ export async function updateStudentProfile(
       dob: data.dob.toISOString(),
       password: data.password,
       image: imageFile,
+      bio: data.bio,
     },
     auth: true,
   };

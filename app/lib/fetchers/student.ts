@@ -98,8 +98,11 @@ export async function getMyProfileDetailsStudent() {
   if (!res.success) {
     throw new Error("Error fetching my (student) details");
   }
+  console.log("student ", res.data);
   const refined: StudentInfoType = { ...res.data };
   refined.dob = new Date(res.data.dob);
+
+  console.log("my profile details came from server ", refined);
   return refined;
 }
 

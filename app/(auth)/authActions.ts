@@ -1,6 +1,5 @@
 "use server";
 import { cookies } from "next/headers";
-import { SignInSchemaType } from "@/app/ui/LoginForm";
 import { redirect } from "next/navigation";
 import { StudentRegisterDataType } from "./sign-up/ui/SignupStudent";
 import { apiRequest, ApiRequestType } from "../lib/apiClient";
@@ -35,6 +34,9 @@ export async function registerStudent(data: StudentRegisterDataType) {
     path: "/",
     sameSite: "lax",
   });
+  const student_id = response.student_id;
+  localStorage.setItem("student-id", student_id);
+
   redirect("/s/myprofile");
 }
 
@@ -77,46 +79,34 @@ export async function registerMentor(data: MentorRegisterDataType) {
   redirect("/m/findmentor");
 }
 
-export async function signInAction(signInData: SignInSchemaType) {
-  const student = signInData.student;
-  console.log("student", signInData.student);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const response = await fetch(`${apiUrl}/api/student/login`, {
+export async function studentSignIn(data: { email: string; password: string }) {
+  const req: ApiRequestType = {
+    endpoint: `api/student/login`,
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      // Include cookies if needed
-      // "Authorization": `Bearer ${yourToken}`
+    body: {
+      email: data.email,
+      password: data.password,
     },
-    body: JSON.stringify({
-      email: signInData.email,
-      password: signInData.password,
-    }),
-    credentials: "include", // if you want to send cookies
-  });
+    auth: false,
+  };
 
-  if (!response.ok) {
-    console.error(response.body);
-    return { success: false };
+  const response = await apiRequest(req);
+  if (!response.success) {
+    return {
+      sid: null,
+      error: "Wrong Credentials, Try again please.",
+    };
   }
-
-  const data = await response.json();
-  const authToken = data.user?.jwtToken;
-  if (!authToken) {
-    throw new Error("Failed to retrieve auth token from response");
-  }
-
-  console.log("authToken from backend", authToken);
+  const jwt = response.jwtToken;
 
   const cookieStore = await cookies();
-  cookieStore.set("auth_token", authToken, {
+  cookieStore.set("auth_token", jwt, {
     path: "/",
     sameSite: "lax",
   });
 
   return {
-    succsess: true,
-    data: data,
+    sid: response.student_id,
+    error: null,
   };
-  redirect(student ? "/s/explore" : "/m/explore");
 }

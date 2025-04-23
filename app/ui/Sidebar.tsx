@@ -45,7 +45,7 @@ const Sidebar = ({
   const [myprofileStudent, setMyProfileStudent] =
     useState<StudentInfoType | null>(null);
   const [myProfileMentor, setMyProfileMentor] = useState<MentorInfoType | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -59,14 +59,14 @@ const Sidebar = ({
         setMyProfileMentor(p);
       }
       const nowtime = new Date();
-      let data: NextBookedType;
-      if (role === "mentor") {
-        data = await getNextBookedMentor(nowtime.toISOString());
-        setNextBooked(data);
-      } else {
-        data = await getNextBookedStudent(nowtime.toISOString());
-        setNextBooked(data);
-      }
+      // let data: NextBookedType;
+      // if (role === "mentor") {
+      //   data = await getNextBookedMentor(nowtime.toISOString());
+      //   setNextBooked(data);
+      // } else {
+      //   data = await getNextBookedStudent(nowtime.toISOString());
+      //   setNextBooked(data);
+      // }
     };
     fn();
   }, []);
@@ -91,7 +91,7 @@ const Sidebar = ({
                   "flex items-center gap-x-2 py-2 px-6 cursor-pointer text-lg",
                   thisurl === element.url ? theme_style : hover_style,
                   "rounded-xl",
-                  smooth_hover
+                  smooth_hover,
                 )}
               >
                 {element.icon}
@@ -114,20 +114,23 @@ const Sidebar = ({
           className="h-[100px] p-3 flex items-center justify-center gap-x-2 hover:bg-orange-800/10 rounded-xl select-none"
           onClick={() => router.push("/s/myprofile")}
         >
-          <Image
-            src={
-              myprofileStudent.image_link.length
-                ? myprofileStudent.image_link
-                : getAvatar(myprofileStudent.username)
-            }
-            alt="my profile"
-            width={40}
-            height={40}
-            className="rounded-full border-2 border-white"
-          />
+          <div className="w-[40px] h-[40px] rounded-full overflow-hidden border-2 border-white">
+            <Image
+              src={
+                myprofileStudent.image_link.length
+                  ? myprofileStudent.image_link
+                  : getAvatar(myprofileStudent.username)
+              }
+              alt="mentor"
+              width={40}
+              height={40}
+              className="object-cover w-full h-full"
+              unoptimized
+            />
+          </div>
           <span className="flex flex-col">
             <span className="text-xl font-semibold">
-              {myprofileStudent.name}
+              {myprofileStudent.name.slice(0, 15)}
             </span>
             <div>
               <span className="bg-orange-900 px-2 rounded-sm font-semibold">

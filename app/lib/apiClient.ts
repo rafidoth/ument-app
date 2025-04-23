@@ -24,6 +24,7 @@ export type ApiRequestType = {
   method?: "GET" | "POST" | "PUT" | "DELETE";
   body?: unknown;
   auth?: boolean;
+  ignoreError?: boolean;
 };
 
 export async function apiRequest({
@@ -31,6 +32,7 @@ export async function apiRequest({
   method = "GET",
   body,
   auth = true,
+  ignoreError,
 }: ApiRequestType) {
   if (USE_FAKE) {
     return fakeApiRequest(endpoint);
@@ -53,6 +55,7 @@ export async function apiRequest({
     headers["Authorization"] = `Bearer ${token}`;
   }
   const url = `${apiUrl}/${endpoint}`;
+
   console.log("Sending Request to ", url);
   console.log("provided method ", method);
   console.log("body ", body);
@@ -65,12 +68,16 @@ export async function apiRequest({
       : {}),
   });
   console.log("response status code ", res.status);
-  if (!res.ok) {
-    const errorData = await res.json().catch(() => null);
-    throw new Error(
-      `API Error ${res.status}: ${res.statusText}. ${errorData?.message || ""}`
-    );
+
+  if (!ignoreError) {
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => null);
+      throw new Error(
+        `API Error ${res.status}: ${res.statusText}. ${errorData?.message || ""}`,
+      );
+    }
   }
+
   return res.json();
 }
 

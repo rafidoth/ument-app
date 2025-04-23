@@ -13,6 +13,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { updateInterestListStudent } from "../lib/mutations/student";
 import { updateInterestListMentor } from "../lib/mutations/mentor";
 import { getEntireInterestsList } from "../lib/fetchers";
+import { toast } from "sonner";
 
 type Props = {
   SelectCount: number;
@@ -41,7 +42,12 @@ const AddInterestBtn = (props: Props) => {
     if (props.role === "mentor") {
       await updateInterestListMentor(selectedInterests);
     } else {
-      await updateInterestListStudent(selectedInterests);
+      const res = await updateInterestListStudent(selectedInterests);
+      if (res.success) {
+        toast.success("Success: Interest List Updated!");
+      } else {
+        toast.error("Failed to update Interest List!");
+      }
     }
   };
 

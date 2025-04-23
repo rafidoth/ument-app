@@ -68,48 +68,56 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }: Props) => {
   const router = useRouter();
   const handleGSClick = () => {
     router.replace(
-      `/s/group-sessions/${GroupSessionDetails.id}?bg=${ColorTheme.bg}&text=${ColorTheme.text}`
+      `/s/group-sessions/${GroupSessionDetails.id}?bg=${ColorTheme.bg}&text=${ColorTheme.text}`,
     );
   };
   return (
     <Card
       className={cn(
         "w-[700px] hover:opacity-90 select-none border-none",
-        ColorTheme.bg
+        ColorTheme.bg,
       )}
       onClick={handleGSClick}
     >
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-x-2 font-semibold">
-            <Image
-              className="rounded-full border-2 border-white"
-              src={GroupSessionDetails.mentor.photoLink}
-              alt="mentor image"
-              width={50}
-              height={50}
-            />
+            <div className="w-[50px] h-[50px] rounded-full overflow-hidden border-2 border-white">
+              <Image
+                src={GroupSessionDetails.mentor.photoLink}
+                alt="mentor"
+                width={50}
+                height={50}
+                className="object-cover w-full h-full"
+                unoptimized
+              />
+            </div>
             <span>{GroupSessionDetails.mentor.name}</span>
           </div>
           <div className="flex items-center font-bold gap-x-2">
             <div className="flex">
-              {GroupSessionDetails.previewParticipants.map((item, i) => {
-                return (
-                  <Tooltip key={i}>
-                    <TooltipTrigger className="-ml-2">
-                      <Image
-                        key={i}
-                        src={item.photoLink}
-                        alt="group session participants"
-                        width={40}
-                        height={40}
-                        className="rounded-full  border-2 border-white  "
-                      />
-                    </TooltipTrigger>
-                    <TooltipContent>{item.name}</TooltipContent>
-                  </Tooltip>
-                );
-              })}
+              {GroupSessionDetails.previewParticipants &&
+                GroupSessionDetails.previewParticipants.map((item, i) => {
+                  return (
+                    <Tooltip key={i}>
+                      <TooltipTrigger className="-ml-2">
+                        <div className="w-[50px] h-[50px] rounded-full overflow-hidden border-2 border-white">
+                          {item.photoLink.length ? (
+                            <Image
+                              src={item.photoLink}
+                              alt="mentor"
+                              width={50}
+                              height={50}
+                              className="object-cover w-full h-full"
+                              unoptimized
+                            />
+                          ) : null}
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>{item.name}</TooltipContent>
+                    </Tooltip>
+                  );
+                })}
             </div>
             <div>
               {GroupSessionDetails.participants.current}/
@@ -134,7 +142,7 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }: Props) => {
           <span
             className={cn(
               "font-semibold cursor-pointer hover:opacity-80",
-              smooth_hover
+              smooth_hover,
             )}
           >
             {" "}

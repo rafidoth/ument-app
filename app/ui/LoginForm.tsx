@@ -10,46 +10,29 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signInAction } from "@/app/(auth)/authActions";
+import { studentSignIn } from "@/app/(auth)/authActions";
 import { startTransition, useState } from "react";
-import { z } from "zod";
 import { useRouter } from "next/navigation";
-// import { useStudentData } from "../contexts/StudentDataContext";
-// import { apiRequest, ApiRequestType } from "../lib/apiClient";
-// import { StudentInfoSchema } from "@/app/(student)/schemas";
 
 type Props = {
   student: boolean;
 };
-
-const SignInSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-  student: z.boolean(),
-});
-export type SignInSchemaType = z.infer<typeof SignInSchema>;
 
 export default function LoginForm({ student }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState("");
   const [isPending, setIsPending] = useState(false);
-
   const router = useRouter();
 
   const handleSignIn = () => {
-    const signInData = SignInSchema.parse({ email, password, student });
     startTransition(async () => {
       setIsPending(true);
-      const res = await signInAction(signInData);
-      const { success, data } = res;
-      if (success === false) {
-        setErrorText("Invalid email or password");
-      } else {
-        const student_id = data.user.student_id;
-        localStorage.setItem("student-id", student_id);
-        router.replace("/s/explore");
-      }
+      const res = await studentSignIn({ email, password });
+      const student_id = res.sid;
+      localStorage.setItem("student-id", student_id);
+      setErrorText(res.error ? res.error : "");
+      router.replace("/s/myprofile");
       setIsPending(false);
     });
   };

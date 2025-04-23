@@ -24,7 +24,7 @@ export async function getGroupSessionsList() {
   };
 
   const res = await apiRequest(req);
-  console.log(res);
+  console.log("group sessions", res);
   if (!res.success) {
     throw new Error("Error fetching Group Sessions List");
   }
@@ -34,7 +34,7 @@ export async function getGroupSessionsList() {
 export async function getGroupSessionsById(gsid: string) {
   console.log(gsid);
   const req: ApiRequestType = {
-    endpoint: "api/groupsessions/gsid",
+    endpoint: `api/groupsessions/${gsid}`,
     method: "GET",
     auth: true,
   };
@@ -48,9 +48,8 @@ export async function getGroupSessionsById(gsid: string) {
 }
 
 export async function getGroupSessionParticipants(gsid: string) {
-  console.log(`Fetching participants for Group Session ID: ${gsid}`);
   const req: ApiRequestType = {
-    endpoint: `api/groupsessions/participantlist/gsid`, // for testing its hardcoded, we have to change it later
+    endpoint: `api/groupsessions/participantlist/${gsid}`,
     method: "GET",
     auth: true,
   };

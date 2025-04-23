@@ -9,13 +9,19 @@ export async function joinGroupSession(studentId: string, gsid: string) {
       ParticipantId: studentId,
     },
     auth: true,
+    ignoreError: true,
   };
 
   const res = await apiRequest(req);
-  if (!res.success) {
-    throw new Error("Error Joining Group session");
-  }
-  return res.data;
+  /*
+   * Response format
+    ---  on fail
+        {
+            "success": false,
+            "message": "Student is already a participant in this group session with status 'registered'"
+        }
+   */
+  return res;
 }
 
 // cancel registration of student in group session

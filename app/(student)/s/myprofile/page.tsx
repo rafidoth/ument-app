@@ -22,6 +22,7 @@ const MyProfile = () => {
   useEffect(() => {
     const fn = async () => {
       const p: StudentInfoType = await getMyProfileDetailsStudent();
+      console.log(p);
       setMyProfile(p);
     };
     fn();
@@ -66,17 +67,21 @@ const MyProfile = () => {
               {myProfile.email}
             </span>
           </div>
-          <Image
-            src={
-              myProfile.image_link.length
-                ? myProfile.image_link
-                : getAvatar(myProfile.username)
-            }
-            alt="myprofile"
-            width={100}
-            height={100}
-            className="border-2 border-orange-900/40 rounded-full"
-          />
+
+          <div className="w-[200px] h-[200px] rounded-full overflow-hidden border-2 border-orange-800">
+            <Image
+              src={
+                myProfile.image_link.length
+                  ? myProfile.image_link
+                  : getAvatar(myProfile.username)
+              }
+              alt=""
+              width={200}
+              height={200}
+              className="object-cover w-full h-full"
+              unoptimized
+            />
+          </div>
         </div>
 
         <div className="w-1/2">

@@ -28,10 +28,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@radix-ui/react-dialog";
+import { toast } from "sonner";
 
 const GroupSessionPageIndividual = () => {
   const [gsInfo, setGsInfo] = useState<GroupSessionInfoType | null>(null);
-  const [meetingLink, setMeetingLink] = useState<string | null>(null);
+  const [reg, setReg] = useState<boolean>(false);
   const [participants, setParticipants] = useState<
     GroupSessionParticipantInfo[]
   >([]);
@@ -52,33 +53,42 @@ const GroupSessionPageIndividual = () => {
       const p: GroupSessionParticipantInfo[] =
         await getGroupSessionParticipants(gsid);
       setParticipants(p);
+
+      if (p.some((p) => p.id === studentId && p.status === "registered")) {
+        setReg(true);
+      }
     };
     fn();
   }, []);
 
   const handleJoiningGS = async () => {
     if (studentId) {
-      const data = await joinGroupSession(studentId, gsid);
-      setMeetingLink(data.meetingLink);
+      const res = await joinGroupSession(studentId, gsid);
+      if (res.success) {
+        toast.success("You have successfully joined the session");
+        setReg(true);
+      } else {
+        toast.error("You cannot join the session again after cancelling once.");
+      }
     } else {
       router.replace("/sign-in");
     }
   };
+
   const handleCancellation = async () => {
     if (studentId) {
-      const cancelled = await cancelGroupSession(studentId, gsid);
-      if (cancelled) {
-        setMeetingLink(null);
-      }
+      await cancelGroupSession(studentId, gsid);
+      setReg(false);
     }
   };
+
   return (
     <div>
       {gsInfo && (
         <div
           className={cn(
             bg,
-            "relative h-[400px] flex flex-col justify-center items-center"
+            "relative h-[400px] flex flex-col justify-center items-center",
           )}
         >
           <Link href={"/s/group-sessions"}>
@@ -87,13 +97,16 @@ const GroupSessionPageIndividual = () => {
             </div>
           </Link>
           <span className="flex  items-center font-semibold gap-x-2 ">
-            <Image
-              className="rounded-full border-2 border-white"
-              src={gsInfo.mentor.photoLink}
-              alt="mentor image"
-              width={40}
-              height={40}
-            />
+            <div className="w-[50px] h-[50px] rounded-full overflow-hidden border-2 border-white">
+              <Image
+                src={gsInfo.mentor.photoLink}
+                alt=""
+                width={50}
+                height={50}
+                className="object-cover w-full h-full"
+                unoptimized
+              />
+            </div>
             {gsInfo.mentor.name}
           </span>
           <span className={cn(text, "text-9xl font-black ")}>
@@ -109,11 +122,11 @@ const GroupSessionPageIndividual = () => {
               {format(gsInfo.startTime, "Pp")}
             </span>
           </span>
-          {!meetingLink && (
+          {!reg && (
             <span
               className={cn(
                 "rounded-full font-semibold bg-gray-800 px-2 hover:bg-orange-500 hover:text-black cursor-pointer",
-                smooth_hover
+                smooth_hover,
               )}
               onClick={handleJoiningGS}
             >
@@ -124,19 +137,59 @@ const GroupSessionPageIndividual = () => {
         </div>
       )}
       <div className=" flex flex-col items-center my-10">
-        {meetingLink && (
-          <Link href={meetingLink} target="_blank">
-            <span
-              className={cn(
-                "flex gap-x-2 items-center font-semibold px-5 rounded-md py-2",
-                bg
-              )}
-            >
-              <Image src={"/meet.png"} alt="meet logo" width={30} height={30} />{" "}
-              Join The Meeting
-            </span>
-          </Link>
-        )}
+        <span className="flex gap-x-2">
+          {reg && gsInfo && (
+            <Link href={gsInfo.platform_link} target="_blank">
+              <span
+                className={cn(
+                  "flex gap-x-2 items-center font-semibold px-5 rounded-md py-2",
+                  bg,
+                  smooth_hover,
+                  "hover:opacity-70",
+                )}
+              >
+                <Image
+                  src={"/meet.png"}
+                  alt="meet logo"
+                  width={30}
+                  height={30}
+                />{" "}
+                Join The Meeting
+              </span>
+            </Link>
+          )}
+          {reg && (
+            <Dialog>
+              <DialogTrigger>
+                <span
+                  className={cn(
+                    "flex gap-x-2 items-center font-semibold px-5 rounded-md py-2 h-full bg-red-800",
+                    smooth_hover,
+                    "hover:opacity-70",
+                  )}
+                >
+                  Cancel My Participation
+                </span>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogTitle className="text-xl">
+                  Are you sure about cancelling your seat?
+                </DialogTitle>
+                <div className="flex gap-x-2 w-full">
+                  <DialogClose
+                    className="w-[150px] p-2 bg-red-800 flex justify-center rounded-sm hover:opacity-90"
+                    onClick={handleCancellation}
+                  >
+                    Yes
+                  </DialogClose>
+                  <DialogClose className="w-[150px] p-2 bg-gray-700 flex justify-center rounded-sm hover:opacity-90">
+                    Cancel
+                  </DialogClose>
+                </div>
+              </DialogContent>
+            </Dialog>
+          )}
+        </span>
         <span>
           <Table className=" my-10 text-lg p-2 rounded-xl  ">
             <TableHeader className="p-10">
@@ -144,6 +197,7 @@ const GroupSessionPageIndividual = () => {
                 <TableHead>Student</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Registered At</TableHead>
+                <TableHead>Points</TableHead>
               </TableRow>
             </TableHeader>
             {participants.map((p, i) => {
@@ -152,13 +206,18 @@ const GroupSessionPageIndividual = () => {
                   <TableBody key={i}>
                     <TableRow>
                       <TableCell className="flex  items-center gap-x-2 ">
-                        <Image
-                          className="rounded-full"
-                          src={p.photoLink}
-                          alt="participant image"
-                          width={40}
-                          height={40}
-                        />
+                        <div className="w-[50px] h-[50px] rounded-full overflow-hidden ">
+                          {p.photoLink.length > 0 && (
+                            <Image
+                              src={p.photoLink}
+                              alt=""
+                              width={50}
+                              height={50}
+                              className="object-cover w-full h-full"
+                              unoptimized
+                            />
+                          )}
+                        </div>
                         <span>{p.name}</span>
                         {p.status === "waiting" && (
                           <span className={cn(bg, "text-sm px-2 rounded-full")}>
@@ -168,6 +227,7 @@ const GroupSessionPageIndividual = () => {
                       </TableCell>
                       <TableCell>{p.email}</TableCell>
                       <TableCell>{format(p.joinedAt, "PPp")}</TableCell>
+                      <TableCell>{p.points}</TableCell>
                     </TableRow>
                   </TableBody>
                 );
@@ -175,7 +235,7 @@ const GroupSessionPageIndividual = () => {
             })}
           </Table>
         </span>
-        {meetingLink && (
+        {reg && (
           <Dialog>
             <DialogTrigger>
               <span className="p-2 rounded-md bg-red-800 hover:opacity-70 font-semibold">

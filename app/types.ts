@@ -136,6 +136,7 @@ export type GroupSessionInfoType = {
     current: number;
     max: number;
   };
+  platform_link: string;
   previewParticipants: { id: string; name: string; photoLink: string }[];
 };
 
@@ -144,6 +145,7 @@ export type GroupSessionParticipantInfo = {
   name: string;
   photoLink: string;
   email: string;
+  points: number;
   joinedAt: string;
   status: "registered" | "cancelled" | "completed" | "waiting";
 };

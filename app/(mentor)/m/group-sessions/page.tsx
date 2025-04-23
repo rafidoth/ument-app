@@ -101,14 +101,17 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }: Props) => {
                 return (
                   <Tooltip key={i}>
                     <TooltipTrigger className="-ml-2">
-                      <Image
-                        key={i}
-                        src={item.photoLink}
-                        alt="group session participants"
-                        width={40}
-                        height={40}
-                        className="rounded-full  border-2 border-white  "
-                      />
+                      <span className="w-[40px] h-[40px] overflow-hidden">
+                        <Image
+                          key={i}
+                          src={item.photoLink}
+                          alt=""
+                          width={40}
+                          height={40}
+                          className="rounded-full  border-2 border-white  "
+                          unoptimized
+                        />
+                      </span>
                     </TooltipTrigger>
                     <TooltipContent>{item.name}</TooltipContent>
                   </Tooltip>
