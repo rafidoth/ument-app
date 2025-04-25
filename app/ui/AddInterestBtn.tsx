@@ -25,7 +25,7 @@ type Props = {
 
 const AddInterestBtn = (props: Props) => {
   const [selectedInterests, setSelectedInterests] = useState<InterestType[]>(
-    props.value
+    props.value,
   );
   const [all, setAll] = useState<InterestType[] | null>();
   const [err, setErr] = React.useState<string | null>(null);
@@ -37,10 +37,16 @@ const AddInterestBtn = (props: Props) => {
     };
     fn();
   }, []);
+
   const handleSubmission = async () => {
     props.updateInterestList(selectedInterests);
     if (props.role === "mentor") {
-      await updateInterestListMentor(selectedInterests);
+      const res = await updateInterestListMentor(selectedInterests);
+      if (res.success) {
+        toast.success("Success: Interest List Updated!");
+      } else {
+        toast.error("Failed to update Interest List!");
+      }
     } else {
       const res = await updateInterestListStudent(selectedInterests);
       if (res.success) {
@@ -62,7 +68,7 @@ const AddInterestBtn = (props: Props) => {
           className={cn(
             hover_style,
             theme_border,
-            "flex justify-center border  px-2 cursor-pointer"
+            "flex justify-center border  px-2 cursor-pointer",
           )}
         >
           +
@@ -84,18 +90,18 @@ const AddInterestBtn = (props: Props) => {
                     theme_border,
                     selectedInterests.some(
                       (selected) =>
-                        selected.interest_id === interest.interest_id
+                        selected.interest_id === interest.interest_id,
                     )
                       ? theme_style
                       : hover_style,
-                    "flex justify-center border p-2 cursor-pointer"
+                    "flex justify-center border p-2 cursor-pointer",
                   )}
                   key={interest.interest_id}
                   onClick={() => {
                     if (
                       selectedInterests.some(
                         (selected) =>
-                          selected.interest_id === interest.interest_id
+                          selected.interest_id === interest.interest_id,
                       )
                     ) {
                       if (props.value.length === 1) {
@@ -103,8 +109,8 @@ const AddInterestBtn = (props: Props) => {
                       } else {
                         setSelectedInterests(
                           selectedInterests.filter(
-                            (i) => i.interest_id !== interest.interest_id
-                          )
+                            (i) => i.interest_id !== interest.interest_id,
+                          ),
                         );
                         setErr(null);
                       }
@@ -115,7 +121,7 @@ const AddInterestBtn = (props: Props) => {
                         setErr(null);
                       } else {
                         setErr(
-                          `Atmost ${props.SelectCount} interests can be selected`
+                          `Atmost ${props.SelectCount} interests can be selected`,
                         );
                       }
                     }
@@ -133,7 +139,7 @@ const AddInterestBtn = (props: Props) => {
             className={cn(
               theme_border,
               hover_style,
-              "flex justify-center p-2 cursor-pointer"
+              "flex justify-center p-2 cursor-pointer",
             )}
           >
             Done

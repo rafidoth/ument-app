@@ -67,7 +67,10 @@ export async function registerMentor(data: MentorRegisterDataType) {
 
   const response = await apiRequest(req);
   if (!response.success) {
-    throw new Error("Registration Failed");
+    return {
+      mid: null,
+      error: "Registration Failed, Try again with correct data.",
+    };
   }
   const jwt = response.jwtToken;
 
@@ -76,7 +79,43 @@ export async function registerMentor(data: MentorRegisterDataType) {
     path: "/",
     sameSite: "lax",
   });
-  redirect("/m/findmentor");
+  console.log(response);
+  return {
+    mid: response.mentor_id,
+    error: null,
+  };
+}
+
+export async function mentorSignIn(data: { email: string; password: string }) {
+  const req: ApiRequestType = {
+    endpoint: `api/mentor/login`,
+    method: "POST",
+    body: {
+      email: data.email,
+      password: data.password,
+    },
+    auth: false,
+  };
+
+  const response = await apiRequest(req);
+  if (!response.success) {
+    return {
+      mid: null,
+      error: "Wrong Credentials, Try again please.",
+    };
+  }
+  const jwt = response.jwtToken;
+
+  const cookieStore = await cookies();
+  cookieStore.set("auth_token", jwt, {
+    path: "/",
+    sameSite: "lax",
+  });
+
+  return {
+    mid: response.student_id,
+    error: null,
+  };
 }
 
 export async function studentSignIn(data: { email: string; password: string }) {
@@ -109,4 +148,9 @@ export async function studentSignIn(data: { email: string; password: string }) {
     sid: response.student_id,
     error: null,
   };
+}
+
+export async function clearCookie() {
+  const cookieStore = await cookies();
+  cookieStore.delete("auth_token");
 }

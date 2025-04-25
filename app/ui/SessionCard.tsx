@@ -37,13 +37,16 @@ const SessionCard = ({ sessionDetails, student, checkoutpage }: Props) => {
       <CardContent className="space-y-4 text-lg">
         {student && (
           <div className="flex gap-x-2">
-            <Image
-              className="border-2 border-orange-800 rounded-lg"
-              src={sessionDetails.mentorImageLink}
-              alt="mentor image"
-              width={30}
-              height={30}
-            />
+            <div className="w-[30px] h-[30px] rounded-full overflow-hidden border-2 border-white">
+              <Image
+                src={sessionDetails.mentorImageLink}
+                alt="mentor"
+                width={50}
+                height={50}
+                className="object-cover w-full h-full"
+                unoptimized
+              />
+            </div>
             <span>{sessionDetails.mentorName}</span>
           </div>
         )}
@@ -92,7 +95,7 @@ const SessionCard = ({ sessionDetails, student, checkoutpage }: Props) => {
                     theme_border,
                     hover_style,
                     smooth_hover,
-                    "px-4 cursor-pointer"
+                    "px-4 cursor-pointer",
                   )}
                 >
                   Book Session

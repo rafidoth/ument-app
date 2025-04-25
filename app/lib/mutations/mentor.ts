@@ -1,48 +1,51 @@
 import { InterestType, MentorInfoType } from "@/app/types";
 import { apiRequest, ApiRequestType } from "../apiClient";
+import { format } from "date-fns";
 
 export async function addAvailability(
   start: Date,
   end: Date,
-  medium: ("online" | "offline")[]
+  medium: ("online" | "offline")[],
 ) {
   const req: ApiRequestType = {
-    endpoint: "api/mentor/avalability/add",
+    endpoint: "api/mentor/availability/add",
     method: "POST",
     body: {
-      startTime: start,
-      endTime: end,
+      startTime: start.toISOString(),
+      endTime: end.toISOString(),
       medium: medium,
     },
     auth: true,
   };
-  console.log("Adding Availability", req);
+  console.log("st", start);
+  console.log("startTime", format(start, "yyyy-MM-dd HH:mm:ss"));
+  console.log("st", start);
+  console.log("startTime", format(start, "yyyy-MM-dd HH:mm:ss"));
+  console.log("endTime", format(end, "yyyy-MM-dd HH:mm:ss"));
   const res = await apiRequest(req);
   if (!res.success) {
     throw new Error("Adding Avalability Failed.");
   }
-  return res;
 }
 
 export async function updateInterestListMentor(interests: InterestType[]) {
   const req: ApiRequestType = {
     endpoint: "api/mentor/interests/list",
-    method: "POST",
+    method: "PUT",
     body: {
-      interests: interests,
+      interestIds: interests.map((i) => {
+        return i.interest_id;
+      }),
     },
     auth: true,
   };
-
   const res = await apiRequest(req);
-  if (!res.success) {
-    throw new Error("Failed to update interests");
-  }
+  return res;
 }
 
 export async function updateMentorProfile(
   data: MentorInfoType,
-  imageFile: null | File
+  imageFile: null | File,
 ) {
   const req: ApiRequestType = {
     endpoint: "api/mentor/myself",
@@ -53,6 +56,7 @@ export async function updateMentorProfile(
       username: data.username,
       gender: data.gender,
       grad_year: data.grad_year,
+      bio: data.bio,
       socials: {
         github: data.socials.github,
         facebook: data.socials.facebook,
@@ -71,5 +75,4 @@ export async function updateMentorProfile(
     console.error(req.body);
     throw new Error("Failed to update mentor profile");
   }
-  console.log("Fake Data Update reached here");
 }

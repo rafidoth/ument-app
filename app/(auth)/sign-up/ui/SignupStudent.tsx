@@ -38,9 +38,11 @@ const SignupStudent = () => {
     password: "",
     repeatPassword: "",
   });
+
   const handleRegisterStudent = async () => {
     registerStudent(info);
   };
+
   return (
     <div className="my-10">
       <span className="text-xl">Information</span>
@@ -162,7 +164,7 @@ const SignupStudent = () => {
           className={cn(
             hover_style,
             theme_style,
-            "px-3 py-1 text-xl rounded-md select-none "
+            "px-3 py-1 text-xl rounded-md select-none ",
           )}
           onClick={handleRegisterStudent}
         >

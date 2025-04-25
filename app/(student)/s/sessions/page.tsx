@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 const SessionsPage = async () => {
-  const sessions: SessionInfoType[] =
+  const sessionsBasedOnInterests: SessionInfoType[] =
     await getSessionsForStudentBasedOnInterest();
   return (
     <div className="px-16">
@@ -18,7 +18,7 @@ const SessionsPage = async () => {
             "font-semibold text-5xl  px-2 pb-2 my-6 z-10 ",
             jakarta.className,
             // "border-b-2 border-orange-800",
-            gradientText1
+            gradientText1,
           )}
         >
           1:1 Sessions
@@ -26,7 +26,7 @@ const SessionsPage = async () => {
       </div>
       <ScrollArea className="h-[800px] ">
         <div className="flex flex-wrap gap-x-10  my-8 justify-center  ">
-          {sessions.map((s, i: number) => (
+          {sessionsBasedOnInterests.map((s, i: number) => (
             <SessionCard key={i} sessionDetails={s} student={true} />
           ))}
         </div>

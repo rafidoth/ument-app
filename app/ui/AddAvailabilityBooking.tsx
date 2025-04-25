@@ -7,6 +7,7 @@ import { hover_style, smooth_hover, theme_border } from "@/app/ui/CustomStyles";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -21,6 +22,8 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
+import { PopoverContent } from "@/components/ui/popover";
 type Props = {
   availabilityState: {
     values: AvalabilityType[];
@@ -37,12 +40,12 @@ const AddAvailabilityBooking = (props: Props) => {
     // start and end time should be in a single day
     // start time is always less than end time
     if (isSameDay(startTime, endTime) && isBefore(startTime, endTime)) {
-      await addAvailability(startTime, endTime, medium);
       props.availabilityState.onChange({
         start: startTime,
         end: endTime,
         booked: "",
       });
+      await addAvailability(startTime, endTime, medium);
     }
   };
   return (
@@ -53,7 +56,8 @@ const AddAvailabilityBooking = (props: Props) => {
             theme_border,
             hover_style,
             smooth_hover,
-            "px-4 cursor-pointer text-lg"
+            "px-4 cursor-pointer text-lg",
+            "hover:opacity:40 z-10",
           )}
         >
           Add Availability
@@ -61,6 +65,9 @@ const AddAvailabilityBooking = (props: Props) => {
       </DialogTrigger>
       <DialogContent>
         <DialogTitle className="text-2xl">Create Avaliablity</DialogTitle>
+        <DialogDescription>
+          Select a start time and duration for your availability.
+        </DialogDescription>
         <div className="text-lg flex flex-col gap-4">
           <span className="mx-3 font-semibold">Start</span>
           <span className="bg-red-800/60 text-red-300 font-semibold flex justify-center rounded-md">
@@ -109,7 +116,7 @@ const AddAvailabilityBooking = (props: Props) => {
             <span
               className={cn(
                 "border border-orange-500 px-2 rounded-2xl hover:bg-orange-800",
-                medium.includes("online") ? "bg-orange-800" : ""
+                medium.includes("online") ? "bg-orange-800" : "",
               )}
               onClick={() => {
                 if (!medium.includes("online")) {
@@ -124,7 +131,7 @@ const AddAvailabilityBooking = (props: Props) => {
             <span
               className={cn(
                 "border border-orange-500 px-2 rounded-2xl hover:bg-orange-800",
-                medium.includes("offline") ? "bg-orange-800" : ""
+                medium.includes("offline") ? "bg-orange-800" : "",
               )}
               onClick={() => {
                 if (!medium.includes("offline")) {
@@ -144,7 +151,7 @@ const AddAvailabilityBooking = (props: Props) => {
               theme_border,
               hover_style,
               smooth_hover,
-              "px-4 text-lg"
+              "px-4 text-lg",
             )}
             onClick={handleAvailabilitySave}
           >

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { studentSignIn } from "@/app/(auth)/authActions";
+import { mentorSignIn, studentSignIn } from "@/app/(auth)/authActions";
 import { startTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -28,11 +28,19 @@ export default function LoginForm({ student }: Props) {
   const handleSignIn = () => {
     startTransition(async () => {
       setIsPending(true);
-      const res = await studentSignIn({ email, password });
-      const student_id = res.sid;
-      localStorage.setItem("student-id", student_id);
-      setErrorText(res.error ? res.error : "");
-      router.replace("/s/myprofile");
+      if (student) {
+        const res = await studentSignIn({ email, password });
+        const student_id = res.sid;
+        localStorage.setItem("student-id", student_id);
+        setErrorText(res.error ? res.error : "");
+        router.replace("/s/myprofile");
+      } else {
+        const res = await mentorSignIn({ email, password });
+        const mentor_id = res.mid;
+        localStorage.setItem("mentor-id", mentor_id);
+        setErrorText(res.error ? res.error : "");
+        router.replace("/m/myprofile");
+      }
       setIsPending(false);
     });
   };
@@ -89,7 +97,7 @@ export default function LoginForm({ student }: Props) {
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
             <a
-              href={student ? "/s/sign-up" : "/m/sign-up"}
+              href={student ? "/sign-up" : "/sign-up"}
               className="underline underline-offset-4"
             >
               Sign up

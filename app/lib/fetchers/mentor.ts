@@ -7,6 +7,8 @@ import {
 } from "@/app/types";
 import { getSessionBySessionID } from "./sessions";
 import { getMentorAvailabliltyById } from "./student";
+import { format } from "date-fns";
+
 export async function getMentorPersonalInfo(mID: string) {
   const req: ApiRequestType = {
     endpoint: `api/mentor/${mID}`,
@@ -93,6 +95,7 @@ export async function getAvailabilities() {
   if (!res.success) {
     throw new Error("Availability fetching error");
   }
+  console.log("recieved availability", res.data);
   return res.data;
 }
 

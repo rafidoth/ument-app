@@ -14,6 +14,7 @@ import { getAvatar } from "@/app/utils/utility";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const MyProfile = () => {
   const [myProfile, setMyProfile] = useState<StudentInfoType | null>(null);
@@ -33,6 +34,7 @@ const MyProfile = () => {
       if (myProfile) {
         await updateStudentProfile(myProfile, null);
         setUnsaved(false);
+        toast.success("Profile updated successfully");
       }
     } catch (err) {
       console.error(err);
@@ -51,7 +53,7 @@ const MyProfile = () => {
               className={cn(
                 hover_style,
                 theme_style,
-                "py-1 px-2 rounded-md select-none"
+                "py-1 px-2 rounded-md select-none",
               )}
             >
               Save Changes
@@ -95,7 +97,7 @@ const MyProfile = () => {
                   onChange={(newVal) => {
                     setUnsaved(true);
                     setMyProfile((prev) =>
-                      prev ? { ...prev, bio: newVal } : null
+                      prev ? { ...prev, bio: newVal } : null,
                     );
                   }}
                   value={myProfile.bio || ""}

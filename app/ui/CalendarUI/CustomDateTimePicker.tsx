@@ -29,6 +29,7 @@ export function DateTimePicker({
   classnames,
   timeClock,
   year,
+  placeholder,
 }: DateTimePickerProps) {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -46,12 +47,12 @@ export function DateTimePicker({
 
   const handleTimeChange = (
     type: "hour" | "minute" | "ampm",
-    value: string
+    value: string,
   ) => {
     const newDate = new Date(field.value);
     if (type === "hour") {
       newDate.setHours(
-        (parseInt(value) % 12) + (newDate.getHours() >= 12 ? 12 : 0)
+        (parseInt(value) % 12) + (newDate.getHours() >= 12 ? 12 : 0),
       );
     } else if (type === "minute") {
       newDate.setMinutes(parseInt(value));
@@ -69,12 +70,12 @@ export function DateTimePicker({
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger>
         <span
           className={cn(
             classnames,
             "flex items-center select-none justify-between",
-            !field.value && "text-muted-foreground"
+            !field.value && "text-muted-foreground",
           )}
         >
           <span className="flex items-center">
@@ -89,7 +90,7 @@ export function DateTimePicker({
               <span>MM/DD/YYYY hh:mm aa</span>
             )}
           </span>
-          <span className="opacity-50">Date of Birth</span>
+          <span>{placeholder}</span>
         </span>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
@@ -175,7 +176,7 @@ export function DateTimePicker({
                 <div className="flex sm:flex-col p-2">
                   {Array.from(
                     { length: 20 },
-                    (_, i) => new Date().getFullYear() - 10 - i
+                    (_, i) => new Date().getFullYear() - 10 - i,
                   ).map((year) => (
                     <Button
                       key={year}

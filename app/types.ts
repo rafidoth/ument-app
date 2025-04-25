@@ -67,7 +67,7 @@ export type AvalabilityType = {
   id?: string;
   start: Date;
   end: Date;
-  booked: string;
+  booked: string; // empty means free(not booked) and string means booked and the string should be sessionId
 };
 
 export type SessionType =

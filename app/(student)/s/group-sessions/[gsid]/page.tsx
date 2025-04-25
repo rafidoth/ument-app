@@ -46,6 +46,7 @@ const GroupSessionPageIndividual = () => {
   const searchParams = useSearchParams();
   const bg = searchParams.get("bg");
   const text = searchParams.get("text");
+
   useEffect(() => {
     const fn = async () => {
       const data: GroupSessionInfoType = await getGroupSessionsById(gsid);
@@ -119,7 +120,7 @@ const GroupSessionPageIndividual = () => {
             </span>
             <span className="flex gap-x-2">
               <Clock />
-              {format(gsInfo.startTime, "Pp")}
+              {format(gsInfo.startTime, "PPp")}
             </span>
           </span>
           {!reg && (

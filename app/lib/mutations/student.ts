@@ -21,7 +21,7 @@ export async function sendSlotRequest(mId: string, slots: AvalabilityType[]) {
 
 export async function sendPaymentRequest(
   sessionID: string,
-  availabilityID: string
+  availabilityID: string,
 ) {
   const req: ApiRequestType = {
     endpoint: `api/student/payment/${sessionID}`,
@@ -56,7 +56,7 @@ export async function updateInterestListStudent(interests: InterestType[]) {
 
 export async function updateStudentProfile(
   data: StudentInfoType,
-  imageFile: File | null
+  imageFile: File | null,
 ) {
   const req: ApiRequestType = {
     endpoint: "api/student/myself",

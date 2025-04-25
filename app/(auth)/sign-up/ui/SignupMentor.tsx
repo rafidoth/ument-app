@@ -26,6 +26,7 @@ export type MentorRegisterDataType = {
     linkedin: string;
     twitter: string;
   };
+  bio: string;
   dob: Date;
   password: string;
   repeatPassword: string;
@@ -42,6 +43,7 @@ const SignupMentor = () => {
     gender: null,
     grad_year: "",
     dob: new Date(),
+    bio: "",
     password: "",
     repeatPassword: "",
     socials: {
@@ -51,11 +53,18 @@ const SignupMentor = () => {
       twitter: "",
     },
   });
+  const [err, setErr] = useState<string | null>(null);
   const handleRegisterMentor = async () => {
-    await registerMentor(info);
+    const response = await registerMentor(info);
+    if (response.mid) {
+      localStorage.setItem("mentor-id", response.mid);
+    } else {
+      setErr(response.error);
+    }
   };
   return (
     <div className=" flex flex-col ">
+      {err && <span className={`text-red-500`}>{err}</span>}
       <ScrollArea className="h-[700px] my-5">
         <span className="text-xl">Information</span>
         <EditableField
@@ -130,7 +139,7 @@ const SignupMentor = () => {
                       {year}
                     </SelectItem>
                   );
-                }
+                },
               )}
               {Array.from({ length: 5 }, (_, i) => {
                 const year = new Date().getFullYear() + i;
@@ -209,7 +218,7 @@ const SignupMentor = () => {
           className={cn(
             hover_style,
             theme_style,
-            "px-3 py-1 text-xl rounded-md select-none "
+            "px-3 py-1 text-xl rounded-md select-none ",
           )}
           onClick={handleRegisterMentor}
         >

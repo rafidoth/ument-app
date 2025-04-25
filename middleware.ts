@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-const publicRoutes = ["/sign-in", "/sign-up"];
+const publicRoutes = ["/", "/sign-in", "/sign-up"];
 
 export async function middleware(req: NextRequest) {
   const isPublicRoute = publicRoutes.some(
     (route) =>
       req.nextUrl.pathname === route ||
-      req.nextUrl.pathname.startsWith(`${route}/`)
+      req.nextUrl.pathname.startsWith(`${route}/`),
   );
 
   // If it's a public route, allow access without authentication
