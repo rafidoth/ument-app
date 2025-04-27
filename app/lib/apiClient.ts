@@ -73,7 +73,9 @@ export async function apiRequest({
     if (!res.ok) {
       const errorData = await res.json().catch(() => null);
       throw new Error(
-        `API Error ${res.status}: ${res.statusText}. ${errorData?.message || ""}`,
+        `API Error ${res.status}: ${res.statusText}. ${
+          errorData?.message || ""
+        }`,
       );
     }
   }

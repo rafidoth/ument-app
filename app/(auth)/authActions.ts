@@ -127,6 +127,7 @@ export async function studentSignIn(data: { email: string; password: string }) {
       password: data.password,
     },
     auth: false,
+    ignoreError: true,
   };
 
   const response = await apiRequest(req);

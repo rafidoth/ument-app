@@ -1,4 +1,4 @@
-import { InterestType, MentorInfoType } from "@/app/types";
+import { AvalabilityType, InterestType, MentorInfoType } from "@/app/types";
 import { apiRequest, ApiRequestType } from "../apiClient";
 import { format } from "date-fns";
 
@@ -26,6 +26,15 @@ export async function addAvailability(
   if (!res.success) {
     throw new Error("Adding Avalability Failed.");
   }
+}
+export async function deleteAvailability(availability: AvalabilityType) {
+  const req: ApiRequestType = {
+    endpoint: `api/mentor/availability/${availability.id}`,
+    method: "DELETE",
+    auth: true,
+  };
+  const res = await apiRequest(req);
+  return res.success;
 }
 
 export async function updateInterestListMentor(interests: InterestType[]) {

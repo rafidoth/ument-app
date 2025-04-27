@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 
 const Bookings = () => {
   const [availabilities, setAvailabilities] = useState<AvalabilityType[]>([]);
+  console.log("avails ", availabilities);
   useEffect(() => {
     const fn = async () => {
       const res = await getAvailabilities();
@@ -39,7 +40,14 @@ const Bookings = () => {
         </div>
       </div>
       <div className="flex-grow">
-        <CalendarUI availabilities={availabilities} />
+        <CalendarUI
+          availabilities={availabilities}
+          updateAvailabilities={(availability: AvalabilityType) =>
+            setAvailabilities(
+              availabilities.filter((item) => item.id !== availability.id),
+            )
+          }
+        />
       </div>
     </div>
   );

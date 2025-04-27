@@ -1,31 +1,56 @@
 "use client";
 import { getSessionBySessionID } from "@/app/lib/fetchers/sessions";
-import { BookedSessionType, SessionInfoType } from "@/app/types";
+import {
+  AvalabilityType,
+  BookedSessionType,
+  SessionInfoType,
+} from "@/app/types";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import Image from "next/image";
 import React, { useEffect } from "react";
+import { Trash } from "lucide-react";
+import { deleteAvailability } from "@/app/lib/mutations/mentor";
+import { toast } from "sonner";
 
 type Props = {
-  bookedSession: BookedSessionType;
+  bookedSession: BookedSessionType | null;
+  availability: AvalabilityType;
+  updateAvailabilities: (avail: AvalabilityType) => void;
 };
 
-const SessionDetailsSheet = ({ bookedSession }: Props) => {
+const SessionDetailsSheet = ({
+  bookedSession,
+  availability,
+  updateAvailabilities,
+}: Props) => {
   const [sessionDetails, setSessionDetails] =
     React.useState<SessionInfoType | null>(null);
+
+  const handleDeleteAvail = async () => {
+    const res = await deleteAvailability(availability);
+    if (res) {
+      updateAvailabilities(availability);
+      toast.success("Availability Deleted");
+    } else {
+      toast.error("Failed Deleting Availability");
+    }
+  };
   useEffect(() => {
     const fn = async () => {
-      const data: SessionInfoType = await getSessionBySessionID(
-        bookedSession.sessionId
-      );
-      setSessionDetails(data);
+      if (bookedSession) {
+        const data: SessionInfoType = await getSessionBySessionID(
+          bookedSession.sessionId,
+        );
+        setSessionDetails(data);
+      }
     };
     fn();
-  }, [bookedSession.sessionId]);
+  }, []);
 
   return (
     <div>
-      {sessionDetails && (
+      {sessionDetails && bookedSession && (
         <div className="flex flex-col ">
           <span className="text-xl font-semibold my-2">
             {format(bookedSession.start, "PP")}
@@ -33,7 +58,7 @@ const SessionDetailsSheet = ({ bookedSession }: Props) => {
           <span
             className={cn(
               "w-[200px] flex justify-center px-2 rounded-lg",
-              "bg-green-900 text-green-500"
+              "bg-green-900 text-green-500",
             )}
           >
             {format(bookedSession.start, "p")} to{" "}
@@ -66,21 +91,44 @@ const SessionDetailsSheet = ({ bookedSession }: Props) => {
             })}
           </span>
           <span>{sessionDetails.Description}</span>
+          <div className="my-8 flex flex-col">
+            <span className="text-3xl font-semibold">Appointment Details</span>
+            <div className="my-3">
+              <span className="bg-orange-800 px-2 rounded-xl">
+                {bookedSession.medium}
+              </span>
+            </div>
+            {bookedSession.medium === "online" && (
+              <div className="flex flex-col">
+                <span className="text-xl">Meeting Link</span>
+              </div>
+            )}
+          </div>
         </div>
       )}
-      <div className="my-8 flex flex-col">
-        <span className="text-3xl font-semibold">Appointment Details</span>
-        <div className="my-3">
-          <span className="bg-orange-800 px-2 rounded-xl">
-            {bookedSession.medium}
-          </span>
-        </div>
-        {bookedSession.medium === "online" && (
-          <div className="flex flex-col">
-            <span className="text-xl">Meeting Link</span>
+      {!bookedSession && (
+        <div className="flex flex-col">
+          <span className="text-3xl">Availability</span>
+          <div className="flex gap-x-2 items-center">
+            <span>from </span>
+            <span className="w-[10px] h-[10px] bg-orange-500 rounded-full"></span>
+            <span>{format(availability.start, "PPp")}</span>
           </div>
-        )}
-      </div>
+          <div className="flex gap-x-2 items-center">
+            <span>to </span>
+            <span className="w-[10px] h-[10px] bg-indigo-500 rounded-full"></span>
+            <span>{format(availability.end, "PPp")}</span>
+          </div>
+          <div>
+            <span
+              className="flex gap-x-2 py-1 my-5 bg-red-500 w-[100px] items-center justify-center rounded-lg hover:opacity-70"
+              onClick={handleDeleteAvail}
+            >
+              Delete <Trash height={20} width={20} />
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,13 +1,14 @@
 import { MentorInfoSchema } from "@/app/(mentor)/schemas";
 import { apiRequest, ApiRequestType } from "@/app/lib/apiClient";
 import {
+  AvalabilityType,
   InterestType,
   MentorInfoType,
   MentorPublicProfileType,
 } from "@/app/types";
 import { getSessionBySessionID } from "./sessions";
 import { getMentorAvailabliltyById } from "./student";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 export async function getMentorPersonalInfo(mID: string) {
   const req: ApiRequestType = {
@@ -96,7 +97,15 @@ export async function getAvailabilities() {
     throw new Error("Availability fetching error");
   }
   console.log("recieved availability", res.data);
-  return res.data;
+  const refined = res.data.map((item) => {
+    return {
+      ...item,
+      start: parseISO(item.start),
+      end: parseISO(item.end),
+    };
+  });
+
+  return refined;
 }
 
 export async function getSessionAndAvailabilityByIds(sId: string, aId: string) {

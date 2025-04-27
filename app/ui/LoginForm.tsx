@@ -32,8 +32,12 @@ export default function LoginForm({ student }: Props) {
         const res = await studentSignIn({ email, password });
         const student_id = res.sid;
         localStorage.setItem("student-id", student_id);
-        setErrorText(res.error ? res.error : "");
-        router.replace("/s/myprofile");
+        if (res.error && res.error.length > 0) {
+          setErrorText(res.error);
+          setIsPending(false);
+        } else {
+          router.replace("/s/myprofile");
+        }
       } else {
         const res = await mentorSignIn({ email, password });
         const mentor_id = res.mid;
@@ -50,8 +54,9 @@ export default function LoginForm({ student }: Props) {
       <Card className="border-none">
         <CardHeader>
           <CardTitle className="text-4xl flex justify-center"></CardTitle>
-          <CardDescription className="flex justify-center text-lg">
+          <CardDescription className="flex flex-col items-center justify-center text-lg">
             Sign in to your account
+            <span className="text-red-500">{errorText}</span>
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -76,7 +81,6 @@ export default function LoginForm({ student }: Props) {
                   >
                     Forgot your password?
                   </a> */}
-                <span>{errorText}</span>
               </div>
               <Input
                 id="password"

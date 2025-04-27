@@ -13,8 +13,8 @@ import React from "react";
 const page = async () => {
   const mentorsOnInterest: MentorSuggestionType[] =
     await getMentorBasedOnInterest();
-  const mentorOnTopRated: MentorSuggestionType[] =
-    await getMentorBasedOnLevel();
+  //const mentorOnTopRated: MentorSuggestionType[] =
+  //  await getMentorBasedOnLevel();
   return (
     <div className="px-16">
       <div className="flex justify-end items-center">
@@ -23,7 +23,7 @@ const page = async () => {
             "font-semibold text-5xl  px-2 pb-2 my-6 z-10 ",
             jakarta.className,
             // "border-b-2 border-orange-800",
-            gradientText1
+            gradientText1,
           )}
         >
           Find Mentor
@@ -48,7 +48,7 @@ const page = async () => {
         </span>
         <ScrollArea>
           <div className="flex gap-x-2">
-            {mentorOnTopRated.map((m, i) => (
+            {mentorsOnInterest.map((m, i) => (
               <MentorShowCard key={i} MentorDetails={m} />
             ))}
           </div>

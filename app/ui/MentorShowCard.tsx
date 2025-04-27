@@ -24,34 +24,34 @@ const MentorShowCard = (props: Props) => {
     <Card
       className={cn(
         "w-[300px] border-none select-none bg-zinc-800/30 hover:bg-zinc-800/70",
-        smooth_hover
+        smooth_hover,
       )}
       onClick={handleMentorCardClick}
     >
       <CardHeader className="flex justify-center">
-        <div className="flex gap-x-2">
+        <div className="w-[100px] h-[100px] rounded-lg overflow-hidden border-[3px] border-orange-800/30 flex items-center justify-center bg-white">
           <Image
             src={MentorDetails.profile_pic}
-            alt="Mentor Image"
+            alt="Profile Picture"
             width={100}
             height={100}
-            className="border-3 border-orange-800/30 rounded-lg"
+            className="w-full h-full object-cover"
+            unoptimized
           />
-          <div className="flex flex-col items-start">
-            <span
-              className={cn(
-                "flex justify-",
-                jakarta.className,
-                "text-sm rounded-sm px-2 h-[20px] font-bold",
-                getLevelColor(MentorDetails.level)
-              )}
-            >
-              {MentorDetails.level.toUpperCase()}
-            </span>
-            <CardTitle className="text-4xl">{MentorDetails.name}</CardTitle>
-          </div>
         </div>
-        <span className="text-md">{MentorDetails.organization}</span>
+        <div className="flex flex-col items-start">
+          <span
+            className={cn(
+              "flex justify-",
+              jakarta.className,
+              "text-sm rounded-sm px-2 h-[20px] font-bold",
+              getLevelColor(MentorDetails.level),
+            )}
+          >
+            {MentorDetails.level.toUpperCase()}
+          </span>
+          <CardTitle className="text-4xl">{MentorDetails.name}</CardTitle>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col ">

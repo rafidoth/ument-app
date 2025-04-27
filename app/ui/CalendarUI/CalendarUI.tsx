@@ -27,6 +27,7 @@ import SessionDetailsSheet from "./SessionDetailsSheet";
 type Props = {
   availabilities?: AvalabilityType[];
   bookedSessions?: BookedSessionType[];
+  updateAvailabilities: (availability: AvalabilityType) => void;
 };
 
 export default function CalendarUI(props: Props) {
@@ -62,7 +63,7 @@ export default function CalendarUI(props: Props) {
       isWithinInterval(item.end, {
         start: calendarStart,
         end: calendarEnd,
-      })
+      }),
   );
   const visibleBookedSessions = props.bookedSessions?.filter(
     (item) =>
@@ -73,7 +74,7 @@ export default function CalendarUI(props: Props) {
       isWithinInterval(item.end, {
         start: calendarStart,
         end: calendarEnd,
-      })
+      }),
   );
 
   return (
@@ -84,7 +85,7 @@ export default function CalendarUI(props: Props) {
             key={day}
             className={cn(
               "py-2 text-center flex-grow text-lg font-medium border-b border-border",
-              "flex flex-col h-full w-[200px]"
+              "flex flex-col h-full w-[200px]",
             )}
           >
             <div className="border-b text-muted-foreground ">{day}</div>
@@ -101,7 +102,7 @@ export default function CalendarUI(props: Props) {
                           end: monthEnd,
                         })
                           ? ""
-                          : "bg-muted/50 text-muted-foreground"
+                          : "bg-muted/50 text-muted-foreground",
                       )}
                     >
                       <span
@@ -109,7 +110,7 @@ export default function CalendarUI(props: Props) {
                           "rounded-full p-2",
                           isSameDay(today, calDate)
                             ? "text-orange-500 text-3xl"
-                            : ""
+                            : "",
                         )}
                       >
                         {calDate.getDate()}
@@ -127,7 +128,7 @@ export default function CalendarUI(props: Props) {
                                         "px-2 rounded-lg",
                                         item.booked.length > 0
                                           ? "bg-orange-800"
-                                          : "bg-transparent border-2 border-orange-500"
+                                          : "bg-transparent border-2 border-orange-500",
                                       )}
                                     >
                                       {format(item.start, "p")} to{" "}
@@ -137,17 +138,25 @@ export default function CalendarUI(props: Props) {
                                   <SheetContent className="px-4">
                                     <SheetTitle className="p-5"></SheetTitle>
                                     <SessionDetailsSheet
-                                      bookedSession={{
-                                        session_type: "1:1",
-                                        sessionId: item.booked,
-                                        start: item.start,
-                                        end: item.end,
-                                        medium: "offline",
-                                      }}
+                                      bookedSession={
+                                        item.booked.length > 0
+                                          ? {
+                                              session_type: "1:1",
+                                              sessionId: item.booked,
+                                              start: item.start,
+                                              end: item.end,
+                                              medium: "offline",
+                                            }
+                                          : null
+                                      }
+                                      availability={item}
+                                      updateAvailabilities={
+                                        props.updateAvailabilities
+                                      }
                                     />
                                   </SheetContent>
                                 </Sheet>
-                              )
+                              ),
                           )}
                         {visibleBookedSessions &&
                           visibleBookedSessions.map(
@@ -160,7 +169,7 @@ export default function CalendarUI(props: Props) {
                                         "px-2 rounded-lg",
                                         isBefore(item.start, startOfToday())
                                           ? "bg-black text-zinc-500"
-                                          : "bg-green-900 text-green-500"
+                                          : "bg-green-900 text-green-500",
                                       )}
                                     >
                                       {format(item.start, "p")} to{" "}
@@ -172,7 +181,7 @@ export default function CalendarUI(props: Props) {
                                     <SessionDetailsSheet bookedSession={item} />
                                   </SheetContent>
                                 </Sheet>
-                              )
+                              ),
                           )}
                       </div>
                     </div>
@@ -182,7 +191,7 @@ export default function CalendarUI(props: Props) {
               })}
             </div>
           </div>
-        )
+        ),
       )}
     </div>
   );
