@@ -3,7 +3,7 @@ import { SessionInfoType } from "@/app/types";
 
 export async function getSessionsMentor() {
   const req: ApiRequestType = {
-    endpoint: `api/sessions/mentor`,
+    endpoint: `api/sessions/mentor/list`,
     method: "GET",
     auth: true,
   };

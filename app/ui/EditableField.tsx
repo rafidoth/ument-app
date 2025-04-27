@@ -40,7 +40,7 @@ const EditableField = ({
         onChange={(e) => onChange(e.target.value)}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
-        className={`${className} px-2 w-full outline-none`}
+        className={` px-2 outline-none ${className}`}
         autoFocus
       />
     );
@@ -53,7 +53,11 @@ const EditableField = ({
             className={`${className} cursor-pointer flex justify-between`}
           >
             <span className="flex items-center gap-x-4">
-              {value.length ? value : placeholder}{" "}
+              {value.length ? (
+                value
+              ) : (
+                <span className="opacity-60">{placeholder}</span>
+              )}{" "}
               {editIcon && (
                 <Edit className="text-muted-foreground opacity-30 hover:opacity-100" />
               )}

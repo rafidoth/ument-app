@@ -1,4 +1,10 @@
-import { AvalabilityType, InterestType, MentorInfoType } from "@/app/types";
+import {
+  AvalabilityType,
+  InterestType,
+  MentorInfoType,
+  SessionInfoType,
+  SessionType,
+} from "@/app/types";
 import { apiRequest, ApiRequestType } from "../apiClient";
 import { format } from "date-fns";
 
@@ -17,11 +23,6 @@ export async function addAvailability(
     },
     auth: true,
   };
-  console.log("st", start);
-  console.log("startTime", format(start, "yyyy-MM-dd HH:mm:ss"));
-  console.log("st", start);
-  console.log("startTime", format(start, "yyyy-MM-dd HH:mm:ss"));
-  console.log("endTime", format(end, "yyyy-MM-dd HH:mm:ss"));
   const res = await apiRequest(req);
   if (!res.success) {
     throw new Error("Adding Avalability Failed.");
@@ -83,5 +84,34 @@ export async function updateMentorProfile(
   if (!res.success) {
     console.error(req.body);
     throw new Error("Failed to update mentor profile");
+  }
+}
+
+export async function createSession(sinfo: SessionInfoType) {
+  const req: ApiRequestType = {
+    endpoint: "api/sessions/new",
+    method: "POST",
+    body: {
+      title: sinfo.title,
+      type: sinfo.type,
+      duration: sinfo.DurationInMinutes,
+      medium: sinfo.session_medium,
+      description: sinfo.Description,
+      price: sinfo.Price,
+    },
+    auth: true,
+    ignoreError: true,
+  };
+  const res = await apiRequest(req);
+  if (res.ok) {
+    return {
+      err: null,
+      data: res.data,
+    };
+  } else {
+    return {
+      err: res.error,
+      data: null,
+    };
   }
 }
