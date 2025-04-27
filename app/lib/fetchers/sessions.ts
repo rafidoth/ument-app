@@ -12,6 +12,7 @@ export async function getSessionsMentor() {
     throw new Error("Failed to fetch mentor sessions");
   }
   const data: SessionInfoType[] = res.data;
+  console.log("Mentor sessions", data);
   return data;
 }
 

@@ -1,14 +1,13 @@
 import { MentorInfoSchema } from "@/app/(mentor)/schemas";
 import { apiRequest, ApiRequestType } from "@/app/lib/apiClient";
 import {
-  AvalabilityType,
   InterestType,
   MentorInfoType,
   MentorPublicProfileType,
 } from "@/app/types";
 import { getSessionBySessionID } from "./sessions";
 import { getMentorAvailabliltyById } from "./student";
-import { format, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 
 export async function getMentorPersonalInfo(mID: string) {
   const req: ApiRequestType = {

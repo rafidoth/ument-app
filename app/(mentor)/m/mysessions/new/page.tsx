@@ -106,12 +106,12 @@ const CreateNewSession = () => {
             <Checkbox
               className="w-5 h-5"
               onCheckedChange={(b) => {
-                if (b) {
+                if (b && !sessionDetails.session_medium.includes("online")) {
                   setSessionDetails({
                     ...sessionDetails,
                     session_medium: [
                       ...sessionDetails.session_medium,
-                      "Online",
+                      "online",
                     ],
                   });
                 }
@@ -124,12 +124,12 @@ const CreateNewSession = () => {
             <Checkbox
               className="w-5 h-5"
               onCheckedChange={(b) => {
-                if (b) {
+                if (b && !sessionDetails.session_medium.includes("offline")) {
                   setSessionDetails({
                     ...sessionDetails,
                     session_medium: [
                       ...sessionDetails.session_medium,
-                      "Offline",
+                      "offline",
                     ],
                   });
                 }

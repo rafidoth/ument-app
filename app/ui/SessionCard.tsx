@@ -21,14 +21,38 @@ import {
 } from "@/components/ui/popover";
 import MentorScheduleForStudent from "./MentorScheduleForStudent";
 import { minutesToHours } from "../(student)/s/group-sessions/page";
+import { deleteSession } from "@/app/lib/mutations/mentor";
+import { toast } from "sonner";
 
 type Props = {
   sessionDetails: SessionInfoType;
   student: boolean;
   checkoutpage?: boolean;
+  updateSessions?: (sessID: string) => void;
 };
 
-const SessionCard = ({ sessionDetails, student, checkoutpage }: Props) => {
+const SessionCard = ({
+  sessionDetails,
+  student,
+  checkoutpage,
+  updateSessions,
+}: Props) => {
+  const handleDeleteSession = async () => {
+    if (sessionDetails.sessionId) {
+      const res = await deleteSession(sessionDetails.sessionId);
+      if (res) {
+        if (updateSessions) {
+          updateSessions(sessionDetails.sessionId);
+        }
+        toast.success("Session deleted successfully");
+      } else {
+        toast.error("Failed to delete session");
+      }
+    } else {
+      toast.error("Session ID not found");
+    }
+  };
+  const handleEditSession = async () => {};
   return (
     <Card className="w-[350px] my-5 text-lg border-none bg-zinc-900/50">
       <CardHeader>
@@ -62,7 +86,7 @@ const SessionCard = ({ sessionDetails, student, checkoutpage }: Props) => {
         </div>
         <div className="flex items-center gap-2">
           <Banknote className="w-6 h-6" />
-          <span>৳{sessionDetails.Price}</span>
+          <span>{sessionDetails.Price}</span>
         </div>
         <div className="flex gap-2">
           {sessionDetails.session_medium.map((medium) => (
@@ -77,10 +101,19 @@ const SessionCard = ({ sessionDetails, student, checkoutpage }: Props) => {
       </CardContent>
       {!student && (
         <CardFooter className="flex gap-2">
-          <Button size="sm" className="cursor-pointer">
+          <Button
+            size="sm"
+            className="cursor-pointer"
+            onClick={handleEditSession}
+          >
             Edit
           </Button>
-          <Button variant="destructive" size="sm" className="cursor-pointer">
+          <Button
+            variant="destructive"
+            size="sm"
+            className="cursor-pointer"
+            onClick={handleDeleteSession}
+          >
             Delete
           </Button>
         </CardFooter>

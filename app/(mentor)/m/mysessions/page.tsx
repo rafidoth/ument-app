@@ -1,13 +1,23 @@
+"use client";
 import { getSessionsMentor } from "@/app/lib/fetchers/sessions";
+import { SessionInfoType } from "@/app/types";
 import SessionCard from "@/app/ui/SessionCard";
 import { jakarta } from "@/app/utils/font";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 
-const MySessions = async () => {
-  const sessions = await getSessionsMentor();
-
+const MySessions = () => {
+  const [sessions, setSessions] = React.useState<SessionInfoType[] | null>(
+    null,
+  );
+  useEffect(() => {
+    const fetchSessions = async () => {
+      const data: SessionInfoType[] = await getSessionsMentor();
+      setSessions(data);
+    };
+    fetchSessions();
+  }, []);
   return (
     <div className="p-5 flex flex-col">
       <div className="flex justify-between items-center m-5">
@@ -19,14 +29,21 @@ const MySessions = async () => {
         </Link>
       </div>
       <div className="flex flex-wrap gap-5">
-        {sessions.length === 0 ? (
+        {sessions && sessions.length === 0 ? (
           <p className="text-muted-foreground">No sessions created yet</p>
         ) : (
+          sessions &&
           sessions.map((session) => (
             <SessionCard
               student={false}
               key={session.sessionId}
               sessionDetails={session}
+              updateSessions={(sessID: string) => {
+                const newSessions = sessions?.filter(
+                  (session) => session.sessionId !== sessID,
+                );
+                setSessions(newSessions);
+              }}
             />
           ))
         )}

@@ -40,7 +40,7 @@ export type MentorInfoType = {
 export type StudentPersonalInfoType = z.infer<typeof StudentInfoSchema>;
 export type MentorPersonalInfoType = z.infer<typeof MentorInfoSchema>;
 
-export type meeting_medium = "Online" | "Offline";
+export type meeting_medium = "online" | "offline";
 
 export type SessionInfoType = {
   sessionId?: string;

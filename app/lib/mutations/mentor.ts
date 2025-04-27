@@ -94,10 +94,10 @@ export async function createSession(sinfo: SessionInfoType) {
     body: {
       title: sinfo.title,
       type: sinfo.type,
-      duration: sinfo.DurationInMinutes,
-      medium: sinfo.session_medium,
-      description: sinfo.Description,
-      price: sinfo.Price,
+      DurationInMinutes: sinfo.DurationInMinutes,
+      session_medium: sinfo.session_medium,
+      Description: sinfo.Description,
+      Price: sinfo.Price,
     },
     auth: true,
     ignoreError: true,
@@ -114,4 +114,14 @@ export async function createSession(sinfo: SessionInfoType) {
       data: null,
     };
   }
+}
+
+export async function deleteSession(sessID: string) {
+  const req: ApiRequestType = {
+    endpoint: `api/sessions/${sessID}`,
+    method: "DELETE",
+    auth: true,
+  };
+  const res = await apiRequest(req);
+  return res.success;
 }
