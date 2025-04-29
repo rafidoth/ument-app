@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { Select } from "@radix-ui/react-select";
 import React, { useState } from "react";
 import { registerStudent } from "../../authActions";
+import { useRouter } from "next/navigation";
 
 const style1 =
   "w-full h-[50px] flex items-center text-2xl bg-orange-800/20 my-5 px-4 text-muted-foreground rounded-xl";
@@ -38,9 +39,9 @@ const SignupStudent = () => {
     password: "",
     repeatPassword: "",
   });
-
+  const router = useRouter();
   const handleRegisterStudent = async () => {
-    registerStudent(info);
+    await registerStudent(info);
   };
 
   return (

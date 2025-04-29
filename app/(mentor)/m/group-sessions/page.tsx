@@ -33,6 +33,7 @@ const GroupSessions = () => {
     };
     fn();
   }, []);
+
   return (
     <ScrollArea className="h-screen">
       <div className="p-16 flex justify-center flex-wrap gap-10">
@@ -72,14 +73,14 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }: Props) => {
   const router = useRouter();
   const handleGSClick = () => {
     router.replace(
-      `/s/group-sessions/${GroupSessionDetails.id}?bg=${ColorTheme.bg}&text=${ColorTheme.text}`
+      `/s/group-sessions/${GroupSessionDetails.id}?bg=${ColorTheme.bg}&text=${ColorTheme.text}`,
     );
   };
   return (
     <Card
       className={cn(
         "w-[500px] hover:opacity-90 select-none border-none",
-        ColorTheme.bg
+        ColorTheme.bg,
       )}
       onClick={handleGSClick}
     >
@@ -142,7 +143,7 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }: Props) => {
             <span
               className={cn(
                 "font-semibold cursor-pointer hover:opacity-80 flex items-center gap-x-2",
-                smooth_hover
+                smooth_hover,
               )}
             >
               {" "}
@@ -152,7 +153,7 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }: Props) => {
             <span
               className={cn(
                 "font-semibold cursor-pointer hover:opacity-80 flex items-center gap-x-2",
-                smooth_hover
+                smooth_hover,
               )}
             >
               {" "}

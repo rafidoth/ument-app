@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { StudentRegisterDataType } from "./sign-up/ui/SignupStudent";
 import { apiRequest, ApiRequestType } from "../lib/apiClient";
 import { MentorRegisterDataType } from "./sign-up/ui/SignupMentor";
+import { getAvatar } from "@/app/utils/utility";
 //import type { SignUpFormValues } from "@/app/(student)/ui/SignUpForm";
 
 export async function registerStudent(data: StudentRegisterDataType) {
@@ -18,7 +19,7 @@ export async function registerStudent(data: StudentRegisterDataType) {
       grad_year: data.grad_year,
       dob: data.dob.toISOString(),
       password: data.password,
-      image: null,
+      image: getAvatar(data.username),
     },
     auth: false,
   };
@@ -58,7 +59,7 @@ export async function registerMentor(data: MentorRegisterDataType) {
       },
       dob: data.dob.toISOString(),
       password: data.password,
-      image: null,
+      image: getAvatar(data.username),
     },
     auth: false,
   };
@@ -113,7 +114,7 @@ export async function mentorSignIn(data: { email: string; password: string }) {
   });
 
   return {
-    mid: response.student_id,
+    mid: response.mentor_id,
     error: null,
   };
 }

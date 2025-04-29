@@ -5,15 +5,9 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { hover_style, smooth_hover, theme_style } from "./CustomStyles";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  getMyProfileDetailsMentor,
-  getNextBookedMentor,
-} from "../lib/fetchers/mentor";
+import { getMyProfileDetailsMentor } from "../lib/fetchers/mentor";
 import { MentorInfoType, NextBookedType, StudentInfoType } from "../types";
-import {
-  getMyProfileDetailsStudent,
-  getNextBookedStudent,
-} from "../lib/fetchers/student";
+import { getMyProfileDetailsStudent } from "../lib/fetchers/student";
 import SidebarTimeLeft from "./SidebarTimeLeft";
 import { isAfter, isBefore } from "date-fns";
 import Image from "next/image";
@@ -65,12 +59,11 @@ const Sidebar = ({
       if (role === "student") {
         const p: StudentInfoType = await getMyProfileDetailsStudent();
         setMyProfileStudent(p);
-      }
-      if (role === "mentor") {
+      } else if (role === "mentor") {
         const p: MentorInfoType = await getMyProfileDetailsMentor();
         setMyProfileMentor(p);
       }
-      const nowtime = new Date();
+      //const nowtime = new Date();
       // let data: NextBookedType;
       // if (role === "mentor") {
       //   data = await getNextBookedMentor(nowtime.toISOString());

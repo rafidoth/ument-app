@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Select } from "@radix-ui/react-select";
 import React, { useState } from "react";
 import { registerMentor } from "../../authActions";
+import { useRouter } from "next/navigation";
 
 export type MentorRegisterDataType = {
   name: string;
@@ -53,13 +54,19 @@ const SignupMentor = () => {
       twitter: "",
     },
   });
+  const router = useRouter();
   const [err, setErr] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const handleRegisterMentor = async () => {
+    setLoading(true);
     const response = await registerMentor(info);
     if (response.mid) {
       localStorage.setItem("mentor-id", response.mid);
+      setLoading(false);
+      router.replace("/m/myprofile");
     } else {
       setErr(response.error);
+      setLoading(false);
     }
   };
   return (
@@ -218,10 +225,32 @@ const SignupMentor = () => {
           className={cn(
             hover_style,
             theme_style,
-            "px-3 py-1 text-xl rounded-md select-none ",
+            "px-3 py-1 flex items-center gap-x-2 text-xl rounded-md select-none ",
           )}
           onClick={handleRegisterMentor}
         >
+          {loading && (
+            <svg
+              className="w-5 h-5 animate-spin text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v8z"
+              ></path>
+            </svg>
+          )}
           Create Account
         </span>
       </div>

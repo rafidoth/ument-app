@@ -8,6 +8,7 @@ import {
 import { getSessionBySessionID } from "./sessions";
 import { getMentorAvailabliltyById } from "./student";
 import { parseISO } from "date-fns";
+import { getAvatar } from "@/app/utils/utility";
 
 export async function getMentorPersonalInfo(mID: string) {
   const req: ApiRequestType = {
@@ -148,6 +149,10 @@ export async function getMyProfileDetailsMentor() {
 
   const refined: MentorInfoType = { ...res.data };
   refined.dob = new Date(res.data.dob);
+  if (refined.image_link.length === 0) {
+    refined.image_link = getAvatar(refined.username);
+  }
+  console.log(refined);
   return refined;
 }
 

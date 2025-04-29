@@ -2,8 +2,9 @@
 import { getMyProfileDetailsMentor } from "@/app/lib/fetchers/mentor";
 import { updateMentorProfile } from "@/app/lib/mutations/mentor";
 import { MentorInfoType } from "@/app/types";
-import { hover_style, theme_style } from "@/app/ui/CustomStyles";
+import { hover_style, smooth_hover, theme_style } from "@/app/ui/CustomStyles";
 import EditableField from "@/app/ui/EditableField";
+import ImageUploader from "@/app/ui/ImageUploader";
 import InterestBox from "@/app/ui/InterestBoxUI/InterestBox";
 import {
   RowBorderedBox,
@@ -11,6 +12,13 @@ import {
   RowBorderedBoxRow,
 } from "@/app/ui/RowBorderedBox";
 import { getAvatar } from "@/app/utils/utility";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -19,6 +27,7 @@ import { toast } from "sonner";
 const MyProfile = () => {
   const [myProfile, setMyProfile] = useState<MentorInfoType | null>(null);
   const [unsaved, setUnsaved] = useState<boolean>(false);
+  const [image, setImage] = useState<File | null>(null);
 
   useEffect(() => {
     const fn = async () => {
@@ -34,6 +43,16 @@ const MyProfile = () => {
         await updateMentorProfile(myProfile, null);
         setUnsaved(false);
         toast.success("Profile updated successfully");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  const updateProfilePicture = async () => {
+    try {
+      if (image && myProfile) {
+        await updateMentorProfile(myProfile, image);
+        toast.success("Profile picture updated successfully");
       }
     } catch (err) {
       console.error(err);
@@ -67,14 +86,34 @@ const MyProfile = () => {
             <span className="text-xl py-2 px-6 border-t border-orange-500/20">
               {myProfile.email}
             </span>
+            <Dialog>
+              <DialogTrigger>
+                <span className="text-sm py-2 px-6 border-t border-orange-500/20 flex justify-center hover:opacity-70 text-muted-foreground select-none">
+                  Change Profile Picture
+                </span>
+              </DialogTrigger>
+              <DialogContent className="min-w-[500px]">
+                <DialogTitle>Update Profile Picture</DialogTitle>
+                <div className="flex">
+                  <div>
+                    <span className="text-sm py-2 px-6 flex justify-center hover:opacity-70 text-muted-foreground select-none">
+                      <ImageUploader
+                        source={myProfile.image_link}
+                        setImage={(img) => {
+                          setImage(img);
+                        }}
+                        image={image}
+                      />
+                    </span>
+                  </div>
+                </div>
+                <DialogClose onClick={updateProfilePicture}>Done</DialogClose>
+              </DialogContent>
+            </Dialog>
           </div>
           <div className="w-[200px] h-[200px] rounded-full overflow-hidden border-2 border-orange-800">
             <Image
-              src={
-                myProfile.image_link.length
-                  ? myProfile.image_link
-                  : getAvatar(myProfile.username)
-              }
+              src={myProfile.image_link}
               alt=""
               width={200}
               height={200}

@@ -79,7 +79,6 @@ export async function apiRequest({
       );
     }
   }
-
   return res.json();
 }
 

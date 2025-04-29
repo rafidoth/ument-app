@@ -43,13 +43,13 @@ export async function cancelGroupSession(studentId: string, gsid: string) {
   return res.success;
 }
 
-export async function createGroupDiscussion(Body: {
+export async function createGroupSession(Body: {
   title: string;
   description: string;
-  startDate: Date;
+  startTime: Date;
   durationInMinutes: number;
-  maxParticipants: number;
-  mentorId: string;
+  maxParticipant: number;
+  platform_link: string;
 }) {
   const req: ApiRequestType = {
     endpoint: "api/groupsessions/create",
@@ -59,8 +59,5 @@ export async function createGroupDiscussion(Body: {
   };
 
   const res = await apiRequest(req);
-  if (!res.success) {
-    throw new Error("Error Creating Group session");
-  }
-  return res.data;
+  return res.success;
 }
