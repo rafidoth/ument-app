@@ -25,6 +25,7 @@ export type ApiRequestType = {
   body?: unknown;
   auth?: boolean;
   ignoreError?: boolean;
+  contentType?: boolean;
 };
 
 export async function apiRequest({
@@ -33,6 +34,7 @@ export async function apiRequest({
   body,
   auth = true,
   ignoreError,
+  contentType = true,
 }: ApiRequestType) {
   if (USE_FAKE) {
     return fakeApiRequest(endpoint);
@@ -40,9 +42,11 @@ export async function apiRequest({
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
+  const headers: Record<string, string> = {};
+
+  if (contentType) {
+    headers["Content-Type"] = "application/json";
+  }
 
   if (auth) {
     const cookieStore = await cookies();

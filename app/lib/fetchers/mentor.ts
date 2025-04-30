@@ -146,6 +146,7 @@ export async function getMyProfileDetailsMentor() {
   if (!res.success) {
     throw new Error("Error fetching my (mentor) details");
   }
+  console.log("get mentor profile details", res.data);
 
   const refined: MentorInfoType = { ...res.data };
   refined.dob = new Date(res.data.dob);

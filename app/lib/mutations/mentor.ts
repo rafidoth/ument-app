@@ -6,7 +6,6 @@ import {
   SessionType,
 } from "@/app/types";
 import { apiRequest, ApiRequestType } from "../apiClient";
-import { format } from "date-fns";
 
 export async function addAvailability(
   start: Date,
@@ -86,7 +85,45 @@ export async function updateMentorProfile(
     throw new Error("Failed to update mentor profile");
   }
 }
-
+//export async function updateMentorProfile(
+//  data: MentorInfoType,
+//  imageFile: File | null,
+//) {
+//  const formData = new FormData();
+//
+//  formData.append("name", data.name);
+//  formData.append("email", data.email);
+//  formData.append("username", data.username);
+//  formData.append("grad_year", data.grad_year.toString());
+//  formData.append("bio", data.bio);
+//  formData.append("password", data.password);
+//  formData.append("dob", data.dob.toISOString());
+//  formData.append("socials[github]", data.socials.github || "");
+//  formData.append("socials[facebook]", data.socials.facebook || "");
+//  formData.append("socials[linkedin]", data.socials.linkedin || "");
+//  formData.append("socials[twitter]", data.socials.twitter || "");
+//
+//  if (imageFile) {
+//    formData.append("image", imageFile);
+//  }
+//  const req: ApiRequestType = {
+//    endpoint: "api/mentor/myself",
+//    method: "PUT",
+//    body: formData,
+//    auth: true,
+//    contentType: false,
+//  };
+//  console.log(req.body);
+//
+//  const res = await apiRequest(req);
+//  if (res.success) {
+//    console.log("Profile updated successfully");
+//    console.log(res.data);
+//  } else {
+//    console.error("Failed to update profile");
+//  }
+//}
+//
 export async function createSession(sinfo: SessionInfoType) {
   const req: ApiRequestType = {
     endpoint: "api/sessions/new",
