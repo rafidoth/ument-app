@@ -1,6 +1,8 @@
 import { StudentInfoSchema } from "@/app/(student)/schemas";
 import { apiRequest, ApiRequestType } from "@/app/lib/apiClient";
 import { InterestType, StudentInfoType } from "@/app/types";
+import { getAvailabilities } from "./mentor";
+import { getAvatar } from "@/app/utils/utility";
 
 export async function getStudentPersonalInfo(sID: string) {
   const req: ApiRequestType = {
@@ -101,6 +103,10 @@ export async function getMyProfileDetailsStudent() {
   console.log("student ", res.data);
   const refined: StudentInfoType = { ...res.data };
   refined.dob = new Date(res.data.dob);
+  refined.image_link =
+    res.data.image_link.length > 0
+      ? res.data.image_link
+      : getAvatar(res.data.username);
 
   console.log("my profile details came from server ", refined);
   return refined;

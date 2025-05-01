@@ -166,10 +166,7 @@ const Sidebar = ({
       {myProfileMentor && (
         <Popover>
           <PopoverTrigger>
-            <div
-              className="h-[100px] p-3 flex items-center justify-center gap-x-2 hover:bg-orange-800/10 rounded-xl select-none"
-              onClick={() => router.push("/m/myprofile")}
-            >
+            <div className="h-[100px] p-3 flex items-center justify-center gap-x-2 hover:bg-orange-800/10 rounded-xl select-none">
               <Image
                 src={
                   myProfileMentor.image_link.length

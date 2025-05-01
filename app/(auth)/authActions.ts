@@ -26,7 +26,10 @@ export async function registerStudent(data: StudentRegisterDataType) {
 
   const response = await apiRequest(req);
   if (!response.success) {
-    throw new Error("Registration Failed");
+    return {
+      sid: null,
+      error: "Registration Failed, Try again with correct data.",
+    };
   }
   const jwt = response.jwtToken;
 
@@ -35,10 +38,11 @@ export async function registerStudent(data: StudentRegisterDataType) {
     path: "/",
     sameSite: "lax",
   });
-  const student_id = response.student_id;
-  localStorage.setItem("student-id", student_id);
 
-  redirect("/s/myprofile");
+  return {
+    sid: response.mentor_id,
+    error: null,
+  };
 }
 
 export async function registerMentor(data: MentorRegisterDataType) {

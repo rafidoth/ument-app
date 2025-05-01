@@ -13,6 +13,7 @@ import { Select } from "@radix-ui/react-select";
 import React, { useState } from "react";
 import { registerStudent } from "../../authActions";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/app/ui/LoadingComponent";
 
 const style1 =
   "w-full h-[50px] flex items-center text-2xl bg-orange-800/20 my-5 px-4 text-muted-foreground rounded-xl";
@@ -39,13 +40,26 @@ const SignupStudent = () => {
     password: "",
     repeatPassword: "",
   });
+  const [loading, setLoading] = useState<boolean>(false);
+  const [err, setErr] = useState<string | null>(null);
   const router = useRouter();
+
   const handleRegisterStudent = async () => {
-    await registerStudent(info);
+    setLoading(true);
+    const response = await registerStudent(info);
+    if (response.sid) {
+      localStorage.setItem("student-id", response.sid);
+      setLoading(false);
+      router.replace("/s/myprofile");
+    } else {
+      setErr(response.error);
+      setLoading(false);
+    }
   };
 
   return (
     <div className="my-10">
+      {err && <span className={`text-red-500`}>{err}</span>}
       <span className="text-xl">Information</span>
       <EditableField
         value={info.name}
@@ -165,10 +179,11 @@ const SignupStudent = () => {
           className={cn(
             hover_style,
             theme_style,
-            "px-3 py-1 text-xl rounded-md select-none ",
+            "px-3 py-1 flex items-center gap-x-2 text-xl rounded-md select-none ",
           )}
           onClick={handleRegisterStudent}
         >
+          {loading && <LoadingSpinner />}
           Create Account
         </span>
       </div>

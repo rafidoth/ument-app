@@ -1,4 +1,7 @@
+import { Group } from "next/dist/shared/lib/router/utils/route-regex";
 import { apiRequest, ApiRequestType } from "./apiClient";
+import { GroupSessionInfoType } from "../types";
+import { getAvatar } from "../utils/utility";
 
 // public api calls
 
@@ -28,7 +31,21 @@ export async function getGroupSessionsList() {
   if (!res.success) {
     throw new Error("Error fetching Group Sessions List");
   }
-  return res.data;
+  const data: GroupSessionInfoType[] = res.data.map(
+    (gs: GroupSessionInfoType) => {
+      return {
+        ...gs,
+        mentor: {
+          ...gs.mentor,
+          photoLink:
+            gs.mentor.photoLink && gs.mentor.photoLink.length > 0
+              ? gs.mentor.photoLink
+              : getAvatar(gs.mentor.id),
+        },
+      };
+    },
+  );
+  return data;
 }
 
 export async function getGroupSessionsById(gsid: string) {
@@ -42,7 +59,17 @@ export async function getGroupSessionsById(gsid: string) {
   if (!res.success) {
     throw new Error("Error fetching Group Sessions List");
   }
-  return res.data;
+  const data: GroupSessionInfoType = {
+    ...res.data,
+    mentor: {
+      ...res.data.mentor,
+      photoLink:
+        res.data.mentor.photoLink && res.data.mentor.photoLink.length > 0
+          ? res.data.mentor.photoLink
+          : getAvatar(res.data.mentor.id),
+    },
+  };
+  return data;
 }
 
 export async function getGroupSessionParticipants(gsid: string) {

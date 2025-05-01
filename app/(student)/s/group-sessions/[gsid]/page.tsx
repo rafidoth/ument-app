@@ -110,7 +110,7 @@ const GroupSessionPageIndividual = () => {
             </div>
             {gsInfo.mentor.name}
           </span>
-          <span className={cn(text, "text-9xl font-black ")}>
+          <span className={cn(text, "text-6xl font-black ")}>
             {gsInfo.title}
           </span>
           <span className="flex  gap-x-4 font-semiboldi my-4">

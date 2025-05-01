@@ -11,7 +11,6 @@ import {
   RowBorderedBoxHeader,
   RowBorderedBoxRow,
 } from "@/app/ui/RowBorderedBox";
-import { getAvatar } from "@/app/utils/utility";
 import {
   Dialog,
   DialogClose,
@@ -111,6 +110,7 @@ const MyProfile = () => {
               </DialogContent>
             </Dialog>
           </div>
+
           <div className="w-[200px] h-[200px] rounded-full overflow-hidden border-2 border-orange-800">
             <Image
               src={myProfile.image_link}

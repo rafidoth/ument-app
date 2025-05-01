@@ -1,5 +1,7 @@
 import { apiRequest, ApiRequestType } from "@/app/lib/apiClient";
 import { SessionInfoType } from "@/app/types";
+import { getAvailabilities } from "./mentor";
+import { getAvatar } from "@/app/utils/utility";
 
 export async function getSessionsMentor() {
   const req: ApiRequestType = {
@@ -27,7 +29,17 @@ export async function getSessionsForStudentBasedOnInterest() {
     throw new Error("Failed to fetch student sessions");
   }
   const data: SessionInfoType[] = res.data;
-  return data;
+  const refined: SessionInfoType[] = data.map((s: SessionInfoType) => {
+    return {
+      ...s,
+      mentorImageLink:
+        s.mentorImageLink && s.mentorId && s.mentorImageLink?.length > 0
+          ? s.mentorImageLink
+          : getAvatar(s.mentorId as string),
+    };
+  });
+
+  return refined;
 }
 export async function getSessionsForStudentOuterInterests() {
   console.log("sessions outside similar interests");

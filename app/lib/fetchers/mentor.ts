@@ -150,9 +150,11 @@ export async function getMyProfileDetailsMentor() {
 
   const refined: MentorInfoType = { ...res.data };
   refined.dob = new Date(res.data.dob);
-  if (refined.image_link.length === 0) {
-    refined.image_link = getAvatar(refined.username);
-  }
+
+  refined.image_link =
+    res.data.image_link.length > 0
+      ? res.data.image_link
+      : getAvatar(res.data.username);
   console.log(refined);
   return refined;
 }
