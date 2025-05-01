@@ -37,8 +37,8 @@ export type MentorInfoType = {
   image_link: string;
 };
 
-export type StudentPersonalInfoType = z.infer<typeof StudentInfoSchema>;
-export type MentorPersonalInfoType = z.infer<typeof MentorInfoSchema>;
+//export type StudentPersonalInfoType = z.infer<typeof StudentInfoSchema>;
+//export type MentorPersonalInfoType = z.infer<typeof MentorInfoSchema>;
 
 export type meeting_medium = "online" | "offline";
 

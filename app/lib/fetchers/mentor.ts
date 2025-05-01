@@ -20,10 +20,8 @@ export async function getMentorPersonalInfo(mID: string) {
   if (res1.success === false) {
     throw new Error("Failed to fetch mentor info");
   }
-  const res = res1.data;
-  const mentorPersonalInfo = MentorInfoSchema.parse(res);
-  console.log("mentor info ", mentorPersonalInfo);
-  return mentorPersonalInfo;
+  const data: MentorInfoType = res1.data;
+  return data;
 }
 
 // public api

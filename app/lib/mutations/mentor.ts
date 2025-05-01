@@ -162,3 +162,26 @@ export async function deleteSession(sessID: string) {
   const res = await apiRequest(req);
   return res.success;
 }
+
+export async function updateSession(sinfo: SessionInfoType) {
+  const req: ApiRequestType = {
+    endpoint: `api/sessions/${sinfo.sessionId}`,
+    method: "PUT",
+    body: {
+      title: sinfo.title,
+      type: sinfo.type,
+      DurationInMinutes: sinfo.DurationInMinutes,
+      session_medium: sinfo.session_medium,
+      Description: sinfo.Description,
+      Price: sinfo.Price,
+    },
+    auth: true,
+  };
+  const res = await apiRequest(req);
+  if (res.success) {
+    return true;
+  } else {
+    console.error("UPDATE SESSION by Mentor>Failed to update session");
+    return false;
+  }
+}

@@ -21,28 +21,40 @@ import {
 } from "@/components/ui/popover";
 import MentorScheduleForStudent from "./MentorScheduleForStudent";
 import { minutesToHours } from "../(student)/s/group-sessions/page";
-import { deleteSession } from "@/app/lib/mutations/mentor";
+import { deleteSession, updateSession } from "@/app/lib/mutations/mentor";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogClose,
+  DialogTrigger,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import EditSession from "../(mentor)/m/mysessions/(ui)/Edit";
+import { Session } from "node:inspector/promises";
 
 type Props = {
   sessionDetails: SessionInfoType;
   student: boolean;
   checkoutpage?: boolean;
-  updateSessions?: (sessID: string) => void;
+  dSession?: (sessID: string) => void;
+  updateSessions?: (s: SessionInfoType) => void;
 };
 
 const SessionCard = ({
   sessionDetails,
   student,
   checkoutpage,
+  dSession,
   updateSessions,
 }: Props) => {
   const handleDeleteSession = async () => {
     if (sessionDetails.sessionId) {
       const res = await deleteSession(sessionDetails.sessionId);
       if (res) {
-        if (updateSessions) {
-          updateSessions(sessionDetails.sessionId);
+        if (dSession) {
+          dSession(sessionDetails.sessionId);
         }
         toast.success("Session deleted successfully");
       } else {
@@ -52,7 +64,6 @@ const SessionCard = ({
       toast.error("Session ID not found");
     }
   };
-  const handleEditSession = async () => {};
   return (
     <Card className="w-[350px] my-5 text-lg border-none bg-zinc-900/50">
       <CardHeader>
@@ -63,7 +74,7 @@ const SessionCard = ({
           <div className="flex gap-x-2">
             <div className="w-[30px] h-[30px] rounded-full overflow-hidden border-2 border-white">
               <Image
-                src={sessionDetails.mentorImageLink}
+                src={sessionDetails.mentorImageLink as string}
                 alt="mentor"
                 width={50}
                 height={50}
@@ -101,13 +112,19 @@ const SessionCard = ({
       </CardContent>
       {!student && (
         <CardFooter className="flex gap-2">
-          <Button
-            size="sm"
-            className="cursor-pointer"
-            onClick={handleEditSession}
-          >
-            Edit
-          </Button>
+          <Dialog>
+            <DialogTrigger>
+              <span className="cursor-pointer">Edit</span>
+            </DialogTrigger>
+            <DialogContent className="min-w-1/2">
+              <DialogTitle className="text-3xl"></DialogTitle>
+              <DialogDescription></DialogDescription>
+              <EditSession
+                SessionDetails={sessionDetails}
+                updateSessionDetails={updateSessions}
+              />
+            </DialogContent>
+          </Dialog>
           <Button
             variant="destructive"
             size="sm"

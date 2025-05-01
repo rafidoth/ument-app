@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/select";
 import React, { useState } from "react";
 import { smooth_hover, theme_style } from "@/app/ui/CustomStyles";
-import { createSession } from "@/app/lib/mutations/mentor";
-import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { updateSession } from "@/app/lib/mutations/mentor";
 
 const topics = [
   "Course Topic Tution",
@@ -25,28 +25,32 @@ const topics = [
   "Research Guidance",
   "Mock Interview",
 ];
-
-const CreateNewSession = () => {
-  const [sessionDetails, setSessionDetails] = useState<SessionInfoType>({
-    type: "Course Topic Tution",
-    title: "",
-    DurationInMinutes: 0,
-    session_medium: ["online"],
-    Description: "",
-    Price: 0,
-  });
-  const r = useRouter();
-  const [err, setErr] = useState<string | null>(null);
-  const handleCreateSession = async () => {
-    const res = await createSession(sessionDetails);
-    if (res.err) {
-      setErr(res.err);
+type Props = {
+  SessionDetails: SessionInfoType;
+  updateSessionDetails?: (session: SessionInfoType) => void;
+};
+const EditSession = ({ SessionDetails, updateSessionDetails }: Props) => {
+  const [sessionDetails, setSessionDetails] =
+    useState<SessionInfoType>(SessionDetails);
+  const [message, setMessage] = useState<string | null>("");
+  const [loading, setLoading] = useState(false);
+  const handleUpdateSession = async () => {
+    setLoading(true);
+    const res = await updateSession(sessionDetails);
+    if (res) {
+      toast.success("Session updated successfully");
+      setMessage("Session updated successfully");
+      if (updateSessionDetails) {
+        updateSessionDetails(sessionDetails);
+      }
+      setLoading(false);
+    } else {
+      toast.error("Failed to update session");
+      setLoading(false);
     }
-    r.push("/m/mysessions");
   };
   return (
-    <div className="p-5 mt-20 mr-20">
-      <div className="text-3xl font-semibold">Create A New Session</div>
+    <div className="">
       <div>
         <EditableField
           value={sessionDetails.title}
@@ -54,7 +58,7 @@ const CreateNewSession = () => {
             setSessionDetails({ ...sessionDetails, title: value })
           }
           placeholder="Session Title"
-          className="mt-5 text-3xl py-2 border rounded-lg w-1/2 px-3"
+          className=" text-3xl py-2 border rounded-lg w-full px-3"
         />
         <div className="flex gap-x-4 my-5">
           <Select
@@ -64,6 +68,7 @@ const CreateNewSession = () => {
                 type: val as SessionType,
               })
             }
+            value={sessionDetails.type}
           >
             <SelectTrigger className="w-[400px]">
               <SelectValue placeholder="Session Type" />
@@ -87,6 +92,7 @@ const CreateNewSession = () => {
                 DurationInMinutes: duration,
               });
             }}
+            value={sessionDetails.DurationInMinutes.toString()}
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select Duration" />
@@ -105,14 +111,14 @@ const CreateNewSession = () => {
           <span className="flex h-full items-center">
             <Checkbox
               className="w-5 h-5"
+              checked={sessionDetails.session_medium.includes("online")}
               onCheckedChange={(b) => {
-                if (b && !sessionDetails.session_medium.includes("online")) {
+                if (!b && sessionDetails.session_medium.includes("online")) {
                   setSessionDetails({
                     ...sessionDetails,
-                    session_medium: [
-                      ...sessionDetails.session_medium,
-                      "online",
-                    ],
+                    session_medium: sessionDetails.session_medium.filter(
+                      (m) => m !== "online",
+                    ),
                   });
                 }
               }}
@@ -123,14 +129,14 @@ const CreateNewSession = () => {
           <span className="flex h-full items-center">
             <Checkbox
               className="w-5 h-5"
+              checked={sessionDetails.session_medium.includes("offline")}
               onCheckedChange={(b) => {
-                if (b && !sessionDetails.session_medium.includes("offline")) {
+                if (!b && sessionDetails.session_medium.includes("offline")) {
                   setSessionDetails({
                     ...sessionDetails,
-                    session_medium: [
-                      ...sessionDetails.session_medium,
-                      "offline",
-                    ],
+                    session_medium: sessionDetails.session_medium.filter(
+                      (m) => m !== "offline",
+                    ),
                   });
                 }
               }}
@@ -146,8 +152,9 @@ const CreateNewSession = () => {
                 Description: e.target.value,
               })
             }
+            value={sessionDetails.Description}
             placeholder="Description"
-            className="my-10 text-xl w-1/2 h-[200px] p-5 border rounded-lg border focus:outline-none"
+            className="my-10 text-xl w-full h-[200px] p-5 border rounded-lg border focus:outline-none"
           />
         </div>
         <div className="flex flex-col">
@@ -182,15 +189,15 @@ const CreateNewSession = () => {
         <div className={"my-5"}>
           <span
             className={`${theme_style} rounded-lg p-2 my-5 cursor-pointer hover:opacity-70 ${smooth_hover} text-lg`}
-            onClick={handleCreateSession}
+            onClick={handleUpdateSession}
           >
-            Create Session
+            Update
           </span>
-          <span>{err}</span>
+          {message && <div className="text-green-500 mt-2">{message}</div>}
         </div>
       </div>
     </div>
   );
 };
 
-export default CreateNewSession;
+export default EditSession;

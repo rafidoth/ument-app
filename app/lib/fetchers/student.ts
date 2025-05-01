@@ -1,7 +1,6 @@
 import { StudentInfoSchema } from "@/app/(student)/schemas";
 import { apiRequest, ApiRequestType } from "@/app/lib/apiClient";
-import { InterestType, StudentInfoType } from "@/app/types";
-import { getAvailabilities } from "./mentor";
+import { AvalabilityType, InterestType, StudentInfoType } from "@/app/types";
 import { getAvatar } from "@/app/utils/utility";
 
 export async function getStudentPersonalInfo(sID: string) {
@@ -28,15 +27,20 @@ export async function getMentorAvailableSlots(mID: string) {
     auth: true,
   };
   const res = await apiRequest(req);
-  if (!res.success) {
-    throw new Error("Failed to fetch mentor availability");
-  }
-  return res.data;
+  const data: AvalabilityType[] = res.map((slot: any) => {
+    return {
+      ...slot,
+      start: new Date(slot.start),
+      end: new Date(slot.end),
+    };
+  });
+  console.log(data);
+  return data;
 }
 
 export async function getMentorAvailabliltyById(aId: string) {
   const req: ApiRequestType = {
-    endpoint: `api/student/mavaliableat/${aId}`,
+    endpoint: `api/student/mavaliableat/aid/${aId}`, // requires refactoring
     method: "GET",
     auth: true, // student auth
   };

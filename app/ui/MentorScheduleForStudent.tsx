@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getMentorAvailableSlots } from "../lib/fetchers/student";
 import {
   AvalabilityType,
+  MentorInfoType,
   MentorPersonalInfoType,
   SessionInfoType,
 } from "../types";
@@ -22,7 +23,7 @@ const MentorScheduleForStudent = (props: Props) => {
   const [selectedSlot, setSelectedSlot] = useState<AvalabilityType | null>();
   const [mentorFreeSlots, setMentorFreeSlots] = useState<AvalabilityType[]>([]);
   const [mentorInfo, setMentorInfo] = useState<MentorPersonalInfoType | null>(
-    null
+    null,
   );
   const { sessionDetails } = props;
   const router = useRouter();
@@ -73,16 +74,18 @@ const MentorScheduleForStudent = (props: Props) => {
 
   const goToPayment = () => {
     router.replace(
-      `/s/payment?s=${sessionDetails.sessionId}&a=${selectedSlot?.id}`
+      `/s/payment?s=${sessionDetails.sessionId}&a=${selectedSlot?.id}`,
     );
   };
 
   useEffect(() => {
     const fetchMentorSlots = async () => {
-      const res: AvalabilityType[] = await getMentorAvailableSlots(mid);
+      const res: AvalabilityType[] = await getMentorAvailableSlots(
+        mid as string,
+      );
       setMentorFreeSlots(res);
-      const mentorDetails: MentorPersonalInfoType = await getMentorPersonalInfo(
-        mid
+      const mentorDetails: MentorInfoType = await getMentorPersonalInfo(
+        mid as string,
       );
       setMentorInfo(mentorDetails);
     };
@@ -118,7 +121,7 @@ const MentorScheduleForStudent = (props: Props) => {
                         "rounded-lg cursor-pointer px-2",
                         selectedSlot?.id === slot.id
                           ? "bg-orange-800"
-                          : theme_border + hover_style
+                          : theme_border + hover_style,
                       )}
                       key={i}
                       onClick={() => setSelectedSlot(slot)}
@@ -134,7 +137,7 @@ const MentorScheduleForStudent = (props: Props) => {
             <span
               className={cn(
                 "bg-orange-800 px-2 rounded-lg hover:bg-orange-800/60 select-none my-2",
-                smooth_hover
+                smooth_hover,
               )}
               onClick={goToPayment}
             >

@@ -38,11 +38,20 @@ const MySessions = () => {
               student={false}
               key={session.sessionId}
               sessionDetails={session}
-              updateSessions={(sessID: string) => {
+              dSession={(sessID: string) => {
                 const newSessions = sessions?.filter(
                   (session) => session.sessionId !== sessID,
                 );
                 setSessions(newSessions);
+              }}
+              updateSessions={(s: SessionInfoType) => {
+                const updated_sessions = sessions?.map((session) => {
+                  if (session.sessionId === s.sessionId) {
+                    return s;
+                  }
+                  return session;
+                });
+                setSessions(updated_sessions);
               }}
             />
           ))
