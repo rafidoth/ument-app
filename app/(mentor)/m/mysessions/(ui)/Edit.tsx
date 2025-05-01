@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { smooth_hover, theme_style } from "@/app/ui/CustomStyles";
 import { toast } from "sonner";
 import { updateSession } from "@/app/lib/mutations/mentor";
+import LoadingSpinner from "@/app/ui/LoadingComponent";
 
 const topics = [
   "Course Topic Tution",
@@ -187,12 +188,15 @@ const EditSession = ({ SessionDetails, updateSessionDetails }: Props) => {
           />
         </div>
         <div className={"my-5"}>
-          <span
-            className={`${theme_style} rounded-lg p-2 my-5 cursor-pointer hover:opacity-70 ${smooth_hover} text-lg`}
-            onClick={handleUpdateSession}
-          >
-            Update
-          </span>
+          <div className="flex gap-x-2 items-center">
+            <span
+              className={`${theme_style}  rounded-lg p-2 my-5 cursor-pointer hover:opacity-70 ${smooth_hover} text-lg`}
+              onClick={handleUpdateSession}
+            >
+              Update
+            </span>
+            {loading && <LoadingSpinner />}
+          </div>
           {message && <div className="text-green-500 mt-2">{message}</div>}
         </div>
       </div>

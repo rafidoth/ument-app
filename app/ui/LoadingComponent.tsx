@@ -37,8 +37,8 @@ const LoadingSpinner = () => {
 const StyledWrapper = styled.div`
   .loader {
     position: relative;
-    width: 54px;
-    height: 54px;
+    width: 36px; /* was 54px */
+    height: 36px; /* was 54px */
     border-radius: 10px;
   }
 
@@ -55,73 +55,54 @@ const StyledWrapper = styled.div`
     animation: fade458 1s linear infinite;
   }
 
-  @keyframes fade458 {
-    from {
-      opacity: 1;
-    }
-
-    to {
-      opacity: 0.25;
-    }
-  }
+  /* update transform translate from -130% to -100% for smaller radius */
 
   .loader .bar1 {
-    transform: rotate(0deg) translate(0, -130%);
+    transform: rotate(0deg) translate(0, -100%);
     animation-delay: 0s;
   }
-
   .loader .bar2 {
-    transform: rotate(30deg) translate(0, -130%);
+    transform: rotate(30deg) translate(0, -100%);
     animation-delay: -1.1s;
   }
-
   .loader .bar3 {
-    transform: rotate(60deg) translate(0, -130%);
+    transform: rotate(60deg) translate(0, -100%);
     animation-delay: -1s;
   }
-
   .loader .bar4 {
-    transform: rotate(90deg) translate(0, -130%);
+    transform: rotate(90deg) translate(0, -100%);
     animation-delay: -0.9s;
   }
-
   .loader .bar5 {
-    transform: rotate(120deg) translate(0, -130%);
+    transform: rotate(120deg) translate(0, -100%);
     animation-delay: -0.8s;
   }
-
   .loader .bar6 {
-    transform: rotate(150deg) translate(0, -130%);
+    transform: rotate(150deg) translate(0, -100%);
     animation-delay: -0.7s;
   }
-
   .loader .bar7 {
-    transform: rotate(180deg) translate(0, -130%);
+    transform: rotate(180deg) translate(0, -100%);
     animation-delay: -0.6s;
   }
-
   .loader .bar8 {
-    transform: rotate(210deg) translate(0, -130%);
+    transform: rotate(210deg) translate(0, -100%);
     animation-delay: -0.5s;
   }
-
   .loader .bar9 {
-    transform: rotate(240deg) translate(0, -130%);
+    transform: rotate(240deg) translate(0, -100%);
     animation-delay: -0.4s;
   }
-
   .loader .bar10 {
-    transform: rotate(270deg) translate(0, -130%);
+    transform: rotate(270deg) translate(0, -100%);
     animation-delay: -0.3s;
   }
-
   .loader .bar11 {
-    transform: rotate(300deg) translate(0, -130%);
+    transform: rotate(300deg) translate(0, -100%);
     animation-delay: -0.2s;
   }
-
   .loader .bar12 {
-    transform: rotate(330deg) translate(0, -130%);
+    transform: rotate(330deg) translate(0, -100%);
     animation-delay: -0.1s;
   }
 `;
