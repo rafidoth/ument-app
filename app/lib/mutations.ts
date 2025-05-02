@@ -23,6 +23,22 @@ export async function joinGroupSession(studentId: string, gsid: string) {
    */
   return res;
 }
+export async function deleteGroupSession(gsid: string) {
+  const req: ApiRequestType = {
+    endpoint: `api/groupsessions/delete/${gsid}`,
+    method: "DELETE",
+    body: {
+      GroupSessionId: gsid,
+    },
+    auth: true,
+  };
+
+  const res = await apiRequest(req);
+  if (!res.success) {
+    throw new Error("Error deleting group session");
+  }
+  return res.success;
+}
 
 // cancel registration of student in group session
 export async function cancelGroupSession(studentId: string, gsid: string) {

@@ -21,7 +21,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { smooth_hover } from "@/app/ui/CustomStyles";
-import { cancelGroupSession, joinGroupSession } from "@/app/lib/mutations";
+import {
+  cancelGroupSession,
+  deleteGroupSession,
+  joinGroupSession,
+} from "@/app/lib/mutations";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
   DialogClose,
@@ -46,6 +50,16 @@ const GroupSessionPageIndividual = () => {
   const searchParams = useSearchParams();
   const bg = searchParams.get("bg");
   const text = searchParams.get("text");
+  const handleDeleteGroupSession = async () => {
+    const res = await deleteGroupSession(gsid);
+    if (res) {
+      toast.success("Group session deleted successfully");
+      router.replace("/m/group-sessions");
+    } else {
+      toast.error("Group Session could not be deleted");
+    }
+  };
+  const handleEditGroupSession = async () => {};
 
   useEffect(() => {
     const fn = async () => {
@@ -105,6 +119,33 @@ const GroupSessionPageIndividual = () => {
         </div>
       )}
       <div className=" flex flex-col items-center my-10">
+        <Dialog>
+          <DialogTrigger>
+            <span className="select-none bg-red-700 px-2 py-1 rounded-lg hover:opacity-70">
+              Delete Group Session
+            </span>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogTitle className="text-xl">
+              {" "}
+              Are you sure about that ?
+            </DialogTitle>
+            <div className="flex gap-x-2">
+              <DialogClose
+                className="w-[150px] p-2 bg-zinc-800 flex justify-center rounded-sm hover:opacity-90"
+                onClick={handleDeleteGroupSession}
+              >
+                Yes
+              </DialogClose>
+              <DialogClose
+                className="w-[150px] p-2 bg-red-800 flex justify-center rounded-sm hover:opacity-90"
+                onClick={handleEditGroupSession}
+              >
+                No
+              </DialogClose>
+            </div>
+          </DialogContent>
+        </Dialog>
         <span className="flex gap-x-2">
           {reg && gsInfo && (
             <Link href={gsInfo.platform_link} target="_blank">
@@ -126,6 +167,7 @@ const GroupSessionPageIndividual = () => {
               </span>
             </Link>
           )}
+
           {reg && (
             <Dialog>
               <DialogTrigger>
