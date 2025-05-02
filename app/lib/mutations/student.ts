@@ -19,24 +19,19 @@ export async function sendSlotRequest(mId: string, slots: AvalabilityType[]) {
   console.log(res);
 }
 
-export async function sendPaymentRequest(
-  sessionID: string,
-  availabilityID: string,
-) {
+export async function bookSession(sessionID: string, availabilityID: string) {
   const req: ApiRequestType = {
     endpoint: `api/student/payment/${sessionID}`,
     method: "POST",
     body: {
       AvailabilityID: availabilityID,
+      SessionID: sessionID,
     },
     auth: true,
   };
 
   const res = await apiRequest(req);
-  if (!res.success) {
-    throw new Error("Failed to send payment request");
-  }
-  return res;
+  return res.success;
 }
 
 export async function updateInterestListStudent(interests: InterestType[]) {
