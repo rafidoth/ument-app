@@ -18,7 +18,8 @@ const StudentPayment = () => {
 
   const handlePayNow = () => {
     if (sessionID && availabilityID) {
-      bookSession(sessionID, availabilityID);
+      // TODO: Add medium in the front end after adding the getAvailbilityById API
+      bookSession(sessionID, availabilityID, "online");
     } else {
       throw new Error("Payment Page URL SessionId or AvailabilityID not found");
     }

@@ -19,13 +19,17 @@ export async function sendSlotRequest(mId: string, slots: AvalabilityType[]) {
   console.log(res);
 }
 
-export async function bookSession(sessionID: string, availabilityID: string) {
+export async function bookSession(
+  sessionID: string,
+  availabilityID: string,
+  medium: string,
+) {
   const req: ApiRequestType = {
     endpoint: `api/student/payment/${sessionID}`,
     method: "POST",
     body: {
       AvailabilityID: availabilityID,
-      SessionID: sessionID,
+      medium: medium,
     },
     auth: true,
   };
