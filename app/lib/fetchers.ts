@@ -1,6 +1,6 @@
 import { Group } from "next/dist/shared/lib/router/utils/route-regex";
 import { apiRequest, ApiRequestType } from "./apiClient";
-import { GroupSessionInfoType } from "../types";
+import { GroupSessionInfoType, GroupSessionParticipantInfo } from "../types";
 import { getAvatar } from "../utils/utility";
 
 // public api calls
@@ -98,8 +98,15 @@ export async function getGroupSessionParticipants(gsid: string) {
       `Error fetching participants for Group Session ID: ${gsid}`,
     );
   }
-
-  return res.data;
+  const data: GroupSessionParticipantInfo[] = res.data;
+  const refined = data.map((p: GroupSessionParticipantInfo) => {
+    return {
+      ...p,
+      photoLink:
+        p.photoLink && p.photoLink.length > 0 ? p.photoLink : getAvatar(p.id),
+    };
+  });
+  return refined;
 }
 
 export async function getGroupSessionListByMentorId(mID: string) {
@@ -114,5 +121,29 @@ export async function getGroupSessionListByMentorId(mID: string) {
   if (!res.success) {
     throw new Error("Error fetching Group Sessions List By Mentor ID");
   }
-  return res.data;
+  const data: GroupSessionInfoType[] = res.data;
+  const refined = data.map((gs: GroupSessionInfoType) => {
+    return {
+      ...gs,
+      mentor: {
+        ...gs.mentor,
+        photoLink:
+          gs.mentor.photoLink && gs.mentor.photoLink.length > 0
+            ? gs.mentor.photoLink
+            : getAvatar(gs.mentor.id),
+      },
+      previewParticipants: gs.previewParticipants.map(
+        (p: { id: string; name: string; photoLink: string }) => {
+          return {
+            ...p,
+            photoLink:
+              p.photoLink && p.photoLink.length > 0
+                ? p.photoLink
+                : getAvatar(p.id),
+          };
+        },
+      ),
+    };
+  });
+  return refined;
 }

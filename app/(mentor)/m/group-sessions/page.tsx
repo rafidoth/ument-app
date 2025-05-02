@@ -73,7 +73,7 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }: Props) => {
   const router = useRouter();
   const handleGSClick = () => {
     router.replace(
-      `/s/group-sessions/${GroupSessionDetails.id}?bg=${ColorTheme.bg}&text=${ColorTheme.text}`,
+      `/m/group-sessions/${GroupSessionDetails.id}?bg=${ColorTheme.bg}&text=${ColorTheme.text}`,
     );
   };
   return (
