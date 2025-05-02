@@ -1,6 +1,6 @@
 "use client";
 import { getSessionAndAvailabilityByIds } from "@/app/lib/fetchers/mentor";
-import { sendPaymentRequest } from "@/app/lib/mutations/student";
+import { bookSession } from "@/app/lib/mutations/student";
 import { AvalabilityType, SessionInfoType } from "@/app/types";
 import { gradientText1, smooth_hover } from "@/app/ui/CustomStyles";
 import SessionCard from "@/app/ui/SessionCard";
@@ -18,7 +18,7 @@ const StudentPayment = () => {
 
   const handlePayNow = () => {
     if (sessionID && availabilityID) {
-      sendPaymentRequest(sessionID, availabilityID);
+      bookSession(sessionID, availabilityID);
     } else {
       throw new Error("Payment Page URL SessionId or AvailabilityID not found");
     }
@@ -29,7 +29,7 @@ const StudentPayment = () => {
       if (sessionID && availabilityID) {
         const data = await getSessionAndAvailabilityByIds(
           sessionID,
-          availabilityID
+          availabilityID,
         );
         setSessionInfo(data.session);
         setFslot(data.freeslot);
@@ -74,7 +74,7 @@ const StudentPayment = () => {
             <span
               className={cn(
                 "text-2xl font-semibold bg-orange-800/30 hover:bg-orange-800 flex justify-center rounded-xl select-none",
-                smooth_hover
+                smooth_hover,
               )}
               onClick={handlePayNow}
             >
