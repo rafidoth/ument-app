@@ -31,21 +31,32 @@ export async function getGroupSessionsList() {
   if (!res.success) {
     throw new Error("Error fetching Group Sessions List");
   }
-  const data: GroupSessionInfoType[] = res.data.map(
-    (gs: GroupSessionInfoType) => {
-      return {
-        ...gs,
-        mentor: {
-          ...gs.mentor,
-          photoLink:
-            gs.mentor.photoLink && gs.mentor.photoLink.length > 0
-              ? gs.mentor.photoLink
-              : getAvatar(gs.mentor.id),
+  const data: GroupSessionInfoType[] = res.data;
+  const refined = data.map((gs: GroupSessionInfoType) => {
+    return {
+      ...gs,
+      mentor: {
+        ...gs.mentor,
+        photoLink:
+          gs.mentor.photoLink && gs.mentor.photoLink.length > 0
+            ? gs.mentor.photoLink
+            : getAvatar(gs.mentor.id),
+      },
+      previewParticipants: gs.previewParticipants.map(
+        (p: { id: string; name: string; photoLink: string }) => {
+          return {
+            ...p,
+            photoLink:
+              p.photoLink && p.photoLink.length > 0
+                ? p.photoLink
+                : getAvatar(p.id),
+          };
         },
-      };
-    },
-  );
-  return data;
+      ),
+    };
+  });
+  console.log("refined", refined);
+  return refined;
 }
 
 export async function getGroupSessionsById(gsid: string) {
