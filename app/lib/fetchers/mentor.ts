@@ -109,6 +109,8 @@ export async function getAvailabilities() {
 export async function getSessionAndAvailabilityByIds(sId: string, aId: string) {
   const session = await getSessionBySessionID(sId);
   const freeslot = await getMentorAvailabliltyById(aId);
+  console.log("freeslot", freeslot);
+  console.log("sessions", session);
 
   return {
     session,

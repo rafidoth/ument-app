@@ -1,12 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { getMentorAvailableSlots } from "../lib/fetchers/student";
-import {
-  AvalabilityType,
-  MentorInfoType,
-  MentorPersonalInfoType,
-  SessionInfoType,
-} from "../types";
+import { AvalabilityType, MentorInfoType, SessionInfoType } from "../types";
 import { format, intervalToDuration } from "date-fns";
 import { cn } from "@/lib/utils";
 import { hover_style, smooth_hover, theme_border } from "./CustomStyles";
@@ -22,9 +17,7 @@ const MentorScheduleForStudent = (props: Props) => {
   const mid = props.sessionDetails.mentorId;
   const [selectedSlot, setSelectedSlot] = useState<AvalabilityType | null>();
   const [mentorFreeSlots, setMentorFreeSlots] = useState<AvalabilityType[]>([]);
-  const [mentorInfo, setMentorInfo] = useState<MentorPersonalInfoType | null>(
-    null,
-  );
+  const [mentorInfo, setMentorInfo] = useState<MentorInfoType | null>(null);
   const { sessionDetails } = props;
   const router = useRouter();
 

@@ -29,7 +29,7 @@ const MentorShowCard = (props: Props) => {
       onClick={handleMentorCardClick}
     >
       <CardHeader className="flex justify-center">
-        <div className="w-[100px] h-[100px] rounded-lg overflow-hidden border-[3px] border-orange-800/30 flex items-center justify-center bg-white">
+        <div className="w-[100px] h-[100px] rounded-lg overflow-hidden border-[3px] border-orange-800/30 flex items-center justify-center bg-white bg-zinc-950">
           <Image
             src={MentorDetails.profile_pic}
             alt="Profile Picture"

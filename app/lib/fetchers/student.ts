@@ -1,6 +1,11 @@
 import { StudentInfoSchema } from "@/app/(student)/schemas";
 import { apiRequest, ApiRequestType } from "@/app/lib/apiClient";
-import { AvalabilityType, InterestType, StudentInfoType } from "@/app/types";
+import {
+  AvalabilityType,
+  InterestType,
+  MentorSuggestionType,
+  StudentInfoType,
+} from "@/app/types";
 import { getAvatar } from "@/app/utils/utility";
 
 export async function getStudentPersonalInfo(sID: string) {
@@ -62,7 +67,18 @@ export async function getMentorBasedOnInterest() {
   if (!res.success) {
     throw new Error("Failed to fetch mentor availability");
   }
-  return res.data;
+  console.log("mentor suggestiong", res.data);
+  const data = res.data.map((mentor: MentorSuggestionType) => {
+    if (mentor.profile_pic && mentor.profile_pic.length > 0) {
+      return mentor;
+    }
+    const refinedMentor = {
+      ...mentor,
+      profile_pic: getAvatar(mentor.mentorId),
+    };
+    return refinedMentor;
+  });
+  return data;
 }
 
 export async function getMentorBasedOnLevel() {
