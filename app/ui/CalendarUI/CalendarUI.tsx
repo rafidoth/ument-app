@@ -27,7 +27,7 @@ import SessionDetailsSheet from "./SessionDetailsSheet";
 type Props = {
   availabilities?: AvalabilityType[];
   bookedSessions?: BookedSessionType[];
-  updateAvailabilities: (availability: AvalabilityType) => void;
+  updateAvailabilities?: (availability: AvalabilityType) => void;
 };
 
 export default function CalendarUI(props: Props) {
@@ -151,6 +151,7 @@ export default function CalendarUI(props: Props) {
                                       }
                                       availability={item}
                                       updateAvailabilities={
+                                        props.updateAvailabilites &&
                                         props.updateAvailabilities
                                       }
                                     />
@@ -196,69 +197,3 @@ export default function CalendarUI(props: Props) {
     </div>
   );
 }
-
-//   <div
-//     key={monthStart.toISOString()}
-//     className="grid md:grid-cols-7 flex-grow overflow-y-auto relative"
-//   >
-//     {calendarDays.map((day) => {
-//       // const dayEvents = visibleEvents.filter((event) =>
-//       //   isSameDay(event.start, day)
-//       // );
-//       const isToday = isSameDay(day, today);
-//       const isCurrentMonth = isSameMonth(day, date);
-
-//       return (
-//         <div
-//           key={day.toISOString()}
-//           className={cn(
-//             "relative flex flex-col border-b border-r p-2 aspect-square cursor-pointer",
-//             !isCurrentMonth && "bg-muted/50 hidden md:flex"
-//           )}
-//           // onClick={(e) => {
-//           //   e.stopPropagation();
-//           //   setDate(day);
-//           //   setMode("day");
-//           // }}
-//         >
-//           <div
-//             className={cn(
-//               "text-sm font-medium w-fit p-1 flex flex-col items-center justify-center rounded-full aspect-square",
-//               isToday && "bg-primary text-background"
-//             )}
-//           >
-//             {format(day, "d")}
-//           </div>
-//           <div className="flex flex-col gap-1 mt-1">
-//             {/* {dayEvents.slice(0, 3).map((event) => (
-//                   <CalendarEvent
-//                     key={event.id}
-//                     event={event}
-//                     className="relative h-auto"
-//                     month
-//                   />
-//                 ))} */}
-//             {/* {dayEvents.length > 3 && (
-//                   <motion.div
-//                     key={`more-${day.toISOString()}`}
-//                     initial={{ opacity: 0 }}
-//                     animate={{ opacity: 1 }}
-//                     exit={{ opacity: 0 }}
-//                     transition={{
-//                       duration: 0.2,
-//                     }}
-//                     className="text-xs text-muted-foreground"
-//                     onClick={(e) => {
-//                       e.stopPropagation();
-//                       setDate(day);
-//                       setMode("day");
-//                     }}
-//                   >
-//                     +{dayEvents.length - 3} more
-//                   </motion.div>
-//                 )} */}
-//           </div>
-//         </div>
-//       );
-//     })}
-//   </div>

@@ -1,7 +1,7 @@
 import { apiRequest, ApiRequestType } from "@/app/lib/apiClient";
 import { SessionInfoType } from "@/app/types";
 import { getAvailabilities } from "./mentor";
-import { getAvatar } from "@/app/utils/utility";
+import { getAvatar, resolveImageLink } from "@/app/utils/utility";
 
 export async function getSessionsMentor() {
   const req: ApiRequestType = {
@@ -56,5 +56,6 @@ export async function getSessionBySessionID(sID: string) {
     throw new Error(`Failed to fetch session with id ${sID}`);
   }
   const data: SessionInfoType = res.data;
+  data.mentorImageLink = resolveImageLink(data.mentorImageLink, data.mentorId!);
   return data;
 }
