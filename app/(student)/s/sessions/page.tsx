@@ -1,7 +1,7 @@
 import { getSessionsForStudentBasedOnInterest } from "@/app/lib/fetchers/sessions";
 import { SessionInfoType } from "@/app/types";
 import { gradientText1 } from "@/app/ui/CustomStyles";
-import SessionCard from "@/app/ui/SessionCard";
+import SCARD from "@/app/ui/SessionCard";
 import { jakarta } from "@/app/utils/font";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
@@ -27,7 +27,7 @@ const SessionsPage = async () => {
       <ScrollArea className="h-[800px] ">
         <div className="flex flex-wrap gap-x-10  my-8 justify-center  ">
           {sessionsBasedOnInterests.map((s, i: number) => (
-            <SessionCard key={i} sessionDetails={s} student={true} />
+            <SCARD key={i} sessionDetails={s} student={true} />
           ))}
         </div>
         <ScrollBar orientation="vertical" />

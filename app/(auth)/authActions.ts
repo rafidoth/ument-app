@@ -100,13 +100,14 @@ export async function mentorSignIn(data: { email: string; password: string }) {
       password: data.password,
     },
     auth: false,
+    ignoreError: true,
   };
 
   const response = await apiRequest(req);
   if (!response.success) {
     return {
       mid: null,
-      error: "Wrong Credentials, Try again please.",
+      error: "Wrong Credentials or Not a Mentor.",
     };
   }
   const jwt = response.jwtToken;
@@ -139,7 +140,7 @@ export async function studentSignIn(data: { email: string; password: string }) {
   if (!response.success) {
     return {
       sid: null,
-      error: "Wrong Credentials, Try again please.",
+      error: "Wrong Credentials or Not a Student.",
     };
   }
   const jwt = response.jwtToken;

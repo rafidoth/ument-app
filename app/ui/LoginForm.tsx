@@ -13,6 +13,8 @@ import { Label } from "@/components/ui/label";
 import { mentorSignIn, studentSignIn } from "@/app/(auth)/authActions";
 import { startTransition, useState } from "react";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "./LoadingComponent";
+import { smooth_hover, theme_style } from "./CustomStyles";
 
 type Props = {
   student: boolean;
@@ -41,14 +43,17 @@ export default function LoginForm({ student }: Props) {
       } else {
         const res = await mentorSignIn({ email, password });
         const mentor_id = res.mid;
+        console.log("hello", res);
         localStorage.setItem("mentor-id", mentor_id);
-        setErrorText(res.error ? res.error : "");
-        router.replace("/m/myprofile");
+        if (res.error && res.error.length > 0) {
+          setErrorText(res.error);
+          setIsPending(false);
+        } else {
+          router.replace("/m/myprofile");
+        }
       }
-      setIsPending(false);
     });
   };
-
   return (
     <div className={cn("flex flex-col gap-6")}>
       <Card className="border-none">
@@ -56,7 +61,9 @@ export default function LoginForm({ student }: Props) {
           <CardTitle className="text-4xl flex justify-center"></CardTitle>
           <CardDescription className="flex flex-col items-center justify-center text-lg">
             Sign in to your account
-            <span className="text-red-500">{errorText}</span>
+            <span className="text-red-400 bg-red-900/40 px-3 rounded-md text-sm ">
+              {errorText}
+            </span>
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -70,6 +77,9 @@ export default function LoginForm({ student }: Props) {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className={cn(
+                  errorText.length > 0 && "text-red-400 bg-red-900/40",
+                )}
               />
             </div>
             <div className="grid gap-2">
@@ -88,15 +98,25 @@ export default function LoginForm({ student }: Props) {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className={cn(
+                  errorText.length > 0 && "text-red-400 bg-red-900/40",
+                )}
               />
             </div>
-            <Button
-              className="w-full"
-              onClick={handleSignIn}
-              disabled={isPending}
-            >
-              Login
-            </Button>
+            {isPending ? (
+              <LoadingSpinner />
+            ) : (
+              <span
+                className={cn(
+                  theme_style,
+                  "hover:opacity-70 cursor-pointer px-4 py-2 rounded-md text-center text-white ",
+                  smooth_hover,
+                )}
+                onClick={handleSignIn}
+              >
+                Sign in
+              </span>
+            )}
           </div>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
@@ -106,6 +126,7 @@ export default function LoginForm({ student }: Props) {
             >
               Sign up
             </a>
+            {isPending && <LoadingSpinner />}
           </div>
         </CardContent>
       </Card>

@@ -106,6 +106,7 @@ export async function getStudentBookedSessions(sID: string) {
   if (!res.success) {
     throw new Error("Error fetching Booked Sessions");
   }
+  console.log("booked sessions by student ", res.data);
   return res.data;
 }
 

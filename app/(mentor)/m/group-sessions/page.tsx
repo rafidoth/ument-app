@@ -139,27 +139,6 @@ const GroupSessionCard = ({ GroupSessionDetails, ColorTheme }: Props) => {
               {format(GroupSessionDetails.startTime, "Pp")}
             </span>
           </span>
-          <div className="flex flex-col justify-end gap-y-4">
-            <span
-              className={cn(
-                "font-semibold cursor-pointer hover:opacity-80 flex items-center gap-x-2",
-                smooth_hover,
-              )}
-            >
-              {" "}
-              Remove <Trash2 className="inline" />
-            </span>
-
-            <span
-              className={cn(
-                "font-semibold cursor-pointer hover:opacity-80 flex items-center gap-x-2",
-                smooth_hover,
-              )}
-            >
-              {" "}
-              Edit <Edit className="inline" />
-            </span>
-          </div>
         </div>
       </CardHeader>
     </Card>
