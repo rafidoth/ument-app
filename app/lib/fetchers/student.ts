@@ -32,6 +32,7 @@ export async function getMentorAvailableSlots(mID: string) {
     auth: true,
   };
   const res = await apiRequest(req);
+  console.log("mentor available slots", res);
   const data: AvalabilityType[] = res.map((slot: any) => {
     return {
       ...slot,
@@ -39,8 +40,7 @@ export async function getMentorAvailableSlots(mID: string) {
       end: new Date(slot.end),
     };
   });
-  console.log(data);
-  return data;
+  return data.filter((slot) => slot.booked.length === 0);
 }
 
 export async function getMentorAvailabliltyById(aId: string) {
@@ -49,7 +49,6 @@ export async function getMentorAvailabliltyById(aId: string) {
     method: "GET",
     auth: true, // student auth
   };
-
   const res = await apiRequest(req);
   if (!res.success) {
     throw new Error("Failed to fetch mentor availability");

@@ -8,7 +8,8 @@ import {
 import { getSessionBySessionID } from "./sessions";
 import { getMentorAvailabliltyById } from "./student";
 import { parseISO } from "date-fns";
-import { getAvatar } from "@/app/utils/utility";
+import { getAvatar, resolveImageLink } from "@/app/utils/utility";
+import { redirect } from "next/dist/server/api-utils";
 
 export async function getMentorPersonalInfo(mID: string) {
   const req: ApiRequestType = {
@@ -21,7 +22,11 @@ export async function getMentorPersonalInfo(mID: string) {
     throw new Error("Failed to fetch mentor info");
   }
   const data: MentorInfoType = res1.data;
-  return data;
+  const refined: MentorInfoType = {
+    ...data,
+    image_link: resolveImageLink(data.image_link, mID),
+  };
+  return refined;
 }
 
 // public api

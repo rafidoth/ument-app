@@ -6,7 +6,7 @@ import {
   SessionInfoType,
 } from "@/app/types";
 import { cn } from "@/lib/utils";
-import { format } from "date-fns";
+import { format, intervalToDuration } from "date-fns";
 import Image from "next/image";
 import React, { useEffect } from "react";
 import { Trash } from "lucide-react";
@@ -36,6 +36,19 @@ const SessionDetailsSheet = ({
       toast.error("Failed Deleting Availability");
     }
   };
+  let duration;
+  if (!bookedSession) {
+    duration = intervalToDuration({
+      start: availability.start,
+      end: availability.end,
+    });
+  } else {
+    duration = intervalToDuration({
+      start: bookedSession.start,
+      end: bookedSession.end,
+    });
+  }
+
   useEffect(() => {
     const fn = async () => {
       if (bookedSession) {
@@ -55,6 +68,20 @@ const SessionDetailsSheet = ({
           <span className="text-xl font-semibold my-2">
             {format(bookedSession.start, "PP")}
           </span>
+          <div className="py-1 my-1">
+            <span className="bg-orange-800 rounded-lg px-2">
+              {duration.years && <span>{duration.years} years</span>}
+              {duration.months && <span>{duration.months} months</span>}
+              {duration.days && <span>{duration.days} days</span>}
+              {duration.hours && (
+                <span>
+                  {duration.hours} {duration.hours > 1 ? "hours " : "hour "}
+                </span>
+              )}
+
+              {duration.minutes && <span>{duration.minutes} minutes</span>}
+            </span>
+          </div>
           <span
             className={cn(
               "w-[200px] flex justify-center px-2 rounded-lg",
@@ -81,15 +108,16 @@ const SessionDetailsSheet = ({
               <span className="text-xl">{sessionDetails.mentorName}</span>
             </span>
           </span>
-          <span className="flex gap-x-2 my-2">
-            {sessionDetails.session_medium.map((item, i) => {
-              return (
-                <span key={i} className="bg-gray-600 px-2 rounded-md">
-                  {item}
-                </span>
-              );
-            })}
-          </span>
+          {/* <span className="flex gap-x-2 my-2"> */}
+          {/*   {sessionDetails.session_medium.map((item, i) => { */}
+          {/*     return ( */}
+          {/*       <span key={i} className="bg-gray-600 px-2 rounded-md"> */}
+          {/*         {item} */}
+          {/*       </span> */}
+          {/*     ); */}
+          {/*   })} */}
+          {/* </span> */}
+          <span className="text-gray-500/80 font-semibold">Description</span>
           <span>{sessionDetails.Description}</span>
           <div className="my-8 flex flex-col">
             <span className="text-3xl font-semibold">Appointment Details</span>
@@ -109,6 +137,32 @@ const SessionDetailsSheet = ({
       {!bookedSession && (
         <div className="flex flex-col">
           <span className="text-3xl">Availability</span>
+          <div>
+            <span className="bg-orange-800 rounded-lg px-2">
+              {duration.years && <span>{duration.years} years</span>}
+              {duration.months && <span>{duration.months} months</span>}
+              {duration.days && <span>{duration.days} days</span>}
+              {duration.hours && (
+                <span>
+                  {duration.hours} {duration.hours > 1 ? "hours " : "hour "}
+                </span>
+              )}
+
+              {duration.minutes && <span>{duration.minutes} minutes</span>}
+            </span>
+            <span>
+              {availability.medium.map((m) => {
+                return (
+                  <span
+                    key={m}
+                    className="mx-2 bg-orange-800 rounded-full px-2"
+                  >
+                    {m}
+                  </span>
+                );
+              })}
+            </span>
+          </div>
           <div className="flex gap-x-2 items-center">
             <span>from </span>
             <span className="w-[10px] h-[10px] bg-orange-500 rounded-full"></span>

@@ -99,13 +99,13 @@ const SessionCard = ({
           <Banknote className="w-6 h-6" />
           <span>{sessionDetails.Price}</span>
         </div>
-        <div className="flex gap-2">
-          {sessionDetails.session_medium.map((medium) => (
-            <span key={medium} className=" bg-secondary px-2 py-1 rounded">
-              {medium}
-            </span>
-          ))}
-        </div>
+        {/* <div className="flex gap-2"> */}
+        {/*   {sessionDetails.session_medium.map((medium) => ( */}
+        {/*     <span key={medium} className=" bg-secondary px-2 py-1 rounded"> */}
+        {/*       {medium} */}
+        {/*     </span> */}
+        {/*   ))} */}
+        {/* </div> */}
         <CardDescription className="whitespace-pre-line text-lg">
           {sessionDetails.Description}
         </CardDescription>

@@ -54,6 +54,7 @@ export default function CalendarUI(props: Props) {
   const today = new Date();
 
   // Filter Availabilities on this calendar views only
+  // this is for mentors view
   const visibleAvailabilities = props.availabilities?.filter(
     (item) =>
       isWithinInterval(item.start, {
@@ -65,6 +66,7 @@ export default function CalendarUI(props: Props) {
         end: calendarEnd,
       }),
   );
+  // this is for student view
   const visibleBookedSessions = props.bookedSessions?.filter(
     (item) =>
       isWithinInterval(item.start, {

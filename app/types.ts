@@ -68,6 +68,7 @@ export type AvalabilityType = {
   start: Date;
   end: Date;
   booked: string; // empty means free(not booked) and string means booked and the string should be sessionId
+  medium: string[];
 };
 
 export type SessionType =

@@ -16,6 +16,7 @@ const Bookings = () => {
     };
     fn();
   }, []);
+
   return (
     <div className=" flex flex-col h-screen">
       <div className="h-[100px] border-b flex items-center justify-between px-2">

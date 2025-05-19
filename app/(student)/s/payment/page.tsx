@@ -4,10 +4,12 @@ import { bookSession } from "@/app/lib/mutations/student";
 import { AvalabilityType, SessionInfoType } from "@/app/types";
 import { gradientText1, smooth_hover } from "@/app/ui/CustomStyles";
 import SessionCard from "@/app/ui/SessionCard";
+import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const StudentPayment = () => {
   const searchParams = useSearchParams();
@@ -15,11 +17,22 @@ const StudentPayment = () => {
   const availabilityID = searchParams.get("a");
   const [sessionInfo, setSessionInfo] = useState<SessionInfoType | null>(null);
   const [fslot, setFslot] = useState<AvalabilityType | null>(null);
-
-  const handlePayNow = () => {
+  const router = useRouter();
+  const [selectedMedium, setSelectedMedium] = useState("");
+  const handlePayNow = async () => {
     if (sessionID && availabilityID) {
-      // TODO: Add medium in the front end after adding the getAvailbilityById API
-      bookSession(sessionID, availabilityID, "online");
+      const success = await bookSession(
+        sessionID,
+        availabilityID,
+        selectedMedium,
+      );
+      if (success) {
+        toast.success("Successfully booked a session, Best of Luck 🥳");
+        router.replace("/s/schedule");
+      } else {
+        toast.error("Failed to book the session, Try Again please.🥲");
+        router.replace("/s/sessions");
+      }
     } else {
       throw new Error("Payment Page URL SessionId or AvailabilityID not found");
     }
@@ -34,6 +47,7 @@ const StudentPayment = () => {
         );
         setSessionInfo(data.session);
         setFslot(data.freeslot);
+        setSelectedMedium(data.freeslot.medium[0]);
       }
     };
 
@@ -65,6 +79,22 @@ const StudentPayment = () => {
                 {fslot && (
                   <span className="bg-orange-800 text-xl px-2 font-semiboldl rounded-md">
                     {format(fslot.start, "p")} to {format(fslot.end, "p")}
+                  </span>
+                )}
+              </span>
+              <span className="my-2">
+                {fslot && (
+                  <span>
+                    {fslot.medium.map((m) => (
+                      <span key={m}>
+                        {" "}
+                        <Checkbox
+                          checked={selectedMedium === m}
+                          onClick={() => setSelectedMedium(m)}
+                        />{" "}
+                        {m}
+                      </span>
+                    ))}
                   </span>
                 )}
               </span>
